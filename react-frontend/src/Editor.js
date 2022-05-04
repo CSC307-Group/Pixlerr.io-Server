@@ -26,9 +26,8 @@ export default function Editor() {
 
     return (
         <div id="editor">
-            <h1>Pixel Editor</h1>
-            {hideDrawingPanel && <h2>Enter Panel Dimensions</h2>}
-            {hideDrawingPanel && (
+            <h1>Pixeler</h1>
+            {/*{hideDrawingPanel && (
                 <div id="options">
                     <div className="option">
                         <input
@@ -57,13 +56,13 @@ export default function Editor() {
 
             <button onClick={initializeDrawingPanel} className="button">
                 {buttonText}
-            </button>
+                        </button>*/}
 
-            {hideOptions && (
+            {(
                 <CirclePicker color={selectedColor} onChangeComplete={changeColor} />
             )}
 
-            {hideOptions && (
+            {(
                 <DrawingPanel
                     width={panelWidth}
                     height={panelHeight}
