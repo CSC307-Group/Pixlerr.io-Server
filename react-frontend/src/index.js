@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import CanvasDraw from "react-canvas-draw";
 import MyApp from './MyApp'
 import './index.css'
+import App from './App';
 
-ReactDOM.render(<MyApp />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 

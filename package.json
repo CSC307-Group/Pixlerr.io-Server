@@ -1,6 +1,12 @@
 {
   "dependencies": {
     "axios": "^0.26.1",
-    "mongoose": "^6.3.0"
+    "css-loader": "^6.7.1",
+    "mongoose": "^6.3.0",
+    "node-sass": "^7.0.1",
+    "react-color": "^2.19.3",
+    "react-component-export-image": "^1.0.6",
+    "sass": "^1.51.0",
+    "sass-loader": "^12.6.0"
   }
 }
