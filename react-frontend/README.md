@@ -39,6 +39,7 @@ add a 'lint-staged' field to the package.json, for example:
     + },
 
 Prettier will format the changed files automatically. You can also run 
+
     ./node_modules/.bin/prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}" 
 
 to format your entire project for the first time.
