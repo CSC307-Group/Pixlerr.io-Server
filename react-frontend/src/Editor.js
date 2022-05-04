@@ -26,7 +26,7 @@ export default function Editor() {
 
     return (
         <div id="editor">
-            <h1>Pixeler</h1>
+            <h1>Pixlerr</h1>
             {/*{hideDrawingPanel && (
                 <div id="options">
                     <div className="option">
@@ -64,8 +64,8 @@ export default function Editor() {
 
             {(
                 <DrawingPanel
-                    width={panelWidth}
-                    height={panelHeight}
+                    width={40}
+                    height={20}
                     selectedColor={selectedColor}
                 />
             )}
