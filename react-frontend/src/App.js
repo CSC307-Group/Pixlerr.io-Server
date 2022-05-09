@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles/App.scss";
 import Editor from "./Editor";
-
+import Sidebar from "./Sidebar";
 export default function App() {
 
 	
@@ -29,6 +29,7 @@ export default function App() {
   
     return (
         <div className="App">
+			<Sidebar/>
         	<Editor 
 				pixelList={pixelList}
 				addPixel={addPixel} />
