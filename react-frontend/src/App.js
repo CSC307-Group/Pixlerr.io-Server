@@ -1,37 +1,55 @@
-import React from "react";
-import "./styles/App.scss";
+import axios from 'axios';
 import Editor from "./Editor";
+import React, {useState, useEffect} from 'react';
 import Sidebar from "./Sidebar";
+import "./styles/App.scss";
+const localhost = 'http://localhost:5000/pixels';
 
 export default function App() {
-	
-	const pixelList = [
-		{
-			color: "#32cd32",
-			x: 5,
-			y: 0
-		},
-		{
-			color: "#1660D0",
-			x: 10,
-			y: 15
+	const [pixels, setPixels] = useState([]);
+
+	useEffect(() => {
+		fetchAll().then( result => {
+			if (result) {
+				setPixels(result);
+			}
+		});
+	}, [] );
+
+	async function fetchAll() {
+		try {
+			const response = await axios.get(localhost);
+			return response.data.pixelList;     
 		}
-	]
+		catch (error) {
+			console.log(error); 
+			return false;         
+		}
+	}
+
+	async function makePostCall(pixel) {
+		try {
+			const response = await axios.post(localhost, pixel);
+			return response;
+		}
+		catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
 
 	function addPixel(pixel) {
-		let	oldPixel = pixelList.filter(data => 
-			data['x'] === pixel['x'] && data['y'] === pixel['y']);
-		if (oldPixel.length === 0)
-			pixelList.push(pixel);
-		else
-			oldPixel[0]['color'] = pixel['color'];
+		makePostCall(pixel).then( result => {
+			if (result && result.status === 201)
+				setPixels([...pixels, pixel]);
+		})
 	}
   
     return (
         <div className="App">
 			<Sidebar/>
         	<Editor 
-				pixelList={pixelList}
+				pixelList={pixels}
 				addPixel={addPixel} />
         </div>
     );

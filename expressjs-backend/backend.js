@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 5000;
@@ -6,45 +7,42 @@ const port = 5000;
 // $npm run dev   =    $nodemon backend.js
 // $npm start     =    $node backend.js
 
+app.use(cors());
 app.use(express.json());
 
 const pixels = {
-    pixel_list : 
+    pixelList : 
     [
         {
             color: "#32cd32",
             x: 5,
             y: 0,
-            id: "5x0",
-            username: "Cameron"
         },
         {
             color: "#1660D0",
             x: 10,
             y: 15,
-            id: "10x15",
-            username: "Jun"
         }
     ]
 }
 
-app.get('/', (req, res) => {
+app.get('/pixels/', (req, res) => {
     res.send(pixels);
 });
 
 app.get('/pixels/:id', (req, res) => {
-    const id = req.params['id']; //or req.params.id
+    const id = req.params['id']; 
     let result = findPixelById(id);
     if (result === undefined || result.length == 0)
         res.status(404).send('Resource not found.');
     else {
-        result = {pixel_list: result};
+        result = {pixelList: result};
         res.send(result);
     }
 });
 
 function findPixelById(id) {
-    return pixels['pixel_list'].find( (pixel) => pixel['id'] === id); // or line below
+    return pixels['pixelList'].find( (pixel) => pixel['id'] === id); 
 }
 
 //pixels?username=
@@ -52,7 +50,7 @@ app.get('/pixels', (req, res) => {
     const username = req.query.username;
     if (username != undefined){
         let result = findPixelsPlacedBy(username);
-        result = {pixel_list: result};
+        result = {pixelList: result};
         res.send(result);
     }
     else{
@@ -61,25 +59,28 @@ app.get('/pixels', (req, res) => {
 });
 
 const findPixelsPlacedBy = (name) => { 
-    return pixels['pixel_list'].filter( (pixel) => pixel['username'] === name); 
+    return pixels['pixelList'].filter( (pixel) => pixel['username'] === name); 
 }
 
 app.post('/pixels', (req, res) => {
-    const pixelToAdd = req.body;
-    addPixel(pixelToAdd);
+    const newPixel = req.body;
+    let index = pixels['pixelList'].findIndex(pixel =>
+        pixel['x'] === newPixel['x'] && pixel['y'] === newPixel['y']);
+
+    if (index === -1)
+        pixels['pixelList'].push(newPixel);
+    else
+        pixels['pixelList'][index]['color'] = newPixel['color'];
+   
     res.status(201).end();
 });
 
-function addPixel(pixel){
-    pixels['pixel_list'].push(pixel);
-}
-
 // Clears out all pixel data
 app.delete('/pixels/', (req, res) => {
-    pixels['pixel_list'] = [];
+    pixels['pixelList'] = [];
     res.status(204).end();
 })
 
 app.listen(port, () => {
     console.log(`Pixlerr listening at http://localhost:${port}`);
-});  
+});

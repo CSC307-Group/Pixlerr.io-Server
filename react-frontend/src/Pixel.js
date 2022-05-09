@@ -3,11 +3,8 @@ import "./styles/pixel.scss";
 
 export default function Pixel(props) {
     const { selectedColor, pixel, xPos, yPos, addPixel } = props;
-    let useColor = "#fff";
-    if (pixel != null)
-        useColor = pixel['color'];
 
-    const [pixelColor, setPixelColor] = useState(useColor);
+    const [pixelColor, setPixelColor] = useState(pixel['color']);
     const [oldColor, setOldColor] = useState(pixelColor);
     const [canChangeColor, setCanChangeColor] = useState(true);
 
