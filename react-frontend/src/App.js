@@ -2,8 +2,8 @@ import React from "react";
 import "./styles/App.scss";
 import Editor from "./Editor";
 import Sidebar from "./Sidebar";
-export default function App() {
 
+export default function App() {
 	
 	const pixelList = [
 		{

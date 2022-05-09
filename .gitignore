@@ -1,4 +1,12 @@
-/react-frontend/node_modules
 /react-frontend/.env
+/react-frontend/node_modules
+/react-frontend/.DS_Store
+
+/expressjs-backend/.env
+/expressjs-backend/node_modules
+/expressjs-backend/.DS_Store
+
 .env
 /.DS_Store
+.DS_Store
+
