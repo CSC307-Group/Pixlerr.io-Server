@@ -18,8 +18,6 @@ export default function Editor(props) {
                 color={selectedColor}
                 onChangeComplete={changeColor} />)}
             {(< DrawingPanel
-                width={40}
-                height={20}
                 selectedColor={selectedColor}
                 pixelList={props.pixelList}
                 addPixel={props.addPixel} />)}
