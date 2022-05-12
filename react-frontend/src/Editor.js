@@ -20,7 +20,7 @@ export default function Editor(props) {
             {(< DrawingPanel
                 selectedColor={selectedColor}
                 pixelList={props.pixelList}
-                addPixel={props.addPixel} />)}
+                updatePixel={props.updatePixel} />)}
         </div>
     );
 }

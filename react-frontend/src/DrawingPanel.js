@@ -3,7 +3,7 @@ import "./styles/drawingPanel.scss";
 import Row from "./Rows";
 
 export default function DrawingPanel(props) {
-    const { selectedColor, pixelList, addPixel} = props;
+    const { selectedColor, pixelList, updatePixel} = props;
 
     const panelRef = useRef();
     
@@ -11,11 +11,9 @@ export default function DrawingPanel(props) {
     for (let i = 0; i < pixelList.length; i++) {
         const y = pixelList.filter(data => data['y'] === i);
         rows.push(<Row 
-            key={i} 
             selectedColor={selectedColor} 
             pixelRow={y} 
-            yPos = {i}
-            addPixel={addPixel} />);
+            updatePixel={updatePixel} />);
     }
 
     return (

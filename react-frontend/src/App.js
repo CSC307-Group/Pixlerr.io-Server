@@ -42,7 +42,7 @@ export default function App() {
 		}
 	}
 
-	function addPixel(pixel) {
+	function updatePixel(pixel) {
 		makePostCall(pixel);
 	}
   
@@ -51,7 +51,7 @@ export default function App() {
 			<Sidebar/>
         	<Editor 
 				pixelList={pixels}
-				addPixel={addPixel} />
+				updatePixel={updatePixel} />
         </div>
     );
 }

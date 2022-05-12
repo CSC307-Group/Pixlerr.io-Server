@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./styles/pixel.scss";
 
 export default function Pixel(props) {
-    const { selectedColor, pixel, xPos, yPos, addPixel } = props;
+    const { selectedColor, pixel, updatePixel } = props;
 
     const [pixelColor, setPixelColor] = useState(pixel['color']);
     const [oldColor, setOldColor] = useState(pixelColor);
@@ -12,18 +12,8 @@ export default function Pixel(props) {
         setPixelColor(selectedColor);
         setCanChangeColor(false);
 
-        if (pixel != null) {
-            pixel['color'] = selectedColor;
-            addPixel(pixel);
-        }
-        else {
-            let newPixel = {
-                color : selectedColor,
-                x : xPos,
-                y : yPos
-            }
-            addPixel(newPixel);
-        }
+        pixel['color'] = selectedColor;
+        updatePixel(pixel);
     }
 
     function changeColorOnHover() {

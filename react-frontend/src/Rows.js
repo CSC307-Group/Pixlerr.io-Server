@@ -3,17 +3,14 @@ import "./styles/row.scss";
 import Pixel from "./Pixel";
 
 export default function Row(props) {
-    const { selectedColor, pixelRow, yPos, addPixel } = props;
+    const { selectedColor, pixelRow, updatePixel } = props;
     
-    let pixels = pixelRow.map((entry, index) => {
+    let pixels = pixelRow.map((entry) => {
         return (
             <Pixel
-                key={index} 
                 selectedColor={selectedColor} 
                 pixel={entry}
-                xPos = {index}
-                yPos = {yPos}
-                addPixel={addPixel} />
+                updatePixel={updatePixel} />
         );
     });
     
