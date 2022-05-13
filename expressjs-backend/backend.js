@@ -10,20 +10,22 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-const pixels = {
-    pixelList : 
-    [
-        {
-            color: "#32cd32",
-            x: 5,
-            y: 0,
-        },
-        {
-            color: "#1660D0",
-            x: 10,
-            y: 15,
+const HEIGHT = 20;
+const WIDTH = 40;
+
+const pixels = { pixelList : initializeList(HEIGHT, WIDTH) };
+function initializeList(height, width) {
+    l = [];
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+            l.push({
+                color: "#fff",
+                x: x,
+                y: y
+            });
         }
-    ]
+    }
+    return l;
 }
 
 app.get('/pixels/', (req, res) => {
@@ -63,14 +65,10 @@ const findPixelsPlacedBy = (name) => {
 }
 
 app.post('/pixels', (req, res) => {
-    const newPixel = req.body;
+    const p = req.body;
     let index = pixels['pixelList'].findIndex(pixel =>
-        pixel['x'] === newPixel['x'] && pixel['y'] === newPixel['y']);
-
-    if (index === -1)
-        pixels['pixelList'].push(newPixel);
-    else
-        pixels['pixelList'][index]['color'] = newPixel['color'];
+        pixel['x'] === p['x'] && pixel['y'] === p['y']);
+    pixels['pixelList'][index]['color'] = p['color'];
    
     res.status(201).end();
 });

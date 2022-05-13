@@ -13,15 +13,19 @@ export default function App() {
 	useEffect(() => {
 		fetchAll().then( result => {
 			if (result) {
+				console.log(result);
 				setPixels(result);
 			}
 		});
 	}, [] );
+	// }, [pixels] ); // Replace above line with this line when we have database setup -> should auto-refresh page
 
 	async function fetchAll() {
 		try {
 			const response = await axios.get(localhost);
-			return response.data.pixelList;     
+			console.log(response.data.pixelList);
+			return response.data.pixelList;  
+		   
 		}
 		catch (error) {
 			console.log(error); 
@@ -40,18 +44,15 @@ export default function App() {
 		}
 	}
 
-	function addPixel(pixel) {
-		makePostCall(pixel).then( result => {
-			if (result && result.status === 201)
-				setPixels([...pixels, pixel]);
-		})
+	function updatePixel(pixel) {
+		makePostCall(pixel);
 	}
   
     return (
         <div className="App">
         	<Editor 
 				pixelList={pixels}
-				addPixel={addPixel} />
+				updatePixel={updatePixel} />
         </div>
     );
 }
