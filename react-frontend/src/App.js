@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Editor from "./Editor";
 import React, {useState, useEffect} from 'react';
-import Sidebar from "./Sidebar";
 import "./styles/App.scss";
+
 const localhost = 'http://localhost:5000/pixels';
+
+
 
 export default function App() {
 	const [pixels, setPixels] = useState([]);
@@ -47,10 +49,11 @@ export default function App() {
   
     return (
         <div className="App">
-			<Sidebar/>
         	<Editor 
 				pixelList={pixels}
 				addPixel={addPixel} />
         </div>
     );
 }
+
+
