@@ -4,7 +4,7 @@ import App from './App';
 import "./styles/App.scss";
 import Sidebar from './Sidebar';
 import Signup from './Pages/Signup';
-//import { About } from './Pages/About';
+import { About } from './Pages/About';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 ReactDOM.render(<App />, document.getElementById('root'));
@@ -16,7 +16,7 @@ ReactDOM.render((
       <Routes>
         <Route path = "/" element = {<App/>} />
         <Route path = "/Signup" element = {<Signup/>} />
-        {/* <Route path = "/About" element = {<Login/>} /> */}
+        <Route path = "/About" element = {<About/>} />
       </Routes>
   </Router>
   ), document.getElementById('root')
