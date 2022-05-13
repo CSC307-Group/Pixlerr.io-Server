@@ -36,3 +36,4 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "pixlerr"
         heroku_email: "seena101.sa@gmail.com"
+        appdir: "expressjs-backend"
