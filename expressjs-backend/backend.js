@@ -9,7 +9,9 @@ const port = 5000;
 
 app.use(cors());
 app.use(express.json());
-
+app.listen(process.env.PORT || port, () => {
+  console.log("REST API is listening.");
+});
 const HEIGHT = 20;
 const WIDTH = 40;
 
