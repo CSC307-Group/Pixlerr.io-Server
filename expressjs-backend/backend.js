@@ -13,7 +13,7 @@ app.use(express.json());
 const HEIGHT = 20;
 const WIDTH = 40;
 
-const pixels = { pixelList : initializeList(HEIGHT, WIDTH) };
+const pixels = { pixelList: initializeList(HEIGHT, WIDTH) };
 function initializeList(height, width) {
     l = [];
     for (let x = 0; x < width; x++) {
@@ -33,35 +33,35 @@ app.get('/pixels/', (req, res) => {
 });
 
 app.get('/pixels/:id', (req, res) => {
-    const id = req.params['id']; 
+    const id = req.params['id'];
     let result = findPixelById(id);
     if (result === undefined || result.length == 0)
         res.status(404).send('Resource not found.');
     else {
-        result = {pixelList: result};
+        result = { pixelList: result };
         res.send(result);
     }
 });
 
 function findPixelById(id) {
-    return pixels['pixelList'].find( (pixel) => pixel['id'] === id); 
+    return pixels['pixelList'].find((pixel) => pixel['id'] === id);
 }
 
 //pixels?username=
 app.get('/pixels', (req, res) => {
     const username = req.query.username;
-    if (username != undefined){
+    if (username != undefined) {
         let result = findPixelsPlacedBy(username);
-        result = {pixelList: result};
+        result = { pixelList: result };
         res.send(result);
     }
-    else{
+    else {
         res.send(pixels);
     }
 });
 
-const findPixelsPlacedBy = (name) => { 
-    return pixels['pixelList'].filter( (pixel) => pixel['username'] === name); 
+const findPixelsPlacedBy = (name) => {
+    return pixels['pixelList'].filter((pixel) => pixel['username'] === name);
 }
 
 app.post('/pixels', (req, res) => {
@@ -69,7 +69,7 @@ app.post('/pixels', (req, res) => {
     let index = pixels['pixelList'].findIndex(pixel =>
         pixel['x'] === p['x'] && pixel['y'] === p['y']);
     pixels['pixelList'][index]['color'] = p['color'];
-   
+
     res.status(201).end();
 });
 
