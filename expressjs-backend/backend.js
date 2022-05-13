@@ -75,7 +75,7 @@ app.post('/pixels', (req, res) => {
 
 // Clears out all pixel data
 app.delete('/pixels/', (req, res) => {
-    pixels['pixelList'] = [];
+    pixels['pixelList'] = initializeList(HEIGHT, WIDTH);
     res.status(204).end();
 })
 

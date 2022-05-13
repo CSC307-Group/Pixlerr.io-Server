@@ -1,6 +1,6 @@
 import React from 'react';
 import { fallDown as Menu } from 'react-burger-menu';
-import './Sidebar.scss';
+import './styles/Sidebar.scss';
 
 
 export default props => {
