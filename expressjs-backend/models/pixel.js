@@ -3,22 +3,20 @@ const mongoose = require("mongoose");
 const PixelSchema = new mongoose.Schema(
   {
     x: {
-      type: int,
+      type: Number,
       required: true,
       trim: true,
     },
     y: {
-      type: int,
+      type: Number,
       required: true,
       trim: true,
-      validate(value) {
-        if (value.length < 2)
-          throw new Error("Invalid job, must be at least 2 characters.");
-      },
     },
     color: {
-
-    }
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   { collection: "pixelList" }
 );

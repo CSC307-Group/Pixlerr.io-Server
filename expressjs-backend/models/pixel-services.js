@@ -62,3 +62,4 @@ exports.getPixels = getPixels;
 exports.findUserById = findUserById;
 exports.addUser = addUser;
 exports.removeUser = removeUser;
+exports.findPixelsPlacedBy = findPixelsPlacedBy;
