@@ -1,42 +1,42 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
-// .Signup{
-//   text-align: center;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-family: "Open Sans", sans-serif;
-// }
+.Signup{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Open Sans", sans-serif;
+}
 
-// .Signup-logo {
-//   animation: App-logo-spin infinite 20s linear;
-//   height: 40vmin;
-//   pointer-events: none;
-// }
+.Signup-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
 
-// .Signup-header{
-//   background-color: #fff;
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: calc(10px + 2vmin);
-//   color: black;
-// }
+.Signup-header{
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
 
-// .Signup-link {
-//   color: #61dafb;
-// }
+.Signup-link {
+  color: #61dafb;
+}
 
-// @keyframes Signup-logo-spin {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }
+@keyframes Signup-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 //Login Main Container
 .login {
