@@ -16,9 +16,8 @@ const UserSchema = new mongoose.Schema(
           throw new Error("Invalid password, must be at least 6 characters.");
       },
     },
-    
   },
-  { collection: "usersList" }
+  { collection: "userList" }
 );
 
 const User = mongoose.model("User", UserSchema);
