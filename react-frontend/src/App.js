@@ -16,7 +16,7 @@ export default function App() {
 			}
 		});
 	}, [] );
-	// }, [pixels] ); // Replace above line with this line when we have database setup -> should auto-refresh page
+	// }, [pixels] ); // Autorefreshes page but is crazy resource intensive
 
 	async function fetchAll() {
 		try {
@@ -31,9 +31,9 @@ export default function App() {
 		}
 	}
 
-	async function makePostCall(pixel) {
+	async function makePatchCall(pixel) {
 		try {
-			const response = await axios.post(localhost, pixel);
+			const response = await axios.patch(localhost, pixel);
 			return response;
 		}
 		catch (error) {
@@ -43,14 +43,47 @@ export default function App() {
 	}
 
 	function updatePixel(pixel) {
-		makePostCall(pixel);
+		makePatchCall(pixel);
+	}
+
+	async function makeDeleteCall() {
+		try {
+			const response = await axios.delete(localhost);
+			return response;
+		}
+		catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	async function makePostCall(dimensions) {
+		try {
+			const response = await axios.post(localhost, dimensions);
+			return response;
+		}
+		catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	async function callDeleteThanPost() {
+		const dimensions = {height : 20, width : 40};
+		await makeDeleteCall();
+		await makePostCall(dimensions);
+	}
+
+	function resetCanvas() {
+		callDeleteThanPost();
 	}
   
     return (
         <div className="App">
         	<Editor 
 				pixelList={pixels}
-				updatePixel={updatePixel} />
+				updatePixel={updatePixel}
+				resetCanvas={resetCanvas} />
         </div>
     );
 }
