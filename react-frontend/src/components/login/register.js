@@ -19,13 +19,13 @@ export class Register extends React.Component {
     super(props);
     this.state =
     {
-      name: "",
+      username: "",
       email: "",
       password: "",
     };
 
   }
-  submitForm(){
+  submitForm() {
     userPost(this.state)
   }
 
@@ -33,11 +33,11 @@ export class Register extends React.Component {
   handleChange(event) {
     const { name, value } = event.target;
     if (name === "email")
-      this.setState({ name: this.state.name, email: value, password: this.state.password })
+      this.setState({ username: this.state.name, email: value, password: this.state.password })
     else if (name === "username")
-      this.setState({ name: value, email: this.state.email, password: this.state.password })
+      this.setState({ username: value, email: this.state.email, password: this.state.password })
     else
-      this.setState({ name: this.state.name, email: this.state.email, password: value })
+      this.setState({ username: this.state.name, email: this.state.email, password: value })
   }
   render() {
     return (

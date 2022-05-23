@@ -9,12 +9,17 @@ export default function App() {
 	const [pixels, setPixels] = useState([]);
 
 	useEffect(() => {
-		fetchAll().then(result => {
-			if (result) {
-				console.log(result);
-				setPixels(result);
-			}
-		});
+		const interval = setInterval(() => {
+			fetchAll().then(result => {
+				if (result) {
+					console.log(result);
+					setPixels(result);
+				}
+			});
+			console.log('This will run every second!');
+		}, 1000);
+		return () => clearInterval(interval);
+
 	}, []);
 	// }, [pixels] ); // Replace above line with this line when we have database setup -> should auto-refresh page
 
@@ -41,7 +46,7 @@ export default function App() {
 			return false;
 		}
 	}
-	
+
 
 
 	function updatePixel(pixel) {
