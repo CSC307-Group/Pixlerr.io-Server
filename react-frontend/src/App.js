@@ -1,35 +1,33 @@
 import axios from 'axios';
 import Editor from "./Editor";
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import "./styles/App.scss";
 
 const localhost = 'http://localhost:5000/pixels';
-
-
 
 export default function App() {
 	const [pixels, setPixels] = useState([]);
 
 	useEffect(() => {
-		fetchAll().then( result => {
+		fetchAll().then(result => {
 			if (result) {
 				console.log(result);
 				setPixels(result);
 			}
 		});
-	}, [] );
+	}, []);
 	// }, [pixels] ); // Replace above line with this line when we have database setup -> should auto-refresh page
 
 	async function fetchAll() {
 		try {
 			const response = await axios.get(localhost);
 			console.log(response.data.pixelList);
-			return response.data.pixelList;  
-		   
+			return response.data.pixelList;
+
 		}
 		catch (error) {
-			console.log(error); 
-			return false;         
+			console.log(error);
+			return false;
 		}
 	}
 
@@ -43,18 +41,20 @@ export default function App() {
 			return false;
 		}
 	}
+	
+
 
 	function updatePixel(pixel) {
 		makePostCall(pixel);
 	}
-  
-    return (
-        <div className="App">
-        	<Editor 
+
+	return (
+		<div className="App">
+			<Editor
 				pixelList={pixels}
 				updatePixel={updatePixel} />
-        </div>
-    );
+		</div>
+	);
 }
 
 
