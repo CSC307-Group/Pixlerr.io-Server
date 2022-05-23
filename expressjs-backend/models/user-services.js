@@ -13,7 +13,7 @@ async function getUsers(username, password) {
   let result;
   if (username === undefined && password === undefined) {
     result = await userModel.find();
-  } else if (username && !job) {
+  } else if (username && !password) {
     result = await findUserByUsername(username);
   } else if (password && username) {
       result = await findUserByUsernameandPassword(username, password);

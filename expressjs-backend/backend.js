@@ -1,11 +1,15 @@
 const cors = require("cors");
 const express = require("express");
+
+const userServices = require('./models/user-services');
+
 const app = express();
 const port = 5000;
 
 // $export DEBUG='express:router'
 // $npm run dev   =    $nodemon backend.js
 // $npm start     =    $node backend.js
+
 
 app.use(cors());
 app.use(express.json());
@@ -81,7 +85,7 @@ app.delete("/pixels/", (req, res) => {
 
 
 app.get('/users', async (req, res) => {
-  const name = req.query['username'];
+  const username = req.query['username'];
   const password = req.query['password'];
   try {
       const result = await userServices.getUsers(username, password);
