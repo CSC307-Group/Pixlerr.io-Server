@@ -26,6 +26,9 @@ export class Login extends React.Component {
     if (res.status == 201) {
       //redirect and set user state to logged in with respective credentials
     }
+    else {
+      //render incorrect credentials message
+    }
   }
   handleChange(event) {
     const { name, value } = event.target;
