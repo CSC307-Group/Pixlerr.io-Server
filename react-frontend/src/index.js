@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 import Signup from './Pages/Signup';
 import { About } from './Pages/About';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import updateList from './App';
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 const Completionist = () => <span>You can place a pixel!</span>;
@@ -26,7 +26,7 @@ ReactDOM.render((
     <Countdown date={Date.now() + 60000} renderer={renderer} />
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/Signup" element={<Signup handleSubmit={updateList}/>} />
+      <Route path="/Signup" element={<Signup />} />
       <Route path="/About" element={<About />} />
     </Routes>
   </Router>
