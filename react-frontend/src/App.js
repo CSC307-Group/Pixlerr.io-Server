@@ -15,7 +15,7 @@ export default function App() {
 				setPixels(result);
 			}
 		});
-	}, [] );
+	}, [pixels] );
 	// }, [pixels] ); // Autorefreshes page but is crazy resource intensive
 
 	async function fetchAll() {
@@ -31,9 +31,9 @@ export default function App() {
 		}
 	}
 
-	async function makePatchCall(pixel) {
+	async function makePatchCall(updatedData) {
 		try {
-			const response = await axios.patch(localhost, pixel);
+			const response = await axios.patch(localhost, updatedData);
 			return response;
 		}
 		catch (error) {
@@ -42,8 +42,9 @@ export default function App() {
 		}
 	}
 
-	function updatePixel(pixel) {
-		makePatchCall(pixel);
+	function updatePixel(id, newColor) {
+		const data = [id, newColor];
+		makePatchCall(data);
 	}
 
 	async function makeDeleteCall() {

@@ -24,8 +24,8 @@ app.get("/pixels", async (req, res) => {
 });
 
 app.patch("/pixels", async (req, res) => {
-	const pixel = req.body;
-	const hasPixelUpdated = await pixelServices.updatePixel(pixel);
+	const updatedData = req.body;
+	const hasPixelUpdated = await pixelServices.updatePixel(updatedData[0], updatedData[1]);
 	if (hasPixelUpdated)
 		res.status(204).end();
 	else

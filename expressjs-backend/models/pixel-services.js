@@ -14,11 +14,11 @@ async function getPixels() {
 	return await pixelModel.find();
 }
 
-async function updatePixel(pixel) {
+async function updatePixel(id, newColor) {
 	try {
-		pixelModel.findOne({ _id : pixel['_id'] }).then(dbPixel => {
-			dbPixel['color'] = pixel['color'];
-			dbPixel.save();
+		pixelModel.findOne({ _id : id }).then(pixel => {
+			pixel['color'] = newColor;
+			pixel.save();
 		})
 		return true;
 	} 
