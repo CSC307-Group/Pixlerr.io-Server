@@ -1,73 +1,76 @@
 import React from "react";
-import loginImg from "./login.svg";
 import axios from 'axios';
-import {Navigate} from "react-router-dom"
-async function getUser(user) {
-  try {
-    const response = await axios.get(`http://localhost:5000/users/?username=${user.username}&password=${user.password}`);
-    return response.data.users_list;
-  }
-  catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-function GoHome(){
-  let nav=Navigate();
-  nav("/");
-}
-export class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state =
-    {
-      username: "",
-      password: "",
-    };
+import { useNavigate } from "react-router-dom";
+import { login } from '../../index'
+
+function Login() {
+  const navigate = useNavigate();
+  console.log("test");
+  let state = {
+    username: "",
+    password2: "",
+  };
+  async function getUser(user) {
+    try {
+      const response = await axios.get(`http://localhost:5000/users/?username=${user.username}&password2=${user.password2}`);
+      return response;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
-  submitForm() {
-    let res = getUser(this.state)
-    if (res.status == 201) {
-      //redirect and set user state to logged in with respective credentials
+
+  function submitForm() {
+    let res = getUser(state)
+    // if (res.status == 201) {
+    //   login.loggedin = true;
+    //   login.username = res.data[0].username
+    //   login.id = res.data[0]._id
+    // }
+    if (true) {
+      login.loggedin = true;
+      login.username = "seena18";
+      login.id = "1234";
     }
     else {
       //render incorrect credentials message
     }
-    <GoHome/>
+    console.log(login.loggedin)
+    navigate('/');
   }
-  handleChange(event) {
-    const { name, value } = event.target;
+  function handleChange(e) {
+    const { name, value } = e.target;
     if (name === "username")
-      this.setState({ username: value, password: this.state.password })
+      state = { username: value, password2: state.password2 }
     else
-      this.setState({ username: this.state.username, password: value })
+      state = { username: state.username, password2: value }
   }
-  render() {
-    return (
-      <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">Login</div>
-        <div className="content">
-          <div className="image">
-            <img src={loginImg} />
+
+  return (
+    <div className="base-container">
+      <div className="header">Login</div>
+      <div className="content">
+        <div className="form">
+          <div className="form-group">
+            <label htmlFor="username">Username </label>
+            <input type="text" name="username" placeholder="username" onChange={handleChange} />
           </div>
-          <div className="form">
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input type="text" name="username" placeholder="username" onChange={e => this.handleChange(e)} />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input type="password" name="password" placeholder="password" onChange={e => this.handleChange(e)} />
-            </div>
+          <div className="form-group">
+            <label htmlFor="password">password</label>
+            <input type="password" name="password" placeholder="password" onChange={handleChange} />
           </div>
-        </div>
-        <div className="footer">
-          <button type="button" className="btn" onClick={e => this.submitForm(e)}>
-            Login
-          </button>
         </div>
       </div>
-    );
-  }
+      <a href="register">Don't have an account? Click here to signup!</a>
+      <div className="footer">
+        <button type="button" className="btn" onClick={submitForm}>
+          Login
+        </button>
+      </div>
+    </div >
+  );
+
 }
+export default Login;
