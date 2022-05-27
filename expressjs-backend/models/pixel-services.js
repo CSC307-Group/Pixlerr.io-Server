@@ -4,24 +4,25 @@ const pixelModel = require("./pixel");
 mongoose.set("debug", true);
 
 mongoose
-	.connect("mongodb://localhost:27017/pixels", {
+	.connect("mongodb://localhost:27017/users", {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
 	.catch((error) => console.log(error));
-  
+
 async function getPixels() {
 	return await pixelModel.find();
 }
 
 async function updatePixel(id, newColor) {
 	try {
+
 		pixelModel.findOne({ _id : id }).then(pixel => {
 			pixel['color'] = newColor;
 			pixel.save();
 		})
 		return true;
-	} 
+	}
 	catch (error) {
 		console.log(error);
 		return false;

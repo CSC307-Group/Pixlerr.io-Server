@@ -11,7 +11,7 @@ class Signup extends React.Component {
       isLogginActive: true
     };
   }
-  
+
   componentDidMount() {
     //Add .right by default
     this.rightSide.classList.add("right");
@@ -42,7 +42,7 @@ class Signup extends React.Component {
               <Login containerRef={ref => (this.current = ref)} />
             )}
             {!isLogginActive && (
-              <Register containerRef={ref => (this.current = ref)} />
+              <Register containerRef={ref => (this.current = ref)}  />
             )}
           </div>
           <RightSide
