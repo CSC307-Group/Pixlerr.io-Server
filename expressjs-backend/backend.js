@@ -1,5 +1,6 @@
 const cors = require("cors");
 const express = require("express");
+const pixel = require("./models/pixel");
 const pixelServices = require('./models/pixel-services');
 const userServices = require('./models/user-services');
 const app = express();
@@ -12,25 +13,41 @@ app.use(express.json());
 // $npm start     =    $node backend.js
 
 app.get("/pixels", async (req, res) => {
-  try {
-    const result = await pixelServices.getPixels();
-    res.send({ pixelList: result });
-  }
-  catch (error) {
-    console.log(error);
-    res.status(500).send('An error ocurred in the server.');
-  }
-
+	try {
+		const result = await pixelServices.getPixels();
+		res.send({pixelList: result});
+	} 
+	catch (error) {
+	console.log(error);
+	res.status(500).send('An error ocurred in the server.');
+	}
 });
+
+app.patch("/pixels", async (req, res) => {
+	const updatedData = req.body;
+	const hasPixelUpdated = await pixelServices.updatePixel(updatedData[0], updatedData[1]);
+	if (hasPixelUpdated)
+		res.status(204).end();
+	else
+		res.status(500).end();
+});
+
+app.delete("/pixels", async (req, res) => {
+    const hasCanvasBeenCleared = await pixelServices.clearCanvas();
+    if (hasCanvasBeenCleared)
+        res.status(204).end();
+    else
+        res.status(500).end();
+})
 
 app.post("/pixels", async (req, res) => {
-  const pixel = req.body;
-  const updatedPixel = await pixelServices.updatePixel(pixel);
-  if (updatedPixel)
-    res.status(201).end();
-  else
-    res.status(500).end();
-});
+    const dimensions = req.body;
+    const hasCanvasBeenMade = await pixelServices.newCanvas(dimensions['width'], dimensions['height']);
+    if (hasCanvasBeenMade)
+        res.status(200).end();
+    else
+        res.status(500).end();
+})
 
 
 app.get('/users', async (req, res) => {
