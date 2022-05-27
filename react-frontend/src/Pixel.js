@@ -35,7 +35,7 @@ export default function Pixel(props) {
             onClick={applyColor}
             onMouseEnter={changeColorOnHover}
             onMouseLeave={resetColor}
-            style={{ backgroundColor: pixelColor }}
+            style={{ backgroundColor: pixel['color'] }}
         ></div>
     );
 }
