@@ -33,8 +33,9 @@ app.post("/pixels", async (req, res) => {
 app.get("/users", async (req, res) => {
   const username = req.query["username"];
   const password = req.query["password"];
+  const user_email = req.query["user_email"];
   try {
-    const result = await userServices.getUsers(username, password);
+    const result = await userServices.getUsers(username, password, user_email);
     res.send({ userList: result });
   } catch (error) {
     console.log(error);
