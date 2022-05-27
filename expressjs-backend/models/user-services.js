@@ -15,19 +15,10 @@ async function getUsers(username, password) {
     result = await userModel.find();
   } else if (username && !password) {
     result = await findUserByUsername(username);
-  } else if (password && username) {
+  } else if (username && password) {
       result = await findUserByUsernameandPassword(username, password);
   }
   return result;
-}
-
-async function findUserById(id) {
-  try {
-    return await userModel.findById(id);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
 }
 
 async function addUser(user) {
@@ -44,8 +35,8 @@ async function addUser(user) {
 async function removeUser(id) {
     try {
         //need to typecast the id as an ObjectId
-        const objid = mongoose.Types.ObjectId(id);
-        const removedUser = await userModel.findByIdAndDelete(objid);
+        //const objid = mongoose.Types.ObjectId(id);
+        const removedUser = await userModel.findByIdAndDelete(id);
         return removedUser;
     } catch (error) {
         console.log(error);
@@ -62,6 +53,5 @@ async function findUserByUsernameandPassword(username, password) {
 }
 
 exports.getUsers = getUsers;
-exports.findUserById = findUserById;
 exports.addUser = addUser;
 exports.removeUser = removeUser;
