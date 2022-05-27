@@ -15,7 +15,7 @@ export default function App() {
 				setPixels(result);
 			}
 		});
-	}, [pixels] );
+	}, [] );
 	// }, [pixels] ); // Autorefreshes page but is crazy resource intensive
 
 	async function fetchAll() {
