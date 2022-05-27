@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import loginImg from "./login.svg";
 import axios from 'axios';
-import { withRouter } from '../withRouter.js';
 
 async function userPost(user) {
   console.log(user);
@@ -26,8 +25,7 @@ export class Register extends React.Component {
 
   }
   submitForm() {
-    userPost(this.state)
-    this.props.navigate('/');
+    userPost(this.state);
   }
 
 
@@ -72,4 +70,4 @@ export class Register extends React.Component {
     );
   }
 
-} export default withRouter(Register);
+} 

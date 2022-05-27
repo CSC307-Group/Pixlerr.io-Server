@@ -1,6 +1,7 @@
 import React from "react";
 import loginImg from "./login.svg";
 import axios from 'axios';
+import {Navigate} from "react-router-dom"
 async function getUser(user) {
   try {
     const response = await axios.get(`http://localhost:5000/users/?username=${user.username}&password=${user.password}`);
@@ -10,6 +11,10 @@ async function getUser(user) {
     console.log(error);
     return false;
   }
+}
+function GoHome(){
+  let nav=Navigate();
+  nav("/");
 }
 export class Login extends React.Component {
   constructor(props) {
@@ -29,6 +34,7 @@ export class Login extends React.Component {
     else {
       //render incorrect credentials message
     }
+    <GoHome/>
   }
   handleChange(event) {
     const { name, value } = event.target;
