@@ -23,7 +23,7 @@ export class Login extends React.Component {
 
   submitForm() {
     let res = getUser(this.state)
-    if (res.status == 201) {
+    if (res.status === 201) {
       //redirect and set user state to logged in with respective credentials
     }
     else {
