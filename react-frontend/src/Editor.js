@@ -21,6 +21,7 @@ export default function Editor(props) {
                 selectedColor={selectedColor}
                 pixelList={props.pixelList}
                 updatePixel={props.updatePixel} />)}
+            <button onClick={props.resetCanvas}>Reset</button>
         </div>
     );
 }
