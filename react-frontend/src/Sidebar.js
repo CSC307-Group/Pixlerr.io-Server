@@ -15,6 +15,9 @@ export default props => {
             <a className="menu-item" href="/About">
                 About
             </a>
+            <a className="menu-item" href="/Account">
+                Account
+            </a>
         </Menu>
     );
 };

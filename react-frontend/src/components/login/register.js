@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import loginImg from "./login.svg";
 import axios from 'axios';
-import { withRouter } from '../withRouter.js';
+// import { withRouter } from '../withRouter.js';
 
 async function userPost(user) {
   console.log(user);
@@ -72,4 +72,4 @@ export class Register extends React.Component {
     );
   }
 
-} export default withRouter(Register);
+} 

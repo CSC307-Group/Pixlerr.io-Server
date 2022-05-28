@@ -1,6 +1,8 @@
 import React from "react";
 import loginImg from "./login.svg";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 async function getUser(user) {
   try {
     const response = await axios.get(`http://localhost:5000/users/?username=${user.username}&password=${user.password}`);
@@ -11,11 +13,14 @@ async function getUser(user) {
     return false;
   }
 }
+
 export class Login extends React.Component {
+
   constructor(props) {
     super(props);
     this.state =
     {
+      auth: 0,
       username: "",
       password: "",
     };
@@ -30,13 +35,17 @@ export class Login extends React.Component {
       //render incorrect credentials message
     }
   }
-  handleChange(event) {
-    const { name, value } = event.target;
-    if (name === "username")
-      this.setState({ username: value, password: this.state.password })
-    else
-      this.setState({ username: this.state.username, password: value })
+  handleChange = ([props]) => {
+    const navigate = useNavigate();
+    // const { name, value } = event.target;
+    // if (name === "username")
+    //   this.setState({ username: value, password: this.state.password })
+    // else
+    //   this.setState({ username: this.state.username, password: value })
+    navigate('/Account');
   }
+
+
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
@@ -57,7 +66,7 @@ export class Login extends React.Component {
           </div>
         </div>
         <div className="footer">
-          <button type="button" className="btn" onClick={e => this.submitForm(e)}>
+          <button type="button" className="btn" onClick={e => this.handleChange(e)}>
             Login
           </button>
         </div>
