@@ -2,6 +2,7 @@ import axios from 'axios';
 import Editor from "./Editor";
 import React, { useState, useEffect } from 'react';
 import "./styles/App.scss";
+// import Cursor from './Cursor';
 
 const localhost = 'http://localhost:5000/pixels';
 
@@ -12,7 +13,6 @@ export default function App() {
 		setTimeout(function() {
 			fetchAll().then( result => {
 				if (result) {
-					console.log(result);
 					setPixels(result);
 				}
 			});
@@ -22,7 +22,6 @@ export default function App() {
 	async function fetchAll() {
 		try {
 			const response = await axios.get(localhost);
-			console.log(response.data.pixelList);
 			return response.data.pixelList;
 
 		}
@@ -80,8 +79,9 @@ export default function App() {
 		callDeleteThanPost();
 	}
 
+	
+
 	return (
-		
 		<div className="App">
 			<Editor
 				pixelList={pixels}

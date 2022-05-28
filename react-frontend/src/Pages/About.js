@@ -2,9 +2,9 @@ import React from "react";
 import "./about.scss";
 
 export class About extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render() {
     return (

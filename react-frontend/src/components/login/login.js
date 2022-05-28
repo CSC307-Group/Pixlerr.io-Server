@@ -1,5 +1,5 @@
 import React from "react";
-import loginImg from "./login.svg";
+// import loginImg from "./login.svg";
 import axios from 'axios';
 async function getUser(user) {
   try {
@@ -43,7 +43,7 @@ export class Login extends React.Component {
         <div className="header">Login</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            {/* <img src={loginImg} /> */}
           </div>
           <div className="form">
             <div className="form-group">
