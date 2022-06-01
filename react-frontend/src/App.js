@@ -5,7 +5,9 @@ import "./styles/App.scss";
 
 const localhost = 'http://localhost:5000/pixels';
 
+
 export default function App() {
+	
 	const [pixels, setPixels] = useState([]);
 
 	useEffect(() => {
