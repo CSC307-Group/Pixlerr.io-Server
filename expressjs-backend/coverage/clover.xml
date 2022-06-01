@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1653691805294" clover="3.2.0">
+  <project timestamp="1653691805294" name="All files">
+    <metrics statements="37" coveredstatements="36" conditionals="21" coveredconditionals="20" methods="8" coveredmethods="7" elements="66" coveredelements="63" complexity="0" loc="37" ncloc="37" packages="1" files="2" classes="2"/>
+    <file name="user-services.js" path="C:\Users\Reed\Pixlerr\expressjs-backend\models\user-services.js">
+      <metrics statements="31" coveredstatements="30" conditionals="19" coveredconditionals="18" methods="7" coveredmethods="6"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="10" count="0" type="stmt"/>
+      <line num="14" count="5" type="cond" truecount="4" falsecount="0"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="16" count="4" type="cond" truecount="5" falsecount="0"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="3" type="cond" truecount="5" falsecount="0"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="20" count="2" type="cond" truecount="4" falsecount="1"/>
+      <line num="21" count="2" type="stmt"/>
+      <line num="23" count="5" type="stmt"/>
+      <line num="27" count="3" type="stmt"/>
+      <line num="28" count="3" type="stmt"/>
+      <line num="29" count="3" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="32" count="2" type="stmt"/>
+      <line num="33" count="2" type="stmt"/>
+      <line num="38" count="2" type="stmt"/>
+      <line num="41" count="2" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="44" count="1" type="stmt"/>
+      <line num="45" count="1" type="stmt"/>
+      <line num="50" count="1" type="stmt"/>
+      <line num="54" count="1" type="stmt"/>
+      <line num="58" count="2" type="stmt"/>
+      <line num="61" count="1" type="stmt"/>
+      <line num="62" count="1" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+    </file>
+    <file name="user.js" path="C:\Users\Reed\Pixlerr\expressjs-backend\models\user.js">
+      <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

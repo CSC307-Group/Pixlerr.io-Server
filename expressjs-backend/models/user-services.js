@@ -9,25 +9,18 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-async function getUsers(username, password) {
+async function getUsers(username, password, user_email) {
   let result;
   if (username === undefined && password === undefined) {
     result = await userModel.find();
-  } else if (username && !job) {
+  } else if (username && !password && !user_email) {
     result = await findUserByUsername(username);
-  } else if (password && username) {
+  } else if (username && password && !user_email) {
       result = await findUserByUsernameandPassword(username, password);
+  } else if (username && password && user_email) {
+    result = await findUserByUsernameandPasswordandEmail(username, password, user_email);
   }
   return result;
-}
-
-async function findUserById(id) {
-  try {
-    return await userModel.findById(id);
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
 }
 
 async function addUser(user) {
@@ -44,8 +37,8 @@ async function addUser(user) {
 async function removeUser(id) {
     try {
         //need to typecast the id as an ObjectId
-        const objid = mongoose.Types.ObjectId(id);
-        const removedUser = await userModel.findByIdAndDelete(objid);
+        //const objid = mongoose.Types.ObjectId(id);
+        const removedUser = await userModel.findByIdAndDelete(id);
         return removedUser;
     } catch (error) {
         console.log(error);
@@ -61,7 +54,10 @@ async function findUserByUsernameandPassword(username, password) {
     return await userModel.find({ username: username, password: password})
 }
 
+async function findUserByUsernameandPasswordandEmail(username, password, user_email) {
+  return await userModel.find({username: username, password: password, user_email: user_email})
+}
+
 exports.getUsers = getUsers;
-exports.findUserById = findUserById;
 exports.addUser = addUser;
 exports.removeUser = removeUser;

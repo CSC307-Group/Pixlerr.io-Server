@@ -10,7 +10,7 @@
 
 const HEIGHT = 20;
 const WIDTH = 40;
-db = connect( "mongodb://localhost:27017/pixels" );
+db = connect( "mongodb://localhost:27017/users" );
 db.pixelList.deleteMany({}); // Clear out current contents
 for (let x = 0; x < WIDTH; x++) {
     for (let y = 0; y < HEIGHT; y++) {

@@ -7,14 +7,15 @@
     "test": "prettier --check ./backend.js/",
     "prettier": "prettier --write ./backend.js/",
     "dev": "nodemon backend.js",
-    "start": "node backend.js"
+    "start": "node backend.js",
+    "coverage": "jest --collectCoverage --forceExit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "mongoose": "^6.3.3",
+    "mongoose": "^6.3.4",
     "jest": "^28.1.0",
     "prettier": "^2.6.2"
   },

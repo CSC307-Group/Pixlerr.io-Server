@@ -47,18 +47,18 @@ app.post("/pixels", async (req, res) => {
         res.status(200).end();
     else
         res.status(500).end();
-})
+});
 
-
-app.get('/users', async (req, res) => {
-  const username = req.query['username'];
-  const password = req.query['password'];
+app.get("/users", async (req, res) => {
+  const username = req.query["username"];
+  const password = req.query["password"];
+  const user_email = req.query["user_email"];
   try {
-    const result = await userServices.getUsers(username, password);
+    const result = await userServices.getUsers(username, password, user_email);
     res.send({ userList: result });
   } catch (error) {
     console.log(error);
-    res.status(500).send('An error ocurred in the server.');
+    res.status(500).send("An error ocurred in the server.");
   }
 });
 
@@ -81,8 +81,8 @@ app.post('/users', async (req, res) => {
     res.status(500).end();
 });
 
-app.delete('/users/:id', async (req, res) => {
-  const id = req.params['id'];
+app.delete("/users/:id", async (req, res) => {
+  const id = req.params["id"];
   const result = await userServices.removeUser(id);
   //  console.log(result);
   if (result === undefined || result === null) {
@@ -92,7 +92,6 @@ app.delete('/users/:id', async (req, res) => {
     res.status(204).send();
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Pixlerr listening at http://localhost:${port}`);
