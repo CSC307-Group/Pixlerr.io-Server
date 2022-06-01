@@ -1,6 +1,6 @@
 const userServices = require("./models/user-services");
 const pixelServices = require("./models/pixel-services");
-jest.setTimeout(10000);
+jest.setTimeout(45000);
 
 const user = {username: "Reed", password: "Testingg", user_email: "rmarohn@calpoly.edu"};
 //user-services tests
