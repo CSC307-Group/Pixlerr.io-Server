@@ -1,5 +1,5 @@
 import React from "react";
-import loginImg from "./login.svg";
+// import loginImg from "./login.svg";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ export class Login extends React.Component {
 
   submitForm() {
     let res = getUser(this.state)
-    if (res.status == 201) {
+    if (res.status === 201) {
       //redirect and set user state to logged in with respective credentials
     }
     else {
@@ -52,7 +52,7 @@ export class Login extends React.Component {
         <div className="header">Login</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            {/* <img src={loginImg} /> */}
           </div>
           <div className="form">
             <div className="form-group">
