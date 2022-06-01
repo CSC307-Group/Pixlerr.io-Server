@@ -16,8 +16,7 @@ async function getPixels() {
 
 async function updatePixel(id, newColor) {
 	try {
-
-		pixelModel.findOne({ _id : id }).then(pixel => {
+		await pixelModel.findOne({ _id : id }).then(pixel => {
 			pixel['color'] = newColor;
 			pixel.save();
 		})
@@ -31,19 +30,15 @@ async function updatePixel(id, newColor) {
 
 async function clearCanvas()
 {
-	try {
 		await pixelModel.deleteMany({});
 		return true;
-	} 
-	catch (error) {
-		console.log(error);
-		return false;
-	}
 }
 
 async function newCanvas(width, height)
 {
-	try {
+	if(width === 0 || height === 0){
+		return false;
+	}
 		for (let x = 0; x < width; x++) {
 			for (let y = 0; y < height; y++) {
 				let pixel = {
@@ -52,15 +47,10 @@ async function newCanvas(width, height)
 					y: y
 				};
 				const pixelToAdd = new pixelModel(pixel);
-				pixelToAdd.save();
+				await pixelToAdd.save();
 			}
 		}
 		return true;
-	}
-	catch (error) {
-		console.log(error);
-		return false;
-	}
 }
 
 exports.getPixels = getPixels;
