@@ -1,4 +1,6 @@
 const userServices = require("./models/user-services");
+const pixelServices = require("./models/pixel-services");
+jest.setTimeout(10000);
 
 const user = {username: "Reed", password: "Testingg", user_email: "rmarohn@calpoly.edu"};
 //user-services tests
@@ -48,3 +50,36 @@ test("remove user", async () => {
     expect(result._id).toEqual(getUser[0]._id);
 });
 
+//pixel-services tests
+
+test("test clearCanvas", async () => {
+    result = await pixelServices.clearCanvas();
+    expect(result).toBeTruthy();
+});
+
+test("test newCanvas with size 0", async () => {
+    result = await pixelServices.newCanvas(0,0);
+    expect(result).toBeFalsy();
+});
+
+test("test newCanvas with valid size", async () => {
+    result = await pixelServices.newCanvas(40, 20);
+    expect(result).toBeTruthy();
+});
+
+test("test getPixels", async () => {
+    result = await pixelServices.getPixels();
+    expect(result.length >= 1).toBeTruthy();
+});
+
+test("test updatePixel with invalid id", async () => {
+    result = await pixelServices.updatePixel("testingstuff", "red");
+    expect(result).toBeFalsy();
+});
+
+test("test updatePixel with valid id", async () => {
+   pixelList = await pixelServices.getPixels();
+   const id = pixelList[0]._id;
+   result = await pixelServices.updatePixel(id, "#123456");
+   expect(result).toBeTruthy(); 
+});
