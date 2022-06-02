@@ -48,6 +48,8 @@ export default function App() {
 
 	async function makeUserPatchCall() {
 		try {
+			if (activeUser['username'] === "Admin")
+				return false;
 			const response = await axios.patch(userhost, activeUser);
 			return response;
 		}
@@ -60,7 +62,8 @@ export default function App() {
 	async function makePixelPatchCall(updatedData) {
 		try {
 			const response = await axios.patch(pixelhost, updatedData);
-			return response;
+			console.log(response);
+			return (response.status === 204);
 		}
 		catch (error) {
 			console.log(error);
@@ -68,12 +71,17 @@ export default function App() {
 		}
 	}
 
-	function updatePixel(id, newColor) {
+	async function updatePixel(id, newColor) {
 		if (activeUser !== "") {
-			const data = [id, newColor];
-			makeUserPatchCall();
-			makePixelPatchCall(data);
-			getUser();
+			const data = [id, newColor, activeUser['pixelTime']];
+			const pixelUpdated = await makePixelPatchCall(data);
+			if (pixelUpdated) {
+				console.log(pixelUpdated);
+				const userTimeUpdated = await makeUserPatchCall();
+				if (userTimeUpdated) {
+					getUser();
+				}
+			}
 		}
 	}
 

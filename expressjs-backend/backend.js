@@ -94,7 +94,6 @@ app.patch("/users", async (req, res) => {
 app.delete("/users/:id", async (req, res) => {
   const id = req.params["id"];
   const result = await userServices.removeUser(id);
-  //  console.log(result);
   if (result === undefined || result === null) {
     res.status(404).send("Resource not found.");
   }
@@ -116,11 +115,14 @@ app.get("/pixels", async (req, res) => {
 
 app.patch("/pixels", async (req, res) => {
 	const updatedData = req.body;
-	const hasPixelUpdated = await pixelServices.updatePixel(updatedData[0], updatedData[1]);
-	if (hasPixelUpdated)
-		res.status(204).end();
-	else
-		res.status(500).end();
+  if (hasTimerCompleted(updatedData[2])) {
+    if (pixelServices.updatePixel(updatedData[0], updatedData[1]))
+  		res.status(204).end();
+    else
+      res.status(500).end();
+  }
+  else
+	  res.status(500).end();
 });
 
 app.delete("/pixels", async (req, res) => {
@@ -139,6 +141,13 @@ app.post("/pixels", async (req, res) => {
     else
         res.status(500).end();
 });
+
+function hasTimerCompleted(pixelTime) {
+  let compareTime = new Date(pixelTime);
+  let currentTime = new Date();
+  console.log(currentTime.getTime() - compareTime.getTime());
+  return (currentTime.getTime() - compareTime.getTime() >= 60000); // 1 minute
+}
 
 app.listen(port, () => {
   console.log(`Pixlerr listening at http://localhost:${port}`);
