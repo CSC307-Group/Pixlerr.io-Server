@@ -28,10 +28,18 @@ async function getPixels() {
 	return await pixelModel.find();
 }
 
-async function updatePixel(id, newColor) {
+async function getPixelsByUsername(username) {
+	return await pixelModel.find({username : username});
+}
+
+async function updatePixel(pixelId, newColor, userId) {
 	try {
-		await pixelModel.findOne({ _id : id }).then(pixel => {
+		await pixelModel.findOne({ _id : pixelId }).then(pixel => {
 			pixel['color'] = newColor;
+			pixel.save();
+		})
+		await pixelModel.findOne({ _id : pixelId }).then(pixel => {
+			pixel['userId'] = userId;
 			pixel.save();
 		})
 		return true;
@@ -50,7 +58,8 @@ async function clearCanvas()
 
 async function newCanvas(width, height)
 {
-	if(width === 0 || height === 0){
+	const adminID = "629920b5b7f6f6424b76306c";
+	if (width === 0 || height === 0) {
 		return false;
 	}
 		for (let x = 0; x < width; x++) {
@@ -58,7 +67,8 @@ async function newCanvas(width, height)
 				let pixel = {
 					color: "#fff",
 					x: x,
-					y: y
+					y: y,
+					userId: adminID
 				};
 				const pixelToAdd = new pixelModel(pixel);
 				await pixelToAdd.save();
@@ -68,6 +78,7 @@ async function newCanvas(width, height)
 }
 
 exports.getPixels = getPixels;
+exports.getPixelsByUsername = getPixelsByUsername;
 exports.updatePixel = updatePixel;
 exports.clearCanvas = clearCanvas;
 exports.newCanvas = newCanvas;
