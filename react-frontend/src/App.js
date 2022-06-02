@@ -4,14 +4,31 @@ import React, { useState, useEffect } from 'react';
 import "./styles/App.scss";
 // import Cursor from './Cursor';
 
-const localhost = 'http://localhost:5000/pixels';
+//const userhost = 'http://localhost:5000/users';
+const pixelhost = 'http://localhost:5000/pixels';
 
 export default function App() {
 	const [pixels, setPixels] = useState([]);
+	const [activeUser, login] = useState();
+
+	useEffect(() => {
+		getUser();
+	}, [] );
+
+	const getUser = () => {
+		axios({
+		  method: "GET",
+		  withCredentials: true,
+		  url: "http://localhost:5000/users",
+		}).then((res) => {
+		  login(res.data);
+		  console.log(res.data);
+		});
+	};
 
 	useEffect(() => {
 		setTimeout(function() {
-			fetchAll().then( result => {
+			fetchPixels().then( result => {
 				if (result) {
 					setPixels(result);
 				}
@@ -19,9 +36,9 @@ export default function App() {
 		}, 500);
 	}, [pixels] );
 
-	async function fetchAll() {
+	async function fetchPixels() {
 		try {
-			const response = await axios.get(localhost);
+			const response = await axios.get(pixelhost);
 			return response.data.pixelList;
 
 		}
@@ -33,7 +50,7 @@ export default function App() {
 
 	async function makePatchCall(updatedData) {
 		try {
-			const response = await axios.patch(localhost, updatedData);
+			const response = await axios.patch(pixelhost, updatedData);
 			return response;
 		}
 		catch (error) {
@@ -43,13 +60,15 @@ export default function App() {
 	}
 
 	function updatePixel(id, newColor) {
-		const data = [id, newColor];
-		makePatchCall(data);
+		if (activeUser !== "") {
+			const data = [id, newColor];
+			makePatchCall(data);
+		}
 	}
 
 	async function makeDeleteCall() {
 		try {
-			const response = await axios.delete(localhost);
+			const response = await axios.delete(pixelhost);
 			return response;
 		}
 		catch (error) {
@@ -60,7 +79,7 @@ export default function App() {
 
 	async function makePostCall(dimensions) {
 		try {
-			const response = await axios.post(localhost, dimensions);
+			const response = await axios.post(pixelhost, dimensions);
 			return response;
 		}
 		catch (error) {

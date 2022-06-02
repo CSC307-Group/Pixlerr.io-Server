@@ -1,6 +1,3 @@
-// const cors = require("cors");
-// const express = require("express");
-// const pixel = require("./models/pixel");
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -15,26 +12,7 @@ const pixelServices = require('./models/pixel-services');
 const userServices = require('./models/user-services');
 const app = express();
 const port = 5000;
-// app.use(cors());
-// app.use(express.json());
 
-// mongoose
-// 	.connect(
-// 		"mongodb+srv://" +
-// 			process.env.MONGO_USER +
-// 			":" +
-// 			process.env.MONGO_PWD +
-// 			"@" +
-// 			process.env.MONGO_CLUSTER +
-// 			"/" +
-// 			process.env.MONGO_DB +
-// 			"?retryWrites=true&w=majority",
-//   // "mongodb://localhost:27017/users",
-//   	{
-// 		useNewUrlParser: true,
-// 		useUnifiedTopology: true,
-// 	})
-// 	.catch((error) => console.log(error));
 
 // Middleware
 app.use(bodyParser.json());
@@ -82,16 +60,39 @@ app.post("/register", (req, res) => {
       const newUser = {
         username: req.body.username,
         password: hashedPassword,
+        // pixelTime: new Date().toISOString(),
       };
       await userServices.addUser(newUser);
       res.send("User Created");
     }
   });
 });
+
 app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
+app.get('/users/:id', async (req, res) => {
+  const id = req.params['id'];
+  const result = await userServices.findUserById(id);
+  if (result === undefined || result === null)
+    res.status(404).send('Resource not found.');
+  else {
+    res.send({ userList: result });
+  }
+});
+
+app.delete("/users/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await userServices.removeUser(id);
+  //  console.log(result);
+  if (result === undefined || result === null) {
+    res.status(404).send("Resource not found.");
+  }
+  else {
+    res.status(204).send();
+  }
+});
 
 app.get("/pixels", async (req, res) => {
 	try {
@@ -128,50 +129,6 @@ app.post("/pixels", async (req, res) => {
         res.status(200).end();
     else
         res.status(500).end();
-});
-
-// app.get("/users", async (req, res) => {
-//   const username = req.query["username"];
-//   const password = req.query["password"];
-//   const user_email = req.query["user_email"];
-//   try {
-//     const result = await userServices.getUsers(username, password, user_email);
-//     res.send({ userList: result });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("An error ocurred in the server.");
-//   }
-// });
-
-app.get('/users/:id', async (req, res) => {
-  const id = req.params['id'];
-  const result = await userServices.findUserById(id);
-  if (result === undefined || result === null)
-    res.status(404).send('Resource not found.');
-  else {
-    res.send({ userList: result });
-  }
-});
-
-// app.post('/users', async (req, res) => {
-//   const user = req.body;
-//   const savedUser = await userServices.addUser(user);
-//   if (savedUser)
-//     res.status(201).send(savedUser);
-//   else
-//     res.status(500).end();
-// });
-
-app.delete("/users/:id", async (req, res) => {
-  const id = req.params["id"];
-  const result = await userServices.removeUser(id);
-  //  console.log(result);
-  if (result === undefined || result === null) {
-    res.status(404).send("Resource not found.");
-  }
-  else {
-    res.status(204).send();
-  }
 });
 
 app.listen(port, () => {
