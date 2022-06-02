@@ -118,36 +118,51 @@ function Login() {
     });
   };
   return (
-    <div className="App">
-      <div>
-        <h1>Register</h1>
-        <input
-        type="text"
-          placeholder="username"
-          onChange={(e) => setRegisterUsername(e.target.value)}
-        />
-        <input
-        type="password"
-          placeholder="password"
-          onChange={(e) => setRegisterPassword(e.target.value)}
-        />
-        <button onClick={register}>Submit</button>
-      </div>
+    <div className="base-containers1">
+      <div className="content">
+        <div className="form">
 
-      <div>
-        <h1>Login</h1>
-        <input
-        type="text"
-          placeholder="username"
-          onChange={(e) => setLoginUsername(e.target.value)}
-        />
-        <input
-        type="password"
-          placeholder="password"
-          onChange={(e) => setLoginPassword(e.target.value)}
-        />
-        <button href="#" onClick={() => { login(); getUser();}}>Submit</button>
-        {data ? <h1>Welcome Back {data.username}</h1> : null}
+          <h1 className="h1">Register</h1>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="username"
+              onChange={(e) => setRegisterUsername(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="password"
+              onChange={(e) => setRegisterPassword(e.target.value)}
+            />
+          </div>
+          <div className="footer">
+            <button className="button" onClick={register}>Register</button>
+          </div>
+        </div>
+
+        <div className="form">
+          <h1 className="h1">Login</h1>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="username"
+              onChange={(e) => setLoginUsername(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="password"
+              onChange={(e) => setLoginPassword(e.target.value)}
+            />
+          </div>
+          <div className="footer">
+            <button className="button" href="#" onClick={() => { login(); getUser(); }}>Login</button>
+          </div>
+          {data ? <h1>Welcome Back {data.username}</h1> : null}
+        </div>
       </div>
     </div>
   );

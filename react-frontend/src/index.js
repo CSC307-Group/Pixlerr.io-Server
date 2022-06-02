@@ -25,15 +25,17 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
 ReactDOM.render((
   <Router>
     <Sidebar />
+    <Countdown date={Date.now() + 60000} renderer={renderer} />
+
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/Signup" element={<Signup />} />
       <Route path="/About" element={<About />} />
       <Route path="/Login" element={<Login />} />
-      
-      <Route path="/Account" element={() => <Account/>} />
+
+      <Route path="/Account" element={() => <Account />} />
     </Routes>
-    <Countdown date={Date.now() + 60000} renderer={renderer} />
+
   </Router>
 ), document.getElementById('root')
 );
