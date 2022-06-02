@@ -1,6 +1,4 @@
-// const cors = require("cors");
-// const express = require("express");
-// const pixel = require("./models/pixel");
+
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -15,26 +13,7 @@ const pixelServices = require('./models/pixel-services');
 const userServices = require('./models/user-services');
 const app = express();
 const port = 5000;
-// app.use(cors());
-// app.use(express.json());
 
-// mongoose
-// 	.connect(
-// 		"mongodb+srv://" +
-// 			process.env.MONGO_USER +
-// 			":" +
-// 			process.env.MONGO_PWD +
-// 			"@" +
-// 			process.env.MONGO_CLUSTER +
-// 			"/" +
-// 			process.env.MONGO_DB +
-// 			"?retryWrites=true&w=majority",
-//   // "mongodb://localhost:27017/users",
-//   	{
-// 		useNewUrlParser: true,
-// 		useUnifiedTopology: true,
-// 	})
-// 	.catch((error) => console.log(error));
 
 // Middleware
 app.use(bodyParser.json());
