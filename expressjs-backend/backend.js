@@ -60,7 +60,7 @@ app.post("/register", (req, res) => {
       const newUser = {
         username: req.body.username,
         password: hashedPassword,
-        // pixelTime: new Date().toISOString(),
+        pixelTime: new Date().toISOString(),
       };
       await userServices.addUser(newUser);
       res.send("User Created");
@@ -81,6 +81,15 @@ app.get('/users/:id', async (req, res) => {
     res.send({ userList: result });
   }
 });
+
+app.patch("/users", async (req, res) => {
+  const user = req.body;
+  const timeUpdated = await userServices.updatePixelTime(user.username);
+  if (timeUpdated)
+    res.status(204).end();
+	else
+		res.status(500).end();
+})
 
 app.delete("/users/:id", async (req, res) => {
   const id = req.params["id"];

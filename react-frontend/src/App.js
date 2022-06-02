@@ -2,9 +2,8 @@ import axios from 'axios';
 import Editor from "./Editor";
 import React, { useState, useEffect } from 'react';
 import "./styles/App.scss";
-// import Cursor from './Cursor';
 
-//const userhost = 'http://localhost:5000/users';
+const userhost = 'http://localhost:5000/users';
 const pixelhost = 'http://localhost:5000/pixels';
 
 export default function App() {
@@ -19,10 +18,9 @@ export default function App() {
 		axios({
 		  method: "GET",
 		  withCredentials: true,
-		  url: "http://localhost:5000/users",
+		  url: userhost,
 		}).then((res) => {
 		  login(res.data);
-		  console.log(res.data);
 		});
 	};
 
@@ -48,7 +46,18 @@ export default function App() {
 		}
 	}
 
-	async function makePatchCall(updatedData) {
+	async function makeUserPatchCall() {
+		try {
+			const response = await axios.patch(userhost, activeUser);
+			return response;
+		}
+		catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	async function makePixelPatchCall(updatedData) {
 		try {
 			const response = await axios.patch(pixelhost, updatedData);
 			return response;
@@ -62,7 +71,9 @@ export default function App() {
 	function updatePixel(id, newColor) {
 		if (activeUser !== "") {
 			const data = [id, newColor];
-			makePatchCall(data);
+			makeUserPatchCall();
+			makePixelPatchCall(data);
+			getUser();
 		}
 	}
 
