@@ -18,23 +18,23 @@ const port = 5000;
 // app.use(cors());
 // app.use(express.json());
 
-mongoose
-	.connect(
-		"mongodb+srv://" +
-			process.env.MONGO_USER +
-			":" +
-			process.env.MONGO_PWD +
-			"@" +
-			process.env.MONGO_CLUSTER +
-			"/" +
-			process.env.MONGO_DB +
-			"?retryWrites=true&w=majority",
-  // "mongodb://localhost:27017/users",
-  	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.catch((error) => console.log(error));
+// mongoose
+// 	.connect(
+// 		"mongodb+srv://" +
+// 			process.env.MONGO_USER +
+// 			":" +
+// 			process.env.MONGO_PWD +
+// 			"@" +
+// 			process.env.MONGO_CLUSTER +
+// 			"/" +
+// 			process.env.MONGO_DB +
+// 			"?retryWrites=true&w=majority",
+//   // "mongodb://localhost:27017/users",
+//   	{
+// 		useNewUrlParser: true,
+// 		useUnifiedTopology: true,
+// 	})
+// 	.catch((error) => console.log(error));
 
 // Middleware
 app.use(bodyParser.json());
