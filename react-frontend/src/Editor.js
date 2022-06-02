@@ -6,8 +6,8 @@ import Cursor from "./Cursor";
 
 
 export default function Editor(props) {
-    const [selectedColor, setColor] = useState("#000000"); // default black
-    const [mouseColor, setMouseColor] = useState(selectedColor);
+    const [selectedColor, setColor] = useState("#420f69"); // default black
+    const [mouseColor, setMouseColor] = useState("transparent");
 
     function changeColor(color) {
         setColor(color.hex);
