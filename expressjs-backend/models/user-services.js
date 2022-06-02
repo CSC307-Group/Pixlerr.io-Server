@@ -25,19 +25,19 @@ mongoose
 	.catch((error) => console.log(error));
 
 
-async function getUsers(username, password, user_email) {
-  let result;
-  if (username === undefined && password === undefined) {
-    result = await userModel.find();
-  } else if (username && !password && !user_email) {
-    result = await findUserByUsername(username);
-  } else if (username && password && !user_email) {
-      result = await findUserByUsernameandPassword(username, password);
-  } else if (username && password && user_email) {
-    result = await findUserByUsernameandPasswordandEmail(username, password, user_email);
-  }
-  return result;
-}
+// async function getUsers(username, password, user_email) {
+//   let result;
+//   if (username === undefined && password === undefined) {
+//     result = await userModel.find();
+//   } else if (username && !password && !user_email) {
+//     result = await findUserByUsername(username);
+//   } else if (username && password && !user_email) {
+//       result = await findUserByUsernameandPassword(username, password);
+//   } else if (username && password && user_email) {
+//     result = await findUserByUsernameandPasswordandEmail(username, password, user_email);
+//   }
+//   return result;
+// }
 
 async function addUser(user) {
   try {
@@ -50,9 +50,10 @@ async function addUser(user) {
   }
 }
 
-async function updatePixelTime(username) {
+async function updatePixelTime(id) {
   try {
-    await userModel.findOne({ username: username }).then(user => {
+    console.log(id);
+    await userModel.findOne({ _id: id }).then(user => {
 			user['pixelTime'] = new Date().toISOString();
 			user.save();
 		})
@@ -76,19 +77,19 @@ async function removeUser(id) {
     }
 }
 
-async function findUserByUsername(username) {
-  return await userModel.find({ username: username });
-}
+// async function findUserByUsername(username) {
+//   return await userModel.find({ username: username });
+// }
 
-async function findUserByUsernameandPassword(username, password) {
-    return await userModel.find({ username: username, password: password})
-}
+// async function findUserByUsernameandPassword(username, password) {
+//     return await userModel.find({ username: username, password: password})
+// }
 
-async function findUserByUsernameandPasswordandEmail(username, password, user_email) {
-  return await userModel.find({username: username, password: password, user_email: user_email})
-}
+// async function findUserByUsernameandPasswordandEmail(username, password, user_email) {
+//   return await userModel.find({username: username, password: password, user_email: user_email})
+// }
 
-exports.getUsers = getUsers;
+//exports.getUsers = getUsers;
 exports.addUser = addUser;
 exports.updatePixelTime = updatePixelTime;
 exports.removeUser = removeUser;

@@ -84,7 +84,6 @@ function Login() {
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [data, setData] = useState(null);
   const register = () => {
     Axios({
       method: "POST",
@@ -113,7 +112,6 @@ function Login() {
       withCredentials: true,
       url: "http://localhost:5000/users",
     }).then((res) => {
-      setData(res.data);
       console.log(res.data);
     });
   };
@@ -147,7 +145,6 @@ function Login() {
           onChange={(e) => setLoginPassword(e.target.value)}
         />
         <button href="#" onClick={() => { login(); getUser();}}>Submit</button>
-        {data ? <h1>Welcome Back {data.username}</h1> : null}
       </div>
     </div>
   );

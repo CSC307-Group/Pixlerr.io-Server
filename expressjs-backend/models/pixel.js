@@ -13,6 +13,11 @@ const PixelSchema = new mongoose.Schema(
 		color: {
 			type: String,
 			required: true,
+		},
+		userId: {
+			type: String,
+			required: true,
+			trim: true,
 		}
 	},
 	{ collection: "pixelList" }

@@ -4,7 +4,7 @@
     "ci": "^2.2.0",
     "css-loader": "^6.7.1",
     "husky": "^7.0.4",
-    "lint-staged": "^12.4.1",
+    "lint-staged": "^12.5.0",
     "mongoose": "^6.3.0",
     "node-sass": "^7.0.1",
     "prettier": "^2.6.2",
@@ -23,5 +23,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0"
   }
 }

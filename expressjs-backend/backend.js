@@ -72,19 +72,20 @@ app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
-app.get('/users/:id', async (req, res) => {
-  const id = req.params['id'];
-  const result = await userServices.findUserById(id);
-  if (result === undefined || result === null)
-    res.status(404).send('Resource not found.');
-  else {
-    res.send({ userList: result });
-  }
-});
+// app.get('/users/:id', async (req, res) => {
+//   const id = req.params['id'];
+//   const result = await userServices.findUserById(id);
+//   if (result === undefined || result === null)
+//     res.status(404).send('Resource not found.');
+//   else {
+//     res.send({ userList: result });
+//   }
+// });
 
 app.patch("/users", async (req, res) => {
   const user = req.body;
-  const timeUpdated = await userServices.updatePixelTime(user.username);
+  console.log(user['_id']);
+  const timeUpdated = await userServices.updatePixelTime(user['_id']);
   if (timeUpdated)
     res.status(204).end();
 	else
@@ -115,8 +116,13 @@ app.get("/pixels", async (req, res) => {
 
 app.patch("/pixels", async (req, res) => {
 	const updatedData = req.body;
-  if (hasTimerCompleted(updatedData[2])) {
-    if (pixelServices.updatePixel(updatedData[0], updatedData[1]))
+  const pixelId = updatedData[0];
+  const pixelColor = updatedData[1];
+  const userId = updatedData[2];
+  const pixelTime = updatedData[3]
+
+  if (hasTimerCompleted(pixelTime)) {
+    if (pixelServices.updatePixel(pixelId, pixelColor, userId))
   		res.status(204).end();
     else
       res.status(500).end();
@@ -124,6 +130,13 @@ app.patch("/pixels", async (req, res) => {
   else
 	  res.status(500).end();
 });
+
+function hasTimerCompleted(pixelTime) {
+  let compareTime = new Date(pixelTime);
+  let currentTime = new Date();
+  console.log(currentTime.getTime() - compareTime.getTime());
+  return (currentTime.getTime() - compareTime.getTime() >= 60000); // 1 minute
+}
 
 app.delete("/pixels", async (req, res) => {
     const hasCanvasBeenCleared = await pixelServices.clearCanvas();
@@ -141,13 +154,6 @@ app.post("/pixels", async (req, res) => {
     else
         res.status(500).end();
 });
-
-function hasTimerCompleted(pixelTime) {
-  let compareTime = new Date(pixelTime);
-  let currentTime = new Date();
-  console.log(currentTime.getTime() - compareTime.getTime());
-  return (currentTime.getTime() - compareTime.getTime() >= 60000); // 1 minute
-}
 
 app.listen(port, () => {
   console.log(`Pixlerr listening at http://localhost:${port}`);
