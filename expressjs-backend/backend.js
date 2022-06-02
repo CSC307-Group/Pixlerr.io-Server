@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -61,16 +60,47 @@ app.post("/register", (req, res) => {
       const newUser = {
         username: req.body.username,
         password: hashedPassword,
+        pixelTime: new Date().toISOString(),
       };
       await userServices.addUser(newUser);
       res.send("User Created");
     }
   });
 });
+
 app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
+app.get('/users/:id', async (req, res) => {
+  const id = req.params['id'];
+  const result = await userServices.findUserById(id);
+  if (result === undefined || result === null)
+    res.status(404).send('Resource not found.');
+  else {
+    res.send({ userList: result });
+  }
+});
+
+app.patch("/users", async (req, res) => {
+  const user = req.body;
+  const timeUpdated = await userServices.updatePixelTime(user.username);
+  if (timeUpdated)
+    res.status(204).end();
+	else
+		res.status(500).end();
+})
+
+app.delete("/users/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await userServices.removeUser(id);
+  if (result === undefined || result === null) {
+    res.status(404).send("Resource not found.");
+  }
+  else {
+    res.status(204).send();
+  }
+});
 
 app.get("/pixels", async (req, res) => {
 	try {
@@ -85,11 +115,14 @@ app.get("/pixels", async (req, res) => {
 
 app.patch("/pixels", async (req, res) => {
 	const updatedData = req.body;
-	const hasPixelUpdated = await pixelServices.updatePixel(updatedData[0], updatedData[1]);
-	if (hasPixelUpdated)
-		res.status(204).end();
-	else
-		res.status(500).end();
+  if (hasTimerCompleted(updatedData[2])) {
+    if (pixelServices.updatePixel(updatedData[0], updatedData[1]))
+  		res.status(204).end();
+    else
+      res.status(500).end();
+  }
+  else
+	  res.status(500).end();
 });
 
 app.delete("/pixels", async (req, res) => {
@@ -109,49 +142,12 @@ app.post("/pixels", async (req, res) => {
         res.status(500).end();
 });
 
-// app.get("/users", async (req, res) => {
-//   const username = req.query["username"];
-//   const password = req.query["password"];
-//   const user_email = req.query["user_email"];
-//   try {
-//     const result = await userServices.getUsers(username, password, user_email);
-//     res.send({ userList: result });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("An error ocurred in the server.");
-//   }
-// });
-
-app.get('/users/:id', async (req, res) => {
-  const id = req.params['id'];
-  const result = await userServices.findUserById(id);
-  if (result === undefined || result === null)
-    res.status(404).send('Resource not found.');
-  else {
-    res.send({ userList: result });
-  }
-});
-
-// app.post('/users', async (req, res) => {
-//   const user = req.body;
-//   const savedUser = await userServices.addUser(user);
-//   if (savedUser)
-//     res.status(201).send(savedUser);
-//   else
-//     res.status(500).end();
-// });
-
-app.delete("/users/:id", async (req, res) => {
-  const id = req.params["id"];
-  const result = await userServices.removeUser(id);
-  //  console.log(result);
-  if (result === undefined || result === null) {
-    res.status(404).send("Resource not found.");
-  }
-  else {
-    res.status(204).send();
-  }
-});
+function hasTimerCompleted(pixelTime) {
+  let compareTime = new Date(pixelTime);
+  let currentTime = new Date();
+  console.log(currentTime.getTime() - compareTime.getTime());
+  return (currentTime.getTime() - compareTime.getTime() >= 60000); // 1 minute
+}
 
 app.listen(port, () => {
   console.log(`Pixlerr listening at http://localhost:${port}`);

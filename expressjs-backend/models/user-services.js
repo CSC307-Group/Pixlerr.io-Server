@@ -50,6 +50,20 @@ async function addUser(user) {
   }
 }
 
+async function updatePixelTime(username) {
+  try {
+    await userModel.findOne({ username: username }).then(user => {
+			user['pixelTime'] = new Date().toISOString();
+			user.save();
+		})
+		return true;
+  }
+  catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 async function removeUser(id) {
     try {
         //need to typecast the id as an ObjectId
@@ -76,4 +90,5 @@ async function findUserByUsernameandPasswordandEmail(username, password, user_em
 
 exports.getUsers = getUsers;
 exports.addUser = addUser;
+exports.updatePixelTime = updatePixelTime;
 exports.removeUser = removeUser;

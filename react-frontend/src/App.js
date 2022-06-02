@@ -2,16 +2,31 @@ import axios from 'axios';
 import Editor from "./Editor";
 import React, { useState, useEffect } from 'react';
 import "./styles/App.scss";
-// import Cursor from './Cursor';
 
-const localhost = 'http://localhost:5000/pixels';
+const userhost = 'http://localhost:5000/users';
+const pixelhost = 'http://localhost:5000/pixels';
 
 export default function App() {
 	const [pixels, setPixels] = useState([]);
+	const [activeUser, login] = useState();
+
+	useEffect(() => {
+		getUser();
+	}, [] );
+
+	const getUser = () => {
+		axios({
+		  method: "GET",
+		  withCredentials: true,
+		  url: userhost,
+		}).then((res) => {
+		  login(res.data);
+		});
+	};
 
 	useEffect(() => {
 		setTimeout(function() {
-			fetchAll().then( result => {
+			fetchPixels().then( result => {
 				if (result) {
 					setPixels(result);
 				}
@@ -19,9 +34,9 @@ export default function App() {
 		}, 500);
 	}, [pixels] );
 
-	async function fetchAll() {
+	async function fetchPixels() {
 		try {
-			const response = await axios.get(localhost);
+			const response = await axios.get(pixelhost);
 			return response.data.pixelList;
 
 		}
@@ -31,9 +46,11 @@ export default function App() {
 		}
 	}
 
-	async function makePatchCall(updatedData) {
+	async function makeUserPatchCall() {
 		try {
-			const response = await axios.patch(localhost, updatedData);
+			if (activeUser['username'] === "Admin")
+				return false;
+			const response = await axios.patch(userhost, activeUser);
 			return response;
 		}
 		catch (error) {
@@ -42,14 +59,35 @@ export default function App() {
 		}
 	}
 
-	function updatePixel(id, newColor) {
-		const data = [id, newColor];
-		makePatchCall(data);
+	async function makePixelPatchCall(updatedData) {
+		try {
+			const response = await axios.patch(pixelhost, updatedData);
+			console.log(response);
+			return (response.status === 204);
+		}
+		catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	async function updatePixel(id, newColor) {
+		if (activeUser !== "") {
+			const data = [id, newColor, activeUser['pixelTime']];
+			const pixelUpdated = await makePixelPatchCall(data);
+			if (pixelUpdated) {
+				console.log(pixelUpdated);
+				const userTimeUpdated = await makeUserPatchCall();
+				if (userTimeUpdated) {
+					getUser();
+				}
+			}
+		}
 	}
 
 	async function makeDeleteCall() {
 		try {
-			const response = await axios.delete(localhost);
+			const response = await axios.delete(pixelhost);
 			return response;
 		}
 		catch (error) {
@@ -60,7 +98,7 @@ export default function App() {
 
 	async function makePostCall(dimensions) {
 		try {
-			const response = await axios.post(localhost, dimensions);
+			const response = await axios.post(pixelhost, dimensions);
 			return response;
 		}
 		catch (error) {
