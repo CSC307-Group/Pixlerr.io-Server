@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { login } from '../../index'
 
 function Login() {
+
   const navigate = useNavigate();
   console.log("test");
   let state = {
@@ -30,14 +30,14 @@ function Login() {
     //   login.id = res.data[0]._id
     // }
     if (true) {
-      login.loggedin = true;
-      login.username = "seena18";
-      login.id = "1234";
+      // login.loggedin = true;
+      // login.username = "seena18";
+      // login.id = "1234";
     }
     else {
       //render incorrect credentials message
     }
-    console.log(login.loggedin)
+    // console.log(login.loggedin)
     navigate('/');
   }
   function handleChange(e) {

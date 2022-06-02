@@ -1,11 +1,11 @@
 import React from 'react';
 import { fallDown as Menu } from 'react-burger-menu';
-import { login } from "./index"
+
 import './styles/Sidebar.scss';
 
 
 export default props => {
-    if (login.loggedin == false) {
+    if (true) {
         return (
             <Menu>
                 <a className="menu-item" href="/">

@@ -7,7 +7,6 @@ const localhost = 'http://localhost:5000/pixels';
 
 export default function App() {
 	const [pixels, setPixels] = useState([]);
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			fetchAll().then(result => {
@@ -16,7 +15,6 @@ export default function App() {
 					setPixels(result);
 				}
 			});
-			console.log('This will run every second!');
 		}, 1000);
 		return () => clearInterval(interval);
 
@@ -54,7 +52,7 @@ export default function App() {
 	}
 
 	return (
-		
+
 		<div className="App">
 			<Editor
 				pixelList={pixels}

@@ -3,6 +3,7 @@ import loginImg from "./login.svg";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import login from "../..";
+import { read } from "fs";
 
 
 async function userPost(user) {
@@ -19,13 +20,14 @@ async function userPost(user) {
 }
 async function getUser(user) {
   try {
-    const response = await axios.get(`http://localhost:5000/users/?username=${user.username}&password2=${user.password2}`);
-    return response.data;
+    const response = await axios.get(`http://localhost:5000/users/?username=${user.username}`);
+    return response;
   }
   catch (error) {
     console.log(error);
     return false;
   }
+
 }
 function Register() {
   const navigate = useNavigate();
@@ -33,35 +35,34 @@ function Register() {
   let state =
   {
     username: "",
-    password1: "",
-    password2: "",
+    password: "",
+    user_email: "",
   };
 
 
   function submitForm() {
-    let res = getUser(state);
-    if (res.staus == 500) {
-      userPost(state);
-    }
-    else {
 
-    }
-      
-    if (!userExists) {
-      navigate('/');
-    }
+
+    getUser(state).then((result) => {
+      console.log(result)
+    });
+
+
+    // if (r.status == undefined)
+    //   navigate('/');
+
 
   }
 
 
   function handleChange(event) {
     const { name, value } = event.target;
-    if (name === "password1")
-      state = { username: state.username, password1: value, password2: state.password2 }
+    if (name === "password")
+      state = { username: state.username, password: value, user_email: state.user_email }
     else if (name === "username")
-      state = { username: value, password1: state.password1, password2: state.password2 }
+      state = { username: value, password: state.password, user_email: state.user_email }
     else
-      state = { username: state.username, password1: state.password1, password2: value }
+      state = { username: state.username, password: state.password, user_email: value }
   }
   if (!userExists) {
     return (
@@ -76,11 +77,11 @@ function Register() {
             </div>
             <div className="form-group">
               <label htmlFor="password1">password </label>
-              <input type="text" name="password1" placeholder="password" onChange={handleChange} />
+              <input type="text" name="password" placeholder="password" onChange={handleChange} />
             </div>
             <div className="form-group">
-              <label htmlFor="password2">Confirm password </label>
-              <input type="password2" name="password2" placeholder="Confirm Password" onChange={handleChange} />
+              <label htmlFor="email">email</label>
+              <input type="text" name="user_email" placeholder="Email" onChange={handleChange} />
             </div>
           </div>
         </div>
