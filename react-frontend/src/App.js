@@ -8,7 +8,7 @@ const pixelhost = 'http://localhost:5000/pixels';
 
 export default function App() {
 	const [pixels, setPixels] = useState([]);
-	const [activeUser, login] = useState();
+	const [activeUser, login] = useState({_id: "", pixelTime: ""});
 
 	useEffect(() => {
 		getUser();
@@ -38,7 +38,6 @@ export default function App() {
 		try {
 			const response = await axios.get(pixelhost);
 			return response.data.pixelList;
-
 		}
 		catch (error) {
 			console.log(error);
@@ -73,7 +72,7 @@ export default function App() {
 	}
 
 	async function updatePixel(pixelId, newColor) {
-		if (activeUser !== "") {
+		if (activeUser['_id'] !== "") {
 			const data = [pixelId, newColor, activeUser['_id'], activeUser['pixelTime']];
 			const pixelUpdated = await makePixelPatchCall(data);
 			if (pixelUpdated) {
@@ -115,7 +114,8 @@ export default function App() {
 	}
 
 	function resetCanvas() {
-		callDeleteThanPost();
+		if (activeUser['_id'] === "629920b5b7f6f6424b76306c")
+			callDeleteThanPost();
 	}
 
 	
@@ -125,7 +125,8 @@ export default function App() {
 			<Editor
 				pixelList={pixels}
 				updatePixel={updatePixel}
-				resetCanvas={resetCanvas} />
+				resetCanvas={resetCanvas} 
+				id={activeUser['_id']}/>
         </div>
     );
 }

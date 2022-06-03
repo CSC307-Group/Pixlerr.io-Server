@@ -28,8 +28,8 @@ async function getPixels() {
 	return await pixelModel.find();
 }
 
-async function getPixelsByUsername(username) {
-	return await pixelModel.find({username : username});
+async function getPixelsById(id) {
+	return await pixelModel.find({_id : id});
 }
 
 async function updatePixel(pixelId, newColor, userId) {
@@ -78,7 +78,7 @@ async function newCanvas(width, height)
 }
 
 exports.getPixels = getPixels;
-exports.getPixelsByUsername = getPixelsByUsername;
+exports.getPixelsById = getPixelsById;
 exports.updatePixel = updatePixel;
 exports.clearCanvas = clearCanvas;
 exports.newCanvas = newCanvas;

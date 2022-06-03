@@ -159,7 +159,6 @@ function Login() {
           <div className="footer">
             <button className="button" href="#" onClick={() => { login(); getUser(); }}>Login</button>
           </div>
-          {data ? <h1>Welcome Back {data.username}</h1> : null}
         </div>
       </div>
     </div>
