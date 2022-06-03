@@ -1,7 +1,9 @@
-import {React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import axios from "../api/axios";
 import "./account.scss";
 import DrawingPanel from "../DrawingPanel";
+import { Redirect } from 'react-router-dom';
+import Sidebar from "../Sidebar";
 
 const userhost = 'http://localhost:5000/users';
 const pixelhost = 'http://localhost:5000/pixels';
@@ -11,18 +13,18 @@ export default function Account () {
   const [activeUser, login] = useState({username: ""});
 
   useEffect(() => {
-		getUser();
-	}, [] );
+    getUser();
+  }, []);
 
-	const getUser = () => {
-		axios({
-		  method: "GET",
-		  withCredentials: true,
-		  url: userhost,
-		}).then((res) => {
-		  login(res.data);
-		});
-	};
+  const getUser = () => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: userhost,
+    }).then((res) => {
+      login(res.data);
+    });
+  };
 
   useEffect(() => {
     fetchPixels().then( result => {
@@ -54,16 +56,19 @@ export default function Account () {
   }
 
   return (
-    <div className="base-container">
-      <div className="header">Account Information</div>
-      <div className="content">
-        <div className="accountinfo">
-          Welcome Back! 
-        </div>
-        <div>
-        {activeUser.username} 
-        </div>
-        <div className="pixelhistory">
+    <div>
+      <Sidebar />
+      <div className="base-container">
+        <div className="header">Account Information</div>
+        <div className="content">
+          <div className="accountinfo">
+            Welcome Back!
+          </div>
+          <div>
+            {activeUser.username}
+          </div>
+          <div className="pixelhistory">
+          </div>
         </div>
       </div>
       {(< DrawingPanel
