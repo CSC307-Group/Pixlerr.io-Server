@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.77% </span>
+                <span class="strong">94.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/31</span>
+                <span class='fraction'>35/37</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.55% </span>
+                <span class="strong">94.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/29</span>
+                <span class='fraction'>33/35</span>
             </div>
         
             
@@ -136,7 +136,18 @@
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,12 +178,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -188,6 +207,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,6 +218,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">800x</span>
 <span class="cline-any cline-yes">800x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,6 +226,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -239,10 +261,18 @@ async function getPixels() {
 	return await pixelModel.find();
 }
 &nbsp;
-async function updatePixel(id, newColor) {
+async function <span class="fstat-no" title="function not covered" >getPixelsByUsername(</span>username) {
+<span class="cstat-no" title="statement not covered" >	return await pixelModel.find({username : username});</span>
+}
+&nbsp;
+async function updatePixel(pixelId, newColor, userId) {
 	try {
-		await pixelModel.findOne({ _id : id }).then(pixel =&gt; {
+		await pixelModel.findOne({ _id : pixelId }).then(pixel =&gt; {
 			pixel['color'] = newColor;
+			pixel.save();
+		})
+		await pixelModel.findOne({ _id : pixelId }).then(pixel =&gt; {
+			pixel['userId'] = userId;
 			pixel.save();
 		})
 		return true;
@@ -261,7 +291,8 @@ async function clearCanvas()
 &nbsp;
 async function newCanvas(width, height)
 {
-	if(width === 0 || height === 0){
+	const adminID = "629920b5b7f6f6424b76306c";
+	if (width === 0 || height === 0) {
 		return false;
 	}
 		for (let x = 0; x &lt; width; x++) {
@@ -269,7 +300,8 @@ async function newCanvas(width, height)
 				let pixel = {
 					color: "#fff",
 					x: x,
-					y: y
+					y: y,
+					userId: adminID
 				};
 				const pixelToAdd = new pixelModel(pixel);
 				await pixelToAdd.save();
@@ -279,6 +311,7 @@ async function newCanvas(width, height)
 }
 &nbsp;
 exports.getPixels = getPixels;
+exports.getPixelsByUsername = getPixelsByUsername;
 exports.updatePixel = updatePixel;
 exports.clearCanvas = clearCanvas;
 exports.newCanvas = newCanvas;
@@ -289,7 +322,7 @@ exports.newCanvas = newCanvas;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Jun 01 2022 16:52:56 GMT-0700 (Pacific Daylight Time)
+                at Thu Jun 02 2022 17:12:01 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="prettify.js"></script>
         <script>

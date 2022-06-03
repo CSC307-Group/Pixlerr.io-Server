@@ -2,20 +2,20 @@ const userServices = require("./models/user-services");
 const pixelServices = require("./models/pixel-services");
 jest.setTimeout(45000);
 
-const user = {username: "Reed", password: "Testingg", user_email: "rmarohn@calpoly.edu"};
+const user = {username: "Reed", password: "Testingg", pixelTime: "testTime", user_email: "rmarohn@calpoly.edu"};
 //user-services tests
 test("test getUsers all users", async () => {
     result = await userServices.getUsers();
-    expect(result).toEqual([]);
+    expect(result.length >= 0).toBeTruthy();
 });
 
 test("add user with valid password", async () => {
     result = await userServices.addUser(user);
-    expect((result.username === user.username) && (result.password === user.password) && (result.user_email === user.user_email)).toBeTruthy();
+    expect((result.username === user.username) && (result.password === user.password) && (result.user_email === user.user_email) && (result.pixelTime === user.pixelTime)).toBeTruthy();
 });
 
 test("add user with invalid password" , async () => {
-    result = await userServices.addUser({username:"test", password:"small", user_email: "tiny@snailmail.com"});
+    result = await userServices.addUser({username:"test", password:"small", pixelTime: "testingtest", user_email: "tiny@snailmail.com"});
     expect(result).toBeFalsy();
 });
 
