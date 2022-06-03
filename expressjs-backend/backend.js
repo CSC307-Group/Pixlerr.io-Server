@@ -73,6 +73,7 @@ app.get("/users", (req, res) => {
 });
 
 app.delete('/logout', function (req, res, next) {
+  console.log("test")
   req.logout(function (err) {
     if (err) { return next(err); }
 
@@ -126,27 +127,27 @@ app.get("/pixels", async (req, res) => {
 });
 
 app.get("/pixels/:id", async (req, res) => {
-	try {
+  try {
     const id = req.params["id"];
-		const result = await pixelServices.getPixelsById(id);
-		res.send({pixelList: result});
-	} 
-	catch (error) {
-	console.log(error);
-	res.status(500).send('An error ocurred in the server.');
-	}
+    const result = await pixelServices.getPixelsById(id);
+    res.send({ pixelList: result });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send('An error ocurred in the server.');
+  }
 });
 
 app.get("/pixels/:id", async (req, res) => {
-	try {
+  try {
     const id = req.params["id"];
-		const result = await pixelServices.getPixelsById(id);
-		res.send({pixelList: result});
-	} 
-	catch (error) {
-	console.log(error);
-	res.status(500).send('An error ocurred in the server.');
-	}
+    const result = await pixelServices.getPixelsById(id);
+    res.send({ pixelList: result });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send('An error ocurred in the server.');
+  }
 });
 
 app.patch("/pixels", async (req, res) => {
