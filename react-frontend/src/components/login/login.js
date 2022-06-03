@@ -1,89 +1,16 @@
-// import React from "react";
-// // import loginImg from "./login.svg";
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-
-// async function getUser(user) {
-//   try {
-//     const response = await axios.get(`http://localhost:5000/users/?username=${user.username}&password=${user.password}`);
-//     return response.data.users_list;
-//   }
-//   catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
-
-// export class Login extends React.Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state =
-//     {
-//       auth: 0,
-//       username: "",
-//       password: "",
-//     };
-//   }
-
-//   submitForm() {
-//     let res = getUser(this.state)
-//     if (res.status === 201) {
-//       //redirect and set user state to logged in with respective credentials
-//     }
-//     else {
-//       //render incorrect credentials message
-//     }
-//   }
-//   handleChange = ([props]) => {
-//     const navigate = useNavigate();
-//     // const { name, value } = event.target;
-//     // if (name === "username")
-//     //   this.setState({ username: value, password: this.state.password })
-//     // else
-//     //   this.setState({ username: this.state.username, password: value })
-//     navigate('/Account');
-//   }
-
-
-//   render() {
-//     return (
-//       <div className="base-container" ref={this.props.containerRef}>
-//         <div className="header">Login</div>
-//         <div className="content">
-//           <div className="image">
-//             {/* <img src={loginImg} /> */}
-//           </div>
-//           <div className="form">
-//             <div className="form-group">
-//               <label htmlFor="username">Username</label>
-//               <input type="text" name="username" placeholder="username" onChange={e => this.handleChange(e)} />
-//             </div>
-//             <div className="form-group">
-//               <label htmlFor="password">Password</label>
-//               <input type="password" name="password" placeholder="password" onChange={e => this.handleChange(e)} />
-//             </div>
-//           </div>
-//         </div>
-//         <div className="footer">
-//           <button type="button" className="btn" onClick={e => this.handleChange(e)}>
-//             Login
-//           </button>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
 import React, { useState } from "react";
 import "./style.scss";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const nav = useNavigate();
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [data, setData] = useState(null);
+
   const register = () => {
     Axios({
       method: "POST",
@@ -104,7 +31,12 @@ function Login() {
       },
       withCredentials: true,
       url: "http://localhost:5000/login",
-    }).then((res) => console.log(res));
+    }).then( 
+      (res) => {console.log(res);
+      if(res.data == "Successfully Authenticated"){
+        nav('/');
+        }
+  });
   };
   const getUser = () => {
     Axios({
@@ -115,7 +47,10 @@ function Login() {
       console.log(res.data);
     });
   };
+
+
   return (
+    <div>
     <div className="base-containers1">
       <div className="content">
         <div className="form">
@@ -157,11 +92,12 @@ function Login() {
             />
           </div>
           <div className="footer">
-            <button className="button" href="#" onClick={() => { login(); getUser(); }}>Login</button>
+            <button className="button" href="/Account" onClick={() => { login(); getUser()}}>Login</button>
           </div>
-          {data ? <h1>Welcome Back {data.username}</h1> : null}
         </div>
       </div>
+    </div>
+    {data ? null:  <h1>Invaild username or password. Please try again.</h1>}
     </div>
   );
 }
