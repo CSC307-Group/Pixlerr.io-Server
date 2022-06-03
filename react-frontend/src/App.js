@@ -9,16 +9,16 @@ const pixelhost = 'http://localhost:5000/pixels';
 export default function App() {
 	const [user, setUser] = useState({ loggedIn: false });
 	const [pixels, setPixels] = useState([]);
-	const [activeUser, login] = useState({_id: "", pixelTime: ""});
+	const [activeUser, login] = useState({ _id: "", pixelTime: "" });
 	const [loggedIn, setLogin] = useState(false);
 
 	useEffect(() => {
 
-		getUser();
+		fillUserStates();
 	}, []);
 
-		fillUserStates();
-	}, [] );
+
+
 
 	const fillUserStates = () => {
 		axios({
@@ -26,9 +26,9 @@ export default function App() {
 			withCredentials: true,
 			url: userhost,
 		}).then((res) => {
-		  login(res.data);
-		  if (res.data !== "")
-			setLogin(true);
+			login(res.data);
+			if (res.data !== "")
+				setLogin(true);
 
 
 		});
@@ -137,15 +137,14 @@ export default function App() {
 				pixelList={pixels}
 				updatePixel={updatePixel}
 
-				resetCanvas={resetCanvas} />
+				resetCanvas={resetCanvas} 
+				id = { activeUser['_id']} />
+		<span>{(loggedIn) ? "You may place a pixel once per minute" : "Log in to place pixels"}</span>
 		</div>
 	);
 
-				resetCanvas={resetCanvas} 
-				id={activeUser['_id']}/>
-			<span>{(loggedIn) ? "You may place a pixel once per minute" : "Log in to place pixels"}</span>
-        </div>
-    );
+	
+
 
 }
 

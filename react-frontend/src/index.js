@@ -22,7 +22,7 @@ ReactDOM.render((
   <Router>
 
 
-    <Countdown date={Date.now() + 60000} renderer={renderer} />
+    
 
     <Routes>
       <Route path="/" element={<App />} />
