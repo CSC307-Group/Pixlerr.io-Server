@@ -2,7 +2,7 @@ import axios from 'axios';
 import Editor from "./Editor";
 import React, { useState, useEffect } from 'react';
 import "./styles/App.scss";
-
+import Sidebar from './Sidebar';
 const userhost = 'http://localhost:5000/users';
 const pixelhost = 'http://localhost:5000/pixels';
 
@@ -13,30 +13,36 @@ export default function App() {
 	const [loggedIn, setLogin] = useState(false);
 
 	useEffect(() => {
+
+		getUser();
+	}, []);
+
 		fillUserStates();
 	}, [] );
 
 	const fillUserStates = () => {
 		axios({
-		  method: "GET",
-		  withCredentials: true,
-		  url: userhost,
+			method: "GET",
+			withCredentials: true,
+			url: userhost,
 		}).then((res) => {
 		  login(res.data);
 		  if (res.data !== "")
 			setLogin(true);
+
+
 		});
 	};
 
 	useEffect(() => {
-		setTimeout(function() {
-			fetchPixels().then( result => {
+		setTimeout(function () {
+			fetchPixels().then(result => {
 				if (result) {
 					setPixels(result);
 				}
 			});
 		}, 500);
-	}, [pixels] );
+	}, [pixels]);
 
 	async function fetchPixels() {
 		try {
@@ -112,7 +118,7 @@ export default function App() {
 	}
 
 	async function callDeleteThanPost() {
-		const dimensions = {height : 20, width : 40};
+		const dimensions = { height: 20, width: 40 };
 		await makeDeleteCall();
 		await makePostCall(dimensions);
 	}
@@ -122,16 +128,25 @@ export default function App() {
 			callDeleteThanPost();
 	}
 
+
 	return (
+
 		<div className="App">
+			<Sidebar />
 			<Editor
 				pixelList={pixels}
 				updatePixel={updatePixel}
+
+				resetCanvas={resetCanvas} />
+		</div>
+	);
+
 				resetCanvas={resetCanvas} 
 				id={activeUser['_id']}/>
 			<span>{(loggedIn) ? "You may place a pixel once per minute" : "Log in to place pixels"}</span>
         </div>
     );
+
 }
 
 

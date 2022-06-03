@@ -72,6 +72,16 @@ app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
+app.delete('/logout', function (req, res, next) {
+  req.logout(function (err) {
+    if (err) { return next(err); }
+
+  });
+});
+
+
+
+
 // app.get('/users/:id', async (req, res) => {
 //   const id = req.params['id'];
 //   const result = await userServices.findUserById(id);
@@ -89,24 +99,36 @@ app.patch("/users", async (req, res) => {
   const timeUpdated = await userServices.updatePixelTime(user['_id']);
   if (timeUpdated)
     res.status(204).end();
-	else
-		res.status(500).end();
+  else
+    res.status(500).end();
 })
 
-app.delete("/users/:id", async (req, res) => {
-  const id = req.params["id"];
-  const result = await userServices.removeUser(id);
-  if (result === undefined || result === null) {
-    res.status(404).send("Resource not found.");
+// app.delete("/users/:id", async (req, res) => {
+//   const id = req.params["id"];
+//   const result = await userServices.removeUser(id);
+//   if (result === undefined || result === null) {
+//     res.status(404).send("Resource not found.");
+//   }
+//   else {
+//     res.status(204).send();
+//   }
+// });
+
+app.get("/pixels", async (req, res) => {
+  try {
+    const result = await pixelServices.getPixels();
+    res.send({ pixelList: result });
   }
-  else {
-    res.status(204).send();
+  catch (error) {
+    console.log(error);
+    res.status(500).send('An error ocurred in the server.');
   }
 });
 
-app.get("/pixels", async (req, res) => {
+app.get("/pixels/:id", async (req, res) => {
 	try {
-		const result = await pixelServices.getPixels();
+    const id = req.params["id"];
+		const result = await pixelServices.getPixelsById(id);
 		res.send({pixelList: result});
 	} 
 	catch (error) {
@@ -128,7 +150,7 @@ app.get("/pixels/:id", async (req, res) => {
 });
 
 app.patch("/pixels", async (req, res) => {
-	const updatedData = req.body;
+  const updatedData = req.body;
   const pixelId = updatedData[0];
   const pixelColor = updatedData[1];
   const userId = updatedData[2];
@@ -136,12 +158,12 @@ app.patch("/pixels", async (req, res) => {
 
   if (hasTimerCompleted(pixelTime)) {
     if (pixelServices.updatePixel(pixelId, pixelColor, userId))
-  		res.status(204).end();
+      res.status(204).end();
     else
       res.status(500).end();
   }
   else
-	  res.status(500).end();
+    res.status(500).end();
 });
 
 function hasTimerCompleted(pixelTime) {
@@ -152,20 +174,20 @@ function hasTimerCompleted(pixelTime) {
 }
 
 app.delete("/pixels", async (req, res) => {
-    const hasCanvasBeenCleared = await pixelServices.clearCanvas();
-    if (hasCanvasBeenCleared)
-        res.status(204).end();
-    else
-        res.status(500).end();
+  const hasCanvasBeenCleared = await pixelServices.clearCanvas();
+  if (hasCanvasBeenCleared)
+    res.status(204).end();
+  else
+    res.status(500).end();
 })
 
 app.post("/pixels", async (req, res) => {
-    const dimensions = req.body;
-    const hasCanvasBeenMade = await pixelServices.newCanvas(dimensions['width'], dimensions['height']);
-    if (hasCanvasBeenMade)
-        res.status(200).end();
-    else
-        res.status(500).end();
+  const dimensions = req.body;
+  const hasCanvasBeenMade = await pixelServices.newCanvas(dimensions['width'], dimensions['height']);
+  if (hasCanvasBeenMade)
+    res.status(200).end();
+  else
+    res.status(500).end();
 });
 
 app.listen(port, () => {
