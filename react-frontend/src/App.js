@@ -13,13 +13,12 @@ export default function App() {
 	const [loggedIn, setLogin] = useState(false);
 
 	useEffect(() => {
-<<<<<<< HEAD
+
 		getUser();
 	}, []);
-=======
+
 		fillUserStates();
 	}, [] );
->>>>>>> 91d3ad3164dc522de92e630bfb91c6b9c5feb150
 
 	const fillUserStates = () => {
 		axios({
@@ -27,13 +26,11 @@ export default function App() {
 			withCredentials: true,
 			url: userhost,
 		}).then((res) => {
-<<<<<<< HEAD
-			login(res.data);
-=======
 		  login(res.data);
 		  if (res.data !== "")
 			setLogin(true);
->>>>>>> 91d3ad3164dc522de92e630bfb91c6b9c5feb150
+
+
 		});
 	};
 
@@ -131,11 +128,7 @@ export default function App() {
 			callDeleteThanPost();
 	}
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 91d3ad3164dc522de92e630bfb91c6b9c5feb150
 	return (
 
 		<div className="App">
@@ -143,17 +136,17 @@ export default function App() {
 			<Editor
 				pixelList={pixels}
 				updatePixel={updatePixel}
-<<<<<<< HEAD
+
 				resetCanvas={resetCanvas} />
 		</div>
 	);
-=======
+
 				resetCanvas={resetCanvas} 
 				id={activeUser['_id']}/>
 			<span>{(loggedIn) ? "You may place a pixel once per minute" : "Log in to place pixels"}</span>
         </div>
     );
->>>>>>> 91d3ad3164dc522de92e630bfb91c6b9c5feb150
+
 }
 
 

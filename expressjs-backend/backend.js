@@ -137,6 +137,18 @@ app.get("/pixels/:id", async (req, res) => {
 	}
 });
 
+app.get("/pixels/:id", async (req, res) => {
+	try {
+    const id = req.params["id"];
+		const result = await pixelServices.getPixelsById(id);
+		res.send({pixelList: result});
+	} 
+	catch (error) {
+	console.log(error);
+	res.status(500).send('An error ocurred in the server.');
+	}
+});
+
 app.patch("/pixels", async (req, res) => {
   const updatedData = req.body;
   const pixelId = updatedData[0];
