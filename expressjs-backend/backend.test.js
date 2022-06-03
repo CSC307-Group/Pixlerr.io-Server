@@ -2,20 +2,20 @@ const userServices = require("./models/user-services");
 const pixelServices = require("./models/pixel-services");
 jest.setTimeout(45000);
 
-const user = {username: "Reed", password: "Testingg", user_email: "rmarohn@calpoly.edu"};
+const user = {username: "Reed", password: "Testingg", pixelTime: "testTime", user_email: "rmarohn@calpoly.edu"};
 //user-services tests
 test("test getUsers all users", async () => {
     result = await userServices.getUsers();
-    expect(result).toEqual([]);
+    expect(result.length >= 0).toBeTruthy();
 });
 
 test("add user with valid password", async () => {
     result = await userServices.addUser(user);
-    expect((result.username === user.username) && (result.password === user.password) && (result.user_email === user.user_email)).toBeTruthy();
+    expect((result.username === user.username) && (result.password === user.password) && (result.user_email === user.user_email) && (result.pixelTime === user.pixelTime)).toBeTruthy();
 });
 
 test("add user with invalid password" , async () => {
-    result = await userServices.addUser({username:"test", password:"small", user_email: "tiny@snailmail.com"});
+    result = await userServices.addUser({username:"test", password:"small", pixelTime: "testingtest", user_email: "tiny@snailmail.com"});
     expect(result).toBeFalsy();
 });
 
@@ -37,12 +37,24 @@ test("test getUsers find user by Username and Password", async () => {
 test("test getUsers find user by Username, Password, and Email", async () => {
     result = await userServices.getUsers(user.username, user.password, user.user_email);
     expect((result[0].username === user.username) && (result[0].password === user.password) && (result[0].user_email === user.user_email)).toBeTruthy();
-})
+});
+
+test("test updatePixelTime with valid id", async () => {
+    getUser = await userServices.getUsers(user.username, user.password);
+    userID = getUser[0]._id;
+    result = await userServices.updatePixelTime(userID);
+    expect(result).toBeTruthy();
+});
+
+test("test updatePixelTime with invalid id", async () => {
+    result = await userServices.updatePixelTime(null);
+    expect(result).toBeFalsy();
+});
 
 test("remove null user", async () => {
     result = await userServices.removeUser("asdfasdfasdfasdf");
     expect(result).toBeFalsy();
-})
+});
 
 test("remove user", async () => {
     getUser = await userServices.getUsers(user.username, user.password, user.user_email);
@@ -80,6 +92,11 @@ test("test updatePixel with invalid id", async () => {
 test("test updatePixel with valid id", async () => {
    pixelList = await pixelServices.getPixels();
    const id = pixelList[0]._id;
-   result = await pixelServices.updatePixel(id, "#123456");
+   result = await pixelServices.updatePixel(id, "#123456", "notrealid");
    expect(result).toBeTruthy(); 
+});
+
+test("test getPixelsById", async () => {
+    result = await pixelServices.getPixelsById("notrealid");
+    expect(result[0].userId).toBe("notrealid");
 });

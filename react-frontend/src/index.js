@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 import Signup from './Pages/Signup';
 import Login from './components/login/login';
 import { About } from './Pages/About';
-import { Account } from './Pages/Account';
+import Account from './Pages/Account';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 ReactDOM.render((
@@ -19,8 +19,7 @@ ReactDOM.render((
       <Route path="/Signup" element={<Signup />} />
       <Route path="/About" element={<About />} />
       <Route path="/Login" element={<Login />} />
-
-      <Route path="/Account" element={() => <Account />} />
+      <Route path="/Account" element={<Account />} />
     </Routes>
 
   </Router>

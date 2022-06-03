@@ -20,11 +20,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // user_email: {
-    //   type: String,
-    //   required: true,
-    //   trim: true,
-    // },
+    user_email: {
+      type: String,
+      required: false,
+      trim: true,
+    },
   },
   { collection: "userList" }
 );

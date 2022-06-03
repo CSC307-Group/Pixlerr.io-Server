@@ -29,18 +29,18 @@ async function getPixels() {
 }
 
 async function getPixelsById(id) {
-	return await pixelModel.find({_id : id});
+  return await pixelModel.find({userId : id});
 }
 
 async function updatePixel(pixelId, newColor, userId) {
 	try {
-		await pixelModel.findOne({ _id : pixelId }).then(pixel => {
+		await pixelModel.findOne({ _id : pixelId }).then( async pixel => {
 			pixel['color'] = newColor;
-			pixel.save();
+			await pixel.save();
 		})
-		await pixelModel.findOne({ _id : pixelId }).then(pixel => {
+		await pixelModel.findOne({ _id : pixelId }).then(async pixel => {
 			pixel['userId'] = userId;
-			pixel.save();
+			await pixel.save();
 		})
 		return true;
 	}
