@@ -77,10 +77,11 @@ app.get("/users", (req, res) => {
 //   const result = await userServices.findUserById(id);
 //   if (result === undefined || result === null)
 //     res.status(404).send('Resource not found.');
-//   else {
+//   else {ß
 //     res.send({ userList: result });
 //   }
 // });
+
 
 app.patch("/users", async (req, res) => {
   const user = req.body;

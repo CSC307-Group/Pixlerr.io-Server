@@ -9,6 +9,7 @@ const pixelhost = 'http://localhost:5000/pixels';
 export default function App() {
 	const [pixels, setPixels] = useState([]);
 	const [activeUser, login] = useState({_id: "", pixelTime: ""});
+	const [loggedIn, setLogin] = useState(false);
 
 	useEffect(() => {
 		getUser();
@@ -21,6 +22,9 @@ export default function App() {
 		  url: userhost,
 		}).then((res) => {
 		  login(res.data);
+		  console.log(res.data);
+		  if (res.data !== "")
+			setLogin(true);
 		});
 	};
 
@@ -72,7 +76,9 @@ export default function App() {
 	}
 
 	async function updatePixel(pixelId, newColor) {
-		if (activeUser['_id'] !== "") {
+		if (!loggedIn)
+			return;
+		else {
 			const data = [pixelId, newColor, activeUser['_id'], activeUser['pixelTime']];
 			const pixelUpdated = await makePixelPatchCall(data);
 			if (pixelUpdated) {

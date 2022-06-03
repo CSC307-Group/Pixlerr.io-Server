@@ -41,8 +41,6 @@ export default function Editor(props) {
                 </tr>
             </table>
             {showReset()}
-            {/* {(props.id === '629920b5b7f6f6424b76306c') ? 
-                <button onClick={props.resetCanvas}>Reset</button> : <button>do nothing</button>} */}
         </div>
     );
 }
