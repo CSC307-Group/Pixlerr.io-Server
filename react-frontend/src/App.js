@@ -7,7 +7,6 @@ const userhost = 'http://localhost:5000/users';
 const pixelhost = 'http://localhost:5000/pixels';
 
 export default function App() {
-	const [user, setUser] = useState({ loggedIn: false });
 	const [pixels, setPixels] = useState([]);
 	const [activeUser, login] = useState({ _id: "", pixelTime: "" });
 	const [loggedIn, setLogin] = useState(false);
@@ -127,7 +126,6 @@ export default function App() {
 		if (activeUser['_id'] === "629920b5b7f6f6424b76306c")
 			callDeleteThanPost();
 	}
-
 
 	return (
 
