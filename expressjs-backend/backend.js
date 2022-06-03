@@ -77,7 +77,7 @@ app.get("/users", (req, res) => {
 //   const result = await userServices.findUserById(id);
 //   if (result === undefined || result === null)
 //     res.status(404).send('Resource not found.');
-//   else {
+//   else {ß
 //     res.send({ userList: result });
 //   }
 // });
@@ -107,6 +107,18 @@ app.delete("/users/:id", async (req, res) => {
 app.get("/pixels", async (req, res) => {
 	try {
 		const result = await pixelServices.getPixels();
+		res.send({pixelList: result});
+	} 
+	catch (error) {
+	console.log(error);
+	res.status(500).send('An error ocurred in the server.');
+	}
+});
+
+app.get("/pixels/:id", async (req, res) => {
+	try {
+    const id = req.params["id"];
+		const result = await pixelServices.getPixelsById(id);
 		res.send({pixelList: result});
 	} 
 	catch (error) {

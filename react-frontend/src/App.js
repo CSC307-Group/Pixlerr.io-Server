@@ -9,19 +9,22 @@ const pixelhost = 'http://localhost:5000/pixels';
 export default function App() {
 	const [user, setUser] = useState({ loggedIn: false });
 	const [pixels, setPixels] = useState([]);
-	const [activeUser, login] = useState();
+	const [activeUser, login] = useState({_id: "", pixelTime: ""});
+	const [loggedIn, setLogin] = useState(false);
 
 	useEffect(() => {
-		getUser();
+		fillUserStates();
 	}, [] );
 
-	const getUser = () => {
+	const fillUserStates = () => {
 		axios({
 		  method: "GET",
 		  withCredentials: true,
 		  url: userhost,
 		}).then((res) => {
 		  login(res.data);
+		  if (res.data !== "")
+			setLogin(true);
 		});
 	};
 
@@ -39,7 +42,6 @@ export default function App() {
 		try {
 			const response = await axios.get(pixelhost);
 			return response.data.pixelList;
-
 		}
 		catch (error) {
 			console.log(error);
@@ -51,7 +53,6 @@ export default function App() {
 		try {
 			if (activeUser['_id'] === "629920b5b7f6f6424b76306c")
 				return false;
-			console.log('active user: ' + activeUser['_id']);
 			const response = await axios.patch(userhost, activeUser);
 			return response;
 		}
@@ -74,14 +75,15 @@ export default function App() {
 	}
 
 	async function updatePixel(pixelId, newColor) {
-		if (activeUser !== "") {
+		if (!loggedIn)
+			return;
+		else {
 			const data = [pixelId, newColor, activeUser['_id'], activeUser['pixelTime']];
 			const pixelUpdated = await makePixelPatchCall(data);
 			if (pixelUpdated) {
-				console.log(pixelUpdated);
 				const userTimeUpdated = await makeUserPatchCall();
 				if (userTimeUpdated) {
-					getUser();
+					fillUserStates();
 				}
 			}
 		}
@@ -116,17 +118,18 @@ export default function App() {
 	}
 
 	function resetCanvas() {
-		callDeleteThanPost();
+		if (activeUser['_id'] === "629920b5b7f6f6424b76306c")
+			callDeleteThanPost();
 	}
-
-	
 
 	return (
 		<div className="App">
 			<Editor
 				pixelList={pixels}
 				updatePixel={updatePixel}
-				resetCanvas={resetCanvas} />
+				resetCanvas={resetCanvas} 
+				id={activeUser['_id']}/>
+			<span>{(loggedIn) ? "You may place a pixel once per minute" : "Log in to place pixels"}</span>
         </div>
     );
 }

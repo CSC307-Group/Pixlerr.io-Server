@@ -13,6 +13,12 @@ export default function Editor(props) {
         setColor(color.hex);
     }
 
+    function showReset() {
+        if (props.id === "629920b5b7f6f6424b76306c")
+            return <button onClick={props.resetCanvas}>Reset</button>;
+        return null;
+    }
+
     return (
         <div id="editor">
             {(<Cursor mouseColor={mouseColor}/>)}
@@ -33,8 +39,8 @@ export default function Editor(props) {
                         onChangeComplete={changeColor} />)}
                     </td>
                 </tr>
-            </table>  
-            <button onClick={props.resetCanvas}>Reset</button>
+            </table>
+            {showReset()}
         </div>
     );
 }
