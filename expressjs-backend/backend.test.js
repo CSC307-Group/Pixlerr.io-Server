@@ -75,7 +75,7 @@ test("test newCanvas with size 0", async () => {
 });
 
 test("test newCanvas with valid size", async () => {
-    result = await pixelServices.newCanvas(4, 2);
+    result = await pixelServices.newCanvas(40, 20);
     expect(result).toBeTruthy();
 });
 
