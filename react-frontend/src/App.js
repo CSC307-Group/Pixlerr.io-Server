@@ -7,6 +7,7 @@ const userhost = 'http://localhost:5000/users';
 const pixelhost = 'http://localhost:5000/pixels';
 
 export default function App() {
+	const [user, setUser] = useState({ loggedIn: false });
 	const [pixels, setPixels] = useState([]);
 	const [activeUser, login] = useState();
 
