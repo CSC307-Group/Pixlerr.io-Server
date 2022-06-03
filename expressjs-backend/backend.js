@@ -82,7 +82,6 @@ app.get("/users", (req, res) => {
 //   }
 // });
 
-
 app.patch("/users", async (req, res) => {
   const user = req.body;
   console.log(user['_id']);

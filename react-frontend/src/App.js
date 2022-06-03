@@ -12,17 +12,16 @@ export default function App() {
 	const [loggedIn, setLogin] = useState(false);
 
 	useEffect(() => {
-		getUser();
+		fillUserStates();
 	}, [] );
 
-	const getUser = () => {
+	const fillUserStates = () => {
 		axios({
 		  method: "GET",
 		  withCredentials: true,
 		  url: userhost,
 		}).then((res) => {
 		  login(res.data);
-		  console.log(res.data);
 		  if (res.data !== "")
 			setLogin(true);
 		});
@@ -53,7 +52,6 @@ export default function App() {
 		try {
 			if (activeUser['_id'] === "629920b5b7f6f6424b76306c")
 				return false;
-			console.log('active user: ' + activeUser['_id']);
 			const response = await axios.patch(userhost, activeUser);
 			return response;
 		}
@@ -82,10 +80,9 @@ export default function App() {
 			const data = [pixelId, newColor, activeUser['_id'], activeUser['pixelTime']];
 			const pixelUpdated = await makePixelPatchCall(data);
 			if (pixelUpdated) {
-				console.log(pixelUpdated);
 				const userTimeUpdated = await makeUserPatchCall();
 				if (userTimeUpdated) {
-					getUser();
+					fillUserStates();
 				}
 			}
 		}
@@ -124,8 +121,6 @@ export default function App() {
 			callDeleteThanPost();
 	}
 
-	
-
 	return (
 		<div className="App">
 			<Editor
@@ -133,6 +128,7 @@ export default function App() {
 				updatePixel={updatePixel}
 				resetCanvas={resetCanvas} 
 				id={activeUser['_id']}/>
+			<span>{(loggedIn) ? "You may place a pixel once per minute" : "Log in to place pixels"}</span>
         </div>
     );
 }
