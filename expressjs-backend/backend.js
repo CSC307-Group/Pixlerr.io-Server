@@ -87,7 +87,7 @@ app.delete('/logout', function (req, res, next) {
 //   const result = await userServices.findUserById(id);
 //   if (result === undefined || result === null)
 //     res.status(404).send('Resource not found.');
-//   else {
+//   else {ß
 //     res.send({ userList: result });
 //   }
 // });
@@ -123,6 +123,18 @@ app.get("/pixels", async (req, res) => {
     console.log(error);
     res.status(500).send('An error ocurred in the server.');
   }
+});
+
+app.get("/pixels/:id", async (req, res) => {
+	try {
+    const id = req.params["id"];
+		const result = await pixelServices.getPixelsById(id);
+		res.send({pixelList: result});
+	} 
+	catch (error) {
+	console.log(error);
+	res.status(500).send('An error ocurred in the server.');
+	}
 });
 
 app.patch("/pixels", async (req, res) => {

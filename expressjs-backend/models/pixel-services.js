@@ -29,7 +29,7 @@ async function getPixels() {
 }
 
 async function getPixelsById(id) {
-    return await pixelModel.find({userId : id});
+  return await pixelModel.find({userId : id});
 }
 
 async function updatePixel(pixelId, newColor, userId) {
