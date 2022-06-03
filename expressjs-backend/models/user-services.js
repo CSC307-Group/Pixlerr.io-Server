@@ -52,7 +52,6 @@ async function addUser(user) {
 
 async function updatePixelTime(id) {
   try {
-    console.log(id);
     await userModel.findOne({ _id: id }).then(user => {
 			user['pixelTime'] = new Date().toISOString();
 			user.save();

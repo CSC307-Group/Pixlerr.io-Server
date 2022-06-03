@@ -37,12 +37,24 @@ test("test getUsers find user by Username and Password", async () => {
 test("test getUsers find user by Username, Password, and Email", async () => {
     result = await userServices.getUsers(user.username, user.password, user.user_email);
     expect((result[0].username === user.username) && (result[0].password === user.password) && (result[0].user_email === user.user_email)).toBeTruthy();
-})
+});
+
+test("test updatePixelTime with valid id", async () => {
+    getUser = await userServices.getUsers(user.username, user.password);
+    userID = getUser[0]._id;
+    result = await userServices.updatePixelTime(userID);
+    expect(result).toBeTruthy();
+});
+
+test("test updatePixelTime with invalid id", async () => {
+    result = await userServices.updatePixelTime(null);
+    expect(result).toBeFalsy();
+});
 
 test("remove null user", async () => {
     result = await userServices.removeUser("asdfasdfasdfasdf");
     expect(result).toBeFalsy();
-})
+});
 
 test("remove user", async () => {
     getUser = await userServices.getUsers(user.username, user.password, user.user_email);
@@ -63,7 +75,7 @@ test("test newCanvas with size 0", async () => {
 });
 
 test("test newCanvas with valid size", async () => {
-    result = await pixelServices.newCanvas(40, 20);
+    result = await pixelServices.newCanvas(4, 2);
     expect(result).toBeTruthy();
 });
 
@@ -80,6 +92,11 @@ test("test updatePixel with invalid id", async () => {
 test("test updatePixel with valid id", async () => {
    pixelList = await pixelServices.getPixels();
    const id = pixelList[0]._id;
-   result = await pixelServices.updatePixel(id, "#123456");
+   result = await pixelServices.updatePixel(id, "#123456", "notrealid");
    expect(result).toBeTruthy(); 
+});
+
+test("test getPixelsById", async () => {
+    result = await pixelServices.getPixelsById("notrealid");
+    expect(result[0].userId).toBe("notrealid");
 });

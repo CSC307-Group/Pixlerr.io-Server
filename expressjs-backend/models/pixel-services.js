@@ -28,19 +28,19 @@ async function getPixels() {
 	return await pixelModel.find();
 }
 
-async function getPixelsByUsername(username) {
-	return await pixelModel.find({username : username});
+async function getPixelsById(id) {
+    return await pixelModel.find({userId : id});
 }
 
 async function updatePixel(pixelId, newColor, userId) {
 	try {
-		await pixelModel.findOne({ _id : pixelId }).then(pixel => {
+		await pixelModel.findOne({ _id : pixelId }).then( async pixel => {
 			pixel['color'] = newColor;
-			pixel.save();
+			await pixel.save();
 		})
-		await pixelModel.findOne({ _id : pixelId }).then(pixel => {
+		await pixelModel.findOne({ _id : pixelId }).then(async pixel => {
 			pixel['userId'] = userId;
-			pixel.save();
+			await pixel.save();
 		})
 		return true;
 	}
@@ -78,7 +78,7 @@ async function newCanvas(width, height)
 }
 
 exports.getPixels = getPixels;
-exports.getPixelsByUsername = getPixelsByUsername;
+exports.getPixelsById = getPixelsById;
 exports.updatePixel = updatePixel;
 exports.clearCanvas = clearCanvas;
 exports.newCanvas = newCanvas;
