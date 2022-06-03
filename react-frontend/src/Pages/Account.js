@@ -1,8 +1,7 @@
 import { React, useEffect, useState } from "react";
-import axios from "../api/axios";
+import axios from "axios";
 import "./account.scss";
 import DrawingPanel from "../DrawingPanel";
-import { Redirect } from 'react-router-dom';
 import Sidebar from "../Sidebar";
 
 const userhost = 'http://localhost:5000/users';

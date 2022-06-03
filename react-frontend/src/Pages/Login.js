@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./style.scss";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../../Sidebar";
+import Sidebar from "../Sidebar";
 
 function Login() {
   const nav = useNavigate();
@@ -25,7 +25,7 @@ function Login() {
       url: "http://localhost:5000/register",
     }).then((res) => {
       console.log(res);
-      if (res.data == "User Created") {
+      if (res.data === "User Created") {
         setReg(true);
       }
       else {
@@ -45,7 +45,7 @@ function Login() {
     }).then(
       (res) => {
         console.log(res);
-        if (res.data == "Successfully Authenticated") {
+        if (res.data === "Successfully Authenticated") {
           nav('/');
         }
         else {

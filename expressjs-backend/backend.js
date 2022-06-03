@@ -72,7 +72,7 @@ app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
-app.delete('/logout', function (req, res, next) {
+app.delete('/Logout', function (req, res, next) {
   console.log("test")
   req.logout(function (err) {
     if (err) { return next(err); }

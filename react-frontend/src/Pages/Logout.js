@@ -1,11 +1,10 @@
-import { React, useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import { useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const userhost = 'http://localhost:5000/logout';
+const userhost = 'http://localhost:5000/Logout';
 const userhost1 = 'http://localhost:5000/users';
 export default function Signout() {
-    const [loggedIn, setLogin] = useState({ _id: "", pixelTime: "" });
     let nav = useNavigate();
 
     useEffect(() => {
@@ -22,8 +21,8 @@ export default function Signout() {
 
         });
     };
+    
     useEffect(() => {
-
         fillUserStates();
     }, []);
 
@@ -35,8 +34,6 @@ export default function Signout() {
         }).then((res) => {
             console.log(res.data)
             nav('/');
-
-
         });
     };
 }

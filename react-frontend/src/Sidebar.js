@@ -12,7 +12,7 @@ export default function Sidebar() {
     useEffect(() => {
         setTimeout(function () {
             getUser()
-        }, 500);
+        }, 1000);
     }, [activeUser])
     const getUser = () => {
         axios({
@@ -28,7 +28,7 @@ export default function Sidebar() {
             <a className="menu-item" href="/">
                 Home
             </a>
-            {activeUser.username == undefined ? <a className="menu-item" href="/Login">
+            {activeUser.username === undefined ? <a className="menu-item" href="/Login">
                 Login/Signup
             </a> : <a className="menu-item" href="/Account">
                 Account
@@ -38,8 +38,8 @@ export default function Sidebar() {
             <a className="menu-item" href="/About">
                 About
             </a>
-            {activeUser.username == undefined ? null
-             : <a className="menu-item" href="/signout">
+            {activeUser.username === undefined ? null
+             : <a className="menu-item" href="/Logout">
                 Sign Out
             </a>}
         </Menu>
