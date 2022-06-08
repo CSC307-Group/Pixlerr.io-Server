@@ -7,8 +7,7 @@
     "test": "jest --collectCoverage --forceExit . && prettier --check",
     "prettier": "prettier --write ./backend.js/",
     "dev": "nodemon backend.js",
-    "start": "node backend.js",
-    "coverage": "jest --collectCoverage --forceExit"
+    "start": "node backend.js"
   },
   "author": "",
   "license": "ISC",
