@@ -1,13 +1,15 @@
 import { React, useEffect, useState } from "react";
-import axios from "../api/axios";
+import axios from "axios";
 import "./account.scss";
-import { Redirect } from 'react-router-dom';
+import DrawingPanel from "../DrawingPanel";
 import Sidebar from "../Sidebar";
 
 const userhost = 'http://localhost:5000/users';
+const pixelhost = 'http://localhost:5000/pixels';
 
-export default function Account() {
-  const [activeUser, login] = useState({ username: "" });
+export default function Account () {
+  const [pixelList, setPixels] = useState([]);
+  const [activeUser, login] = useState({username: ""});
 
   useEffect(() => {
     getUser();
@@ -22,6 +24,35 @@ export default function Account() {
       login(res.data);
     });
   };
+
+  useEffect(() => {
+    fetchPixels().then( result => {
+      if (result) {
+        setPixels(result);
+      }
+    });
+  }, [] );
+
+	async function fetchPixels() {
+		try {
+			const response = await axios.get(pixelhost);
+			return response.data.pixelList;
+		}
+		catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+  function postedByUser(pixel) {
+    return (pixel['userId'] === activeUser['_id']);
+  }
+  
+  function returnWhitePixel(pixel) {
+    let whitePixel = pixel;
+    whitePixel['color'] = "#fff";
+    return whitePixel;
+  }
 
   return (
     <div>
@@ -39,7 +70,14 @@ export default function Account() {
           </div>
         </div>
       </div>
+      {(< DrawingPanel
+        selectedColor={"transparent"}
+        pixelList={pixelList}
+        updatePixel={() => {}}  
+        setMouseColor={() => {}}
+        postedByUser={postedByUser}
+        returnWhitePixel={returnWhitePixel}
+      />)}
     </div>
   );
-
 }

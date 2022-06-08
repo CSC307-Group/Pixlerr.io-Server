@@ -30,7 +30,9 @@ export default function Editor(props) {
                         selectedColor={selectedColor}
                         pixelList={props.pixelList}
                         updatePixel={props.updatePixel}  
-                        setMouseColor={setMouseColor}     
+                        setMouseColor={setMouseColor}
+                        postedByUser={() => {return true}}
+                        returnWhitePixel={() => {}}
                          />)}
                     </td>
                     <td>{(< ChromePicker 
