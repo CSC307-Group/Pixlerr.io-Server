@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1654658436816" clover="3.2.0">
-  <project timestamp="1654658436816" name="All files">
+<coverage generated="1654662680995" clover="3.2.0">
+  <project timestamp="1654662680995" name="All files">
     <metrics statements="84" coveredstatements="82" conditionals="25" coveredconditionals="24" methods="18" coveredmethods="16" elements="127" coveredelements="122" complexity="0" loc="84" ncloc="84" packages="1" files="4" classes="4"/>
     <file name="pixel-services.js" path="C:\Users\liang\Desktop\CPE307\Pixlerr.io\expressjs-backend\models\pixel-services.js">
       <metrics statements="35" coveredstatements="34" conditionals="4" coveredconditionals="4" methods="8" coveredmethods="7"/>
