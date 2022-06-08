@@ -27,8 +27,7 @@ function Login() {
       console.log(res);
       if (res.data == "User Created") {
         setReg(true);
-      }
-      else {
+      } else {
         setExists(true);
       }
     });
@@ -42,16 +41,14 @@ function Login() {
       },
       withCredentials: true,
       url: "http://localhost:5000/login",
-    }).then(
-      (res) => {
-        console.log(res);
-        if (res.data == "Successfully Authenticated") {
-          nav('/');
-        }
-        else {
-          setLogged(true);
-        }
-      });
+    }).then((res) => {
+      console.log(res);
+      if (res.data == "Successfully Authenticated") {
+        nav("/");
+      } else {
+        setLogged(true);
+      }
+    });
   };
   const getUser = () => {
     Axios({
@@ -63,14 +60,12 @@ function Login() {
     });
   };
 
-
   return (
     <div>
       <Sidebar />
       <div className="base-containers1">
         <div className="content">
           <div className="form">
-
             <h1 className="h1">Register</h1>
             <div className="form-group">
               <input
@@ -87,7 +82,9 @@ function Login() {
               />
             </div>
             <div className="footer">
-              <button className="button" onClick={register}>Register</button>
+              <button className="button" onClick={register}>
+                Register
+              </button>
             </div>
             {reg ? <h5>Account made! You can now login.</h5> : null}
             {exists ? <h5>Username is taken! Try a different one.</h5> : null}
@@ -110,14 +107,21 @@ function Login() {
               />
             </div>
             <div className="footer">
-              <button className="button" href="/Account" onClick={() => { login(); getUser() }}>Login</button>
+              <button
+                className="button"
+                href="/Account"
+                onClick={() => {
+                  login();
+                  getUser();
+                }}
+              >
+                Login
+              </button>
             </div>
             {logged ? <h5>Invalid username or password. Try Again!</h5> : null}
           </div>
         </div>
       </div>
-
-
     </div>
   );
 }

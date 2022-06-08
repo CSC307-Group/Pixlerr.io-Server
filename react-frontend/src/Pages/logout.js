@@ -6,10 +6,9 @@ const Logout = ({ user }) => {
   };
   return (
     <div className="navbar">
-
-        <li className="listItem" onClick={logout}>
-            Logout
-            </li>
+      <li className="listItem" onClick={logout}>
+        Logout
+      </li>
     </div>
   );
 };

@@ -7,23 +7,23 @@ dotenv.config();
 mongoose.set("debug", true);
 
 mongoose
-	.connect(
-		"mongodb+srv://" +
-			process.env.MONGO_USER +
-			":" +
-			process.env.MONGO_PWD +
-			"@" +
-			process.env.MONGO_CLUSTER +
-			"/" +
-			process.env.MONGO_DB +
-			"?retryWrites=true&w=majority",
-  // "mongodb://localhost:27017/users",
-  	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.catch((error) => console.log(error));
-
+  .connect(
+    "mongodb+srv://" +
+      process.env.MONGO_USER +
+      ":" +
+      process.env.MONGO_PWD +
+      "@" +
+      process.env.MONGO_CLUSTER +
+      "/" +
+      process.env.MONGO_DB +
+      "?retryWrites=true&w=majority",
+    // "mongodb://localhost:27017/users",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .catch((error) => console.log(error));
 
 async function getUsers(username, password, user_email) {
   let result;
@@ -32,9 +32,13 @@ async function getUsers(username, password, user_email) {
   } else if (username && !password && !user_email) {
     result = await findUserByUsername(username);
   } else if (username && password && !user_email) {
-      result = await findUserByUsernameandPassword(username, password);
+    result = await findUserByUsernameandPassword(username, password);
   } else if (username && password && user_email) {
-    result = await findUserByUsernameandPasswordandEmail(username, password, user_email);
+    result = await findUserByUsernameandPasswordandEmail(
+      username,
+      password,
+      user_email
+    );
   }
   return result;
 }
@@ -52,28 +56,27 @@ async function addUser(user) {
 
 async function updatePixelTime(id) {
   try {
-    await userModel.findOne({ _id: id }).then(user => {
-			user['pixelTime'] = new Date().toISOString();
-			user.save();
-		})
-		return true;
-  }
-  catch (error) {
+    await userModel.findOne({ _id: id }).then((user) => {
+      user["pixelTime"] = new Date().toISOString();
+      user.save();
+    });
+    return true;
+  } catch (error) {
     console.log(error);
     return false;
   }
 }
 
 async function removeUser(id) {
-    try {
-        //need to typecast the id as an ObjectId
-        //const objid = mongoose.Types.ObjectId(id);
-        const removedUser = await userModel.findByIdAndDelete(id);
-        return removedUser;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
+  try {
+    //need to typecast the id as an ObjectId
+    //const objid = mongoose.Types.ObjectId(id);
+    const removedUser = await userModel.findByIdAndDelete(id);
+    return removedUser;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
 
 async function findUserByUsername(username) {
@@ -81,11 +84,19 @@ async function findUserByUsername(username) {
 }
 
 async function findUserByUsernameandPassword(username, password) {
-    return await userModel.find({ username: username, password: password})
+  return await userModel.find({ username: username, password: password });
 }
 
-async function findUserByUsernameandPasswordandEmail(username, password, user_email) {
-  return await userModel.find({username: username, password: password, user_email: user_email})
+async function findUserByUsernameandPasswordandEmail(
+  username,
+  password,
+  user_email
+) {
+  return await userModel.find({
+    username: username,
+    password: password,
+    user_email: user_email,
+  });
 }
 
 exports.getUsers = getUsers;
