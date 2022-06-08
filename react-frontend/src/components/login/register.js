@@ -1,4 +1,3 @@
-
 // import React, { useState } from "react";
 // import loginImg from "./login.svg";
 // import axios from 'axios';
@@ -30,7 +29,6 @@
 //     userPost(this.state)
 //     this.props.navigate('/');
 //   }
-
 
 //   handleChange(event) {
 //     const { name, value } = event.target;
@@ -73,8 +71,6 @@
 //     );
 //   }
 
-
 // } export default withRouter(Register);a
 
-//} 
-
+//}
