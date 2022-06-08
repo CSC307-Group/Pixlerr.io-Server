@@ -8,11 +8,10 @@ const bcrypt = require("bcryptjs");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const User = require("./models/user");
-const pixelServices = require('./models/pixel-services');
-const userServices = require('./models/user-services');
+const pixelServices = require("./models/pixel-services");
+const userServices = require("./models/user-services");
 const app = express();
 const port = 5000;
-
 
 // Middleware
 app.use(bodyParser.json());
@@ -72,15 +71,13 @@ app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
-app.delete('/logout', function (req, res, next) {
+app.delete("/logout", function (req, res, next) {
   req.logout(function (err) {
-    if (err) { return next(err); }
-
+    if (err) {
+      return next(err);
+    }
   });
 });
-
-
-
 
 // app.get('/users/:id', async (req, res) => {
 //   const id = req.params['id'];
@@ -92,16 +89,13 @@ app.delete('/logout', function (req, res, next) {
 //   }
 // });
 
-
 app.patch("/users", async (req, res) => {
   const user = req.body;
-  console.log(user['_id']);
-  const timeUpdated = await userServices.updatePixelTime(user['_id']);
-  if (timeUpdated)
-    res.status(204).end();
-  else
-    res.status(500).end();
-})
+  console.log(user["_id"]);
+  const timeUpdated = await userServices.updatePixelTime(user["_id"]);
+  if (timeUpdated) res.status(204).end();
+  else res.status(500).end();
+});
 
 // app.delete("/users/:id", async (req, res) => {
 //   const id = req.params["id"];
@@ -118,35 +112,32 @@ app.get("/pixels", async (req, res) => {
   try {
     const result = await pixelServices.getPixels();
     res.send({ pixelList: result });
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
-    res.status(500).send('An error ocurred in the server.');
+    res.status(500).send("An error ocurred in the server.");
   }
 });
 
 app.get("/pixels/:id", async (req, res) => {
-	try {
+  try {
     const id = req.params["id"];
-		const result = await pixelServices.getPixelsById(id);
-		res.send({pixelList: result});
-	} 
-	catch (error) {
-	console.log(error);
-	res.status(500).send('An error ocurred in the server.');
-	}
+    const result = await pixelServices.getPixelsById(id);
+    res.send({ pixelList: result });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error ocurred in the server.");
+  }
 });
 
 app.get("/pixels/:id", async (req, res) => {
-	try {
+  try {
     const id = req.params["id"];
-		const result = await pixelServices.getPixelsById(id);
-		res.send({pixelList: result});
-	} 
-	catch (error) {
-	console.log(error);
-	res.status(500).send('An error ocurred in the server.');
-	}
+    const result = await pixelServices.getPixelsById(id);
+    res.send({ pixelList: result });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error ocurred in the server.");
+  }
 });
 
 app.patch("/pixels", async (req, res) => {
@@ -154,40 +145,36 @@ app.patch("/pixels", async (req, res) => {
   const pixelId = updatedData[0];
   const pixelColor = updatedData[1];
   const userId = updatedData[2];
-  const pixelTime = updatedData[3]
+  const pixelTime = updatedData[3];
 
   if (hasTimerCompleted(pixelTime)) {
     if (pixelServices.updatePixel(pixelId, pixelColor, userId))
       res.status(204).end();
-    else
-      res.status(500).end();
-  }
-  else
-    res.status(500).end();
+    else res.status(500).end();
+  } else res.status(500).end();
 });
 
 function hasTimerCompleted(pixelTime) {
   let compareTime = new Date(pixelTime);
   let currentTime = new Date();
   console.log(currentTime.getTime() - compareTime.getTime());
-  return (currentTime.getTime() - compareTime.getTime() >= 60000); // 1 minute
+  return currentTime.getTime() - compareTime.getTime() >= 60000; // 1 minute
 }
 
 app.delete("/pixels", async (req, res) => {
   const hasCanvasBeenCleared = await pixelServices.clearCanvas();
-  if (hasCanvasBeenCleared)
-    res.status(204).end();
-  else
-    res.status(500).end();
-})
+  if (hasCanvasBeenCleared) res.status(204).end();
+  else res.status(500).end();
+});
 
 app.post("/pixels", async (req, res) => {
   const dimensions = req.body;
-  const hasCanvasBeenMade = await pixelServices.newCanvas(dimensions['width'], dimensions['height']);
-  if (hasCanvasBeenMade)
-    res.status(200).end();
-  else
-    res.status(500).end();
+  const hasCanvasBeenMade = await pixelServices.newCanvas(
+    dimensions["width"],
+    dimensions["height"]
+  );
+  if (hasCanvasBeenMade) res.status(200).end();
+  else res.status(500).end();
 });
 
 app.listen(port, () => {
