@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --collectCoverage --forceExit . && prettier --check",
+    "test": "prettier --check . && jest --collectCoverage --forceExit",
     "prettier": "prettier --write **/*.js",
     "dev": "nodemon backend.js",
     "start": "node backend.js"
