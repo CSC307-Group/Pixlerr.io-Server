@@ -1,6 +1,6 @@
 import React from "react";
 import "./about.scss";
-import Sidebar from '../Sidebar';
+import Sidebar from "../Sidebar";
 export class About extends React.Component {
   // constructor(props) {
   //   super(props);
@@ -13,17 +13,17 @@ export class About extends React.Component {
         <div className="base-container" ref={this.props.containerRef}>
           <div className="header">About US</div>
           <div className="content">
-
-            For internet communities who want to collaborate on a large art project
+            For internet communities who want to collaborate on a large art
+            project
             <br></br>
-            Pixlerr.io is a globally interactive art canvas that allows users to coordinate individual pixels to create images.
+            Pixlerr.io is a globally interactive art canvas that allows users to
+            coordinate individual pixels to create images.
             <br></br>
             <br></br>
-            Unlike r/place, which is only available a few days out of the year, our product  is available all the time.
+            Unlike r/place, which is only available a few days out of the year,
+            our product is available all the time.
           </div>
-          <div className="footer">
-
-          </div>
+          <div className="footer"></div>
         </div>
       </div>
     );

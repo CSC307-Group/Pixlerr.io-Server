@@ -1,46 +1,17 @@
-### Style Guide
+### About
+For internet communities who want to collaborate on a large art project.  
+Pixlerr.io is a globally interactive art canvas that allows users to coordinate individual pixels to create images.  
+Unlike r/place, which is only available a few days out of the year, our product is available year round.
 
-This project follows the style guide stated below
-https://airbnb.io/javascript/react/#naming
+### How to use
+Clone this repository to a local machine.
+Then run the following command three times, once in the main **/Pixlerr.io** directory, once in the **../react-frontend** directory, and once in the **../expressjs-backend** directory:
 
-### Install ESLint 
+    npm install
 
-You can install ESLint using npm: 
-    npm install eslint --save-dev
+Once packages are installed in all directories, run the following command twice, first in the **../expressjs-backend** directory, and then in the **../react-frontend** directory:
 
-You should then set up a configuration file:
-    npm init @eslint/config
-
-After that, you can run ESLint on any file or directory like this:
-
-    ./node_modules/.bin/eslint yourfile.js
-
-
-### Install Prettier with Hook
-
-To format our code whenever we make a commit in git, we need to install the following dependencies:
-
-    npm install --save husky lint-staged prettier
-
-Add the following field to the package.json section:
-
-    +  "husky": {
-    +    "hooks": {
-    +      "pre-commit": "lint-staged"
-    +    }
-    +  }
-
-add a 'lint-staged' field to the package.json, for example:
-
-    + "lint-staged": {
-    +   "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-    +     "prettier --write"
-    +   ]
-    + },
-
-Prettier will format the changed files automatically. You can also run 
-
-    ./node_modules/.bin/prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}" 
-
-to format your entire project for the first time.
-
+    npm start
+    
+To place pixels, you must register an account and login. Once logged in, you can place one pixel every minute.  
+Changes to the canvas can be seen in real-time to everybody currently accessing it. 

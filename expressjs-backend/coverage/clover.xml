@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1654217475158" clover="3.2.0">
-  <project timestamp="1654217475159" name="All files">
+<coverage generated="1654662680995" clover="3.2.0">
+  <project timestamp="1654662680995" name="All files">
     <metrics statements="84" coveredstatements="82" conditionals="25" coveredconditionals="24" methods="18" coveredmethods="16" elements="127" coveredelements="122" complexity="0" loc="84" ncloc="84" packages="1" files="4" classes="4"/>
-    <file name="pixel-services.js" path="C:\Users\Reed\Pixlerr\expressjs-backend\models\pixel-services.js">
+    <file name="pixel-services.js" path="C:\Users\liang\Desktop\CPE307\Pixlerr.io\expressjs-backend\models\pixel-services.js">
       <metrics statements="35" coveredstatements="34" conditionals="4" coveredconditionals="4" methods="8" coveredmethods="7"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
@@ -29,10 +29,10 @@
       <line num="62" count="2" type="cond" truecount="4" falsecount="0"/>
       <line num="63" count="1" type="stmt"/>
       <line num="65" count="1" type="stmt"/>
-      <line num="66" count="4" type="stmt"/>
-      <line num="67" count="8" type="stmt"/>
-      <line num="73" count="8" type="stmt"/>
-      <line num="74" count="8" type="stmt"/>
+      <line num="66" count="40" type="stmt"/>
+      <line num="67" count="800" type="stmt"/>
+      <line num="73" count="800" type="stmt"/>
+      <line num="74" count="800" type="stmt"/>
       <line num="77" count="1" type="stmt"/>
       <line num="80" count="1" type="stmt"/>
       <line num="81" count="1" type="stmt"/>
@@ -40,13 +40,13 @@
       <line num="83" count="1" type="stmt"/>
       <line num="84" count="1" type="stmt"/>
     </file>
-    <file name="pixel.js" path="C:\Users\Reed\Pixlerr\expressjs-backend\models\pixel.js">
+    <file name="pixel.js" path="C:\Users\liang\Desktop\CPE307\Pixlerr.io\expressjs-backend\models\pixel.js">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <line num="1" count="1" type="stmt"/>
       <line num="3" count="1" type="stmt"/>
       <line num="26" count="1" type="stmt"/>
     </file>
-    <file name="user-services.js" path="C:\Users\Reed\Pixlerr\expressjs-backend\models\user-services.js">
+    <file name="user-services.js" path="C:\Users\liang\Desktop\CPE307\Pixlerr.io\expressjs-backend\models\user-services.js">
       <metrics statements="41" coveredstatements="40" conditionals="19" coveredconditionals="18" methods="9" coveredmethods="8"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
@@ -90,7 +90,7 @@
       <line num="93" count="1" type="stmt"/>
       <line num="94" count="1" type="stmt"/>
     </file>
-    <file name="user.js" path="C:\Users\Reed\Pixlerr\expressjs-backend\models\user.js">
+    <file name="user.js" path="C:\Users\liang\Desktop\CPE307\Pixlerr.io\expressjs-backend\models\user.js">
       <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <line num="1" count="1" type="stmt"/>
       <line num="3" count="1" type="stmt"/>

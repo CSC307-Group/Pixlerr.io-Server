@@ -1,11 +1,10 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import "./account.scss";
-import DrawingPanel from "../DrawingPanel";
+import { Redirect } from "react-router-dom";
 import Sidebar from "../Sidebar";
 
-const userhost = 'http://localhost:5000/users';
-const pixelhost = 'http://localhost:5000/pixels';
+const userhost = "http://localhost:5000/users";
 
 export default function Account () {
   const [pixelList, setPixels] = useState([]);
@@ -60,14 +59,9 @@ export default function Account () {
       <div className="base-container">
         <div className="header">Account Information</div>
         <div className="content">
-          <div className="accountinfo">
-            Welcome Back!
-          </div>
-          <div>
-            {activeUser.username}
-          </div>
-          <div className="pixelhistory">
-          </div>
+          <div className="accountinfo">Welcome Back!</div>
+          <div>{activeUser.username}</div>
+          <div className="pixelhistory"></div>
         </div>
       </div>
       {(< DrawingPanel
