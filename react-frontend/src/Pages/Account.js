@@ -4,8 +4,8 @@ import Sidebar from "../Sidebar";
 import DrawingPanel from "./Home/DrawingPanel";
 import "./account.scss";
 
-const userhost = "http://localhost:5000/users";
-const pixelhost = "http://localhost:5000/pixels";
+const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
+const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
 
 function Account () {
   const [pixelList, setPixels] = useState([]);

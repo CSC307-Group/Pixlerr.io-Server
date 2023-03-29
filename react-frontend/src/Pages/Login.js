@@ -22,7 +22,7 @@ function Login() {
         password: registerPassword,
       },
       withCredentials: true,
-      url: "http://localhost:5000/register",
+      url: process.env.REACT_APP_BACKEND_URL + "/register",
     }).then((res) => {
       console.log(res);
       if (res.data === "User Created") {
@@ -40,7 +40,7 @@ function Login() {
         password: loginPassword,
       },
       withCredentials: true,
-      url: "http://localhost:5000/login",
+      url: process.env.REACT_APP_BACKEND_URL + "/login",
     }).then((res) => {
       console.log(res);
       if (res.data === "Successfully Authenticated") {
@@ -54,7 +54,7 @@ function Login() {
     Axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:5000/users",
+      url: process.env.REACT_APP_BACKEND_URL + "/users",
     }).then((res) => {
       console.log(res.data);
     });

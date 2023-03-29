@@ -3,8 +3,9 @@ import axios from "axios";
 import Editor from "./Pages/Home/Editor";
 import Sidebar from "./Sidebar";
 import "./app.scss";
-const userhost = "http://localhost:5000/users";
-const pixelhost = "http://localhost:5000/pixels";
+
+const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
+const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
 
 export default function App() {
   // const [user, setUser] = useState({ loggedIn: false });

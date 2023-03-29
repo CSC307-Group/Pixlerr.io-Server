@@ -22,6 +22,7 @@ export default function DrawingPanel(props) {
         selectedColor={selectedColor}
         pixelRow={y}
         updatePixel={updatePixel}
+        key={i}
       />
     );
   }

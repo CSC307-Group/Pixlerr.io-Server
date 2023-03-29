@@ -3,7 +3,7 @@ import { fallDown as Menu } from "react-burger-menu";
 import axios from "axios";
 import "./sidebar.scss";
 
-const userhost = "http://localhost:5000/users";
+const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
 
 export default function Sidebar() {
   const [activeUser, login] = useState("");

@@ -6,9 +6,4 @@
 /expressjs-backend/node_modules
 /expressjs-backend/.DS_Store
 
-.env
-/.DS_Store
 .DS_Store
-
-node_modules
-node_modules

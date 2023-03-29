@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import axios from "axios";
 
-const userhost = "http://localhost:5000/logout";
-function Logout() {
+const userhost = process.env.REACT_APP_BACKEND_URL + "/logout";
 
+function Logout() {
   useEffect(() => {
     getUser();
   }, []);

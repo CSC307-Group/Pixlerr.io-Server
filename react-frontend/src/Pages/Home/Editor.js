@@ -23,27 +23,29 @@ export default function Editor(props) {
       {<Cursor mouseColor={mouseColor} />}
       <h1>Pixlerr</h1>
       <table>
-        <tr>
-          <td>
-            {
-              <DrawingPanel
-                selectedColor={selectedColor}
-                pixelList={props.pixelList}
-                updatePixel={props.updatePixel}
-                setMouseColor={setMouseColor}
-              />
-            }
-          </td>
-          <td>
-            {
-              <ChromePicker
-                disableAlpha={true}
-                color={selectedColor}
-                onChangeComplete={changeColor}
-              />
-            }
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>
+              {
+                <DrawingPanel
+                  selectedColor={selectedColor}
+                  pixelList={props.pixelList}
+                  updatePixel={props.updatePixel}
+                  setMouseColor={setMouseColor}
+                />
+              }
+            </td>
+            <td>
+              {
+                <ChromePicker
+                  disableAlpha={true}
+                  color={selectedColor}
+                  onChangeComplete={changeColor}
+                />
+              }
+            </td>
+          </tr>
+        </tbody>
       </table>
       {showReset()}
     </div>
