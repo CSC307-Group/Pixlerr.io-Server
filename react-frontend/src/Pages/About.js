@@ -1,11 +1,8 @@
 import React from "react";
-import "./about.scss";
 import Sidebar from "../Sidebar";
-export class About extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+import "./about.scss";
 
+export class About extends React.Component {
   render() {
     return (
       <div>

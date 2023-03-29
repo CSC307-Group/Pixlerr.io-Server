@@ -1,12 +1,13 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
-import "./account.scss";
-import { Redirect } from "react-router-dom";
 import Sidebar from "../Sidebar";
+import DrawingPanel from "./Home/DrawingPanel";
+import "./account.scss";
 
 const userhost = "http://localhost:5000/users";
+const pixelhost = "http://localhost:5000/pixels";
 
-export default function Account () {
+function Account () {
   const [pixelList, setPixels] = useState([]);
   const [activeUser, login] = useState({username: ""});
 
@@ -75,3 +76,5 @@ export default function Account () {
     </div>
   );
 }
+
+export default Account;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles/cursor.scss";
+import "./cursor.scss";
 
 export default function Cursor(props) {
   const { mouseColor } = props;

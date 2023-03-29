@@ -1,6 +1,6 @@
 import React from "react";
-import "./styles/row.scss";
 import Pixel from "./Pixel";
+import "./row.scss";
 
 export default function Row(props) {
   const { selectedColor, pixelRow, updatePixel } = props;

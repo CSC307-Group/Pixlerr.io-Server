@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./style.scss";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 import Sidebar from "../Sidebar";
+import "./login.scss";
 
 function Login() {
   const nav = useNavigate();
@@ -43,7 +43,7 @@ function Login() {
       url: "http://localhost:5000/login",
     }).then((res) => {
       console.log(res);
-      if (res.data == "Successfully Authenticated") {
+      if (res.data === "Successfully Authenticated") {
         nav("/");
       } else {
         setLogged(true);

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./styles/editor.scss";
 import { ChromePicker } from "react-color"; // https://casesandberg.github.io/react-color/#api
-import DrawingPanel from "./DrawingPanel";
 import Cursor from "./Cursor";
+import DrawingPanel from "./DrawingPanel";
+import "./editor.scss";
 
 export default function Editor(props) {
   const [selectedColor, setColor] = useState("#420f69"); // default black
@@ -13,7 +13,7 @@ export default function Editor(props) {
   }
 
   function showReset() {
-    if (props.id === "629920b5b7f6f6424b76306c")
+    if (props.id === "6424a9d19f7da9dd6a5d0146")
       return <button onClick={props.resetCanvas}>Reset</button>;
     return null;
   }

@@ -1,13 +1,13 @@
-import axios from "axios";
-import Editor from "./Editor";
 import React, { useState, useEffect } from "react";
-import "./styles/App.scss";
+import axios from "axios";
+import Editor from "./Pages/Home/Editor";
 import Sidebar from "./Sidebar";
+import "./app.scss";
 const userhost = "http://localhost:5000/users";
 const pixelhost = "http://localhost:5000/pixels";
 
 export default function App() {
-  const [user, setUser] = useState({ loggedIn: false });
+  // const [user, setUser] = useState({ loggedIn: false });
   const [pixels, setPixels] = useState([]);
   const [activeUser, login] = useState({ _id: "", pixelTime: "" });
   const [loggedIn, setLogin] = useState(false);
@@ -34,7 +34,7 @@ export default function App() {
           setPixels(result);
         }
       });
-    }, 500);
+    }, 2000);
   }, [pixels]);
 
   async function fetchPixels() {
@@ -49,7 +49,7 @@ export default function App() {
 
   async function makeUserPatchCall() {
     try {
-      if (activeUser["_id"] === "629920b5b7f6f6424b76306c") return false;
+      if (activeUser["_id"] === "6424a9d19f7da9dd6a5d0146") return false;
       const response = await axios.patch(userhost, activeUser);
       return response;
     } catch (error) {
@@ -115,7 +115,7 @@ export default function App() {
   }
 
   function resetCanvas() {
-    if (activeUser["_id"] === "629920b5b7f6f6424b76306c") callDeleteThanPost();
+    if (activeUser["_id"] === "6424a9d19f7da9dd6a5d0146") callDeleteThanPost();
   }
 
   return (

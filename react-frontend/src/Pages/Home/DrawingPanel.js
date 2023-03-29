@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import "./styles/drawingPanel.scss";
 import Row from "./Rows";
+import "./drawingPanel.scss";
 
 export default function DrawingPanel(props) {
   const { selectedColor, pixelList, updatePixel, setMouseColor } = props;

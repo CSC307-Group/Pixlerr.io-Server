@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { fallDown as Menu } from "react-burger-menu";
 import axios from "axios";
-import "./styles/Sidebar.scss";
+import "./sidebar.scss";
 
 const userhost = "http://localhost:5000/users";
 
@@ -27,7 +27,7 @@ export default function Sidebar() {
       <a className="menu-item" href="/">
         Home
       </a>
-      {activeUser.username == undefined ? (
+      {activeUser.username === undefined ? (
         <a className="menu-item" href="/Login">
           Login/Signup
         </a>
@@ -40,8 +40,8 @@ export default function Sidebar() {
       <a className="menu-item" href="/About">
         About
       </a>
-      {activeUser.username == undefined ? null : (
-        <a className="menu-item" href="/signout">
+      {activeUser.username === undefined ? null : (
+        <a className="menu-item" href="/Logout">
           Sign Out
         </a>
       )}

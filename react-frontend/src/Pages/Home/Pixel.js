@@ -1,4 +1,4 @@
-import "./styles/pixel.scss";
+import "./pixel.scss";
 
 export default function Pixel(props) {
   const { selectedColor, pixel, updatePixel } = props;

@@ -1,16 +1,22 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
-const Logout = ({ user }) => {
-  const logout = () => {
-    window.open("http://localhost:5000/logout", "_self");
+const userhost = "http://localhost:5000/logout";
+function Logout() {
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = () => {
+    axios({
+      method: "DELETE",
+      withCredentials: true,
+      url: userhost,
+    }).then((res) => {
+      console.log("test");
+    });
   };
-  return (
-    <div className="navbar">
-      <li className="listItem" onClick={logout}>
-        Logout
-      </li>
-    </div>
-  );
-};
+}
 
 export default Logout;
