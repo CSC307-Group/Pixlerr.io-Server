@@ -35,7 +35,7 @@ export default function App() {
           setPixels(result);
         }
       });
-    }, 2000);
+    }, 10000);
   }, [pixels]);
 
   async function fetchPixels() {

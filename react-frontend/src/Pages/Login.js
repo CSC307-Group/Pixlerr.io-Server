@@ -32,6 +32,7 @@ function Login() {
       }
     });
   };
+  
   const login = () => {
     Axios({
       method: "POST",
@@ -50,6 +51,7 @@ function Login() {
       }
     });
   };
+
   const getUser = () => {
     Axios({
       method: "GET",

@@ -1,3 +1,5 @@
+// npx nodemon backend.js
+
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -50,6 +52,7 @@ app.post("/login", (req, res, next) => {
 });
 
 app.post("/register", (req, res) => {
+  console.log("post register");
   User.findOne({ username: req.body.username }, async (err, doc) => {
     if (err) throw err;
     if (doc) res.send("User Already Exists");
@@ -67,27 +70,17 @@ app.post("/register", (req, res) => {
   });
 });
 
+// THIS
 app.get("/users", (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
 app.delete("/logout", function (req, res, next) {
   req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
+    if (err) throw err;
+    res.send("Logged Out");
   });
 });
-
-// app.get('/users/:id', async (req, res) => {
-//   const id = req.params['id'];
-//   const result = await userServices.findUserById(id);
-//   if (result === undefined || result === null)
-//     res.status(404).send('Resource not found.');
-//   else {ß
-//     res.send({ userList: result });
-//   }
-// });
 
 app.patch("/users", async (req, res) => {
   const user = req.body;
@@ -96,17 +89,6 @@ app.patch("/users", async (req, res) => {
   if (timeUpdated) res.status(204).end();
   else res.status(500).end();
 });
-
-// app.delete("/users/:id", async (req, res) => {
-//   const id = req.params["id"];
-//   const result = await userServices.removeUser(id);
-//   if (result === undefined || result === null) {
-//     res.status(404).send("Resource not found.");
-//   }
-//   else {
-//     res.status(204).send();
-//   }
-// });
 
 app.get("/pixels", async (req, res) => {
   try {
