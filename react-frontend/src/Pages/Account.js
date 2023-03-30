@@ -4,29 +4,11 @@ import Sidebar from "../Sidebar";
 import DrawingPanel from "./Home/DrawingPanel";
 import "./account.scss";
 
-const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
 const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
 
 function Account (props) {
-  // const { activeUser, isLoggedIn } = props; // REPLACE
-  const { isLoggedIn } = props; 
-
-  const [pixelList, setPixels] = useState([]); // DELETE
-  const [activeUser, login] = useState({username: ""}); // DELETE
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const getUser = () => {
-    axios({
-      method: "GET",
-      withCredentials: true,
-      url: userhost,
-    }).then((res) => {
-      login(res.data);
-    });
-  };
+  const { activeUser, isLoggedIn } = props;
+  const [pixelList, setPixels] = useState([]);
 
   useEffect(() => {
     fetchPixels().then( result => {
@@ -52,9 +34,7 @@ function Account (props) {
   }
   
   function returnWhitePixel(pixel) {
-    let whitePixel = pixel;
-    whitePixel['color'] = "#fff";
-    return whitePixel;
+    return "#fff";
   }
 
   return (
@@ -63,8 +43,7 @@ function Account (props) {
       <div className="base-container">
         <div className="header">Account Information</div>
         <div className="content">
-          <div className="accountinfo">Welcome Back!</div>
-          <div>{activeUser.username}</div>
+          <div className="accountinfo">Welcome Back, {activeUser.username}!</div>
           <div className="pixelhistory"></div>
         </div>
       </div>
@@ -73,8 +52,8 @@ function Account (props) {
         pixelList={pixelList}
         updatePixel={() => {}}  
         setMouseColor={() => {}}
-        postedByUser={postedByUser}
-        returnWhitePixel={returnWhitePixel}
+        pixelFilterFunction={postedByUser}
+        blankColor={returnWhitePixel}
       />)}
     </div>
   );

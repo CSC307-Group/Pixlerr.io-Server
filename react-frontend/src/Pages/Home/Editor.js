@@ -32,6 +32,8 @@ export default function Editor(props) {
                   pixelList={props.pixelList}
                   updatePixel={props.updatePixel}
                   setMouseColor={setMouseColor}
+                  pixelFilterFunction={(pixel) => { return true;}}
+                  blankColor={(pixel) => { return pixel; }}
                 />
               }
             </td>

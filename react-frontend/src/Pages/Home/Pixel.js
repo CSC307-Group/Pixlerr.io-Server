@@ -1,7 +1,7 @@
 import "./pixel.scss";
 
 export default function Pixel(props) {
-  const { selectedColor, pixel, updatePixel } = props;
+  const { selectedColor, pixel, updatePixel, pixelFilterFunction, blankColor } = props;
 
   function applyColor() {
     updatePixel(pixel["_id"], selectedColor);
@@ -11,7 +11,7 @@ export default function Pixel(props) {
     <div
       className="pixel"
       onClick={applyColor}
-      style={{ backgroundColor: pixel["color"] }}
+      style={{ backgroundColor: pixelFilterFunction(pixel) ? pixel["color"] : blankColor(pixel) }}
     ></div>
   );
 }

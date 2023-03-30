@@ -3,7 +3,7 @@ import Row from "./Rows";
 import "./drawingPanel.scss";
 
 export default function DrawingPanel(props) {
-  const { selectedColor, pixelList, updatePixel, setMouseColor } = props;
+  const { selectedColor, pixelList, updatePixel, setMouseColor, pixelFilterFunction, blankColor } = props;
   const panelRef = useRef();
 
   function mouseIsOverCanvas() {
@@ -22,6 +22,8 @@ export default function DrawingPanel(props) {
         selectedColor={selectedColor}
         pixelRow={y}
         updatePixel={updatePixel}
+        pixelFilterFunction={pixelFilterFunction}
+        blankColor={blankColor}
         key={i}
       />
     );

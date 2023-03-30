@@ -36,7 +36,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./config")(passport);
 
-// Routes
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
@@ -44,7 +43,7 @@ app.post("/login", (req, res, next) => {
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
-        const response = {_id: user._id, pixelTime: user.pixelTime}
+        const response = {_id: user._id, username: user.username, pixelTime: user.pixelTime}
         res.send(response);
         console.log(response);
       });
@@ -65,7 +64,7 @@ app.post("/register", (req, res) => {
         pixelTime: new Date().toISOString(),
       };
       const savedUser = await userServices.addUser(newUser);
-      res.send({_id: savedUser._id, pixelTime: savedUser.pixelTime});
+      res.send({_id: savedUser._id, username: savedUser.username, pixelTime: savedUser.pixelTime});
     }
   });
 });
