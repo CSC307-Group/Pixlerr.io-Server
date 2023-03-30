@@ -4,15 +4,16 @@ import Axios from "axios";
 import Sidebar from "../Sidebar";
 import "./login.scss";
 
-function Login() {
-  const nav = useNavigate();
+
+function Login(props) {
+  const { setActiveUser, isLoggedIn, setLoginStatus } = props;
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [reg, setReg] = useState(false);
-  const [logged, setLogged] = useState(false);
-  const [exists, setExists] = useState(false);
+  const [logged, setLogged] = useState(false); // Invalid username or password notification
+  const [exists, setExists] = useState(false); // Username is taken notification
+  const nav = useNavigate();
 
   const register = () => {
     Axios({
@@ -25,8 +26,10 @@ function Login() {
       url: process.env.REACT_APP_BACKEND_URL + "/register",
     }).then((res) => {
       console.log(res);
-      if (res.data === "User Created") {
-        setReg(true);
+      if (res.data !== "Invalid") {
+        setActiveUser(res.data);
+        setLoginStatus(true);
+        nav("/");
       } else {
         setExists(true);
       }
@@ -43,8 +46,9 @@ function Login() {
       withCredentials: true,
       url: process.env.REACT_APP_BACKEND_URL + "/login",
     }).then((res) => {
-      console.log(res);
-      if (res.data === "Successfully Authenticated") {
+      if (res.data !== "Invalid") {
+        setActiveUser(res.data);
+        setLoginStatus(true);
         nav("/");
       } else {
         setLogged(true);
@@ -52,19 +56,9 @@ function Login() {
     });
   };
 
-  const getUser = () => {
-    Axios({
-      method: "GET",
-      withCredentials: true,
-      url: process.env.REACT_APP_BACKEND_URL + "/users",
-    }).then((res) => {
-      console.log(res.data);
-    });
-  };
-
   return (
     <div>
-      <Sidebar />
+      <Sidebar isLoggedIn={isLoggedIn} />
       <div className="base-containers1">
         <div className="content">
           <div className="form">
@@ -88,7 +82,6 @@ function Login() {
                 Register
               </button>
             </div>
-            {reg ? <h5>Account made! You can now login.</h5> : null}
             {exists ? <h5>Username is taken! Try a different one.</h5> : null}
           </div>
 
@@ -114,7 +107,6 @@ function Login() {
                 href="/Account"
                 onClick={() => {
                   login();
-                  getUser();
                 }}
               >
                 Login

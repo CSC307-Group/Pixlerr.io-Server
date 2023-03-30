@@ -40,45 +40,33 @@ require("./config")(passport);
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
-    if (!user) res.send("No User Exists");
+    if (!user) res.send("Invalid");
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
-        res.send("Successfully Authenticated");
-        console.log(req.user);
+        const response = {_id: user._id, pixelTime: user.pixelTime}
+        res.send(response);
+        console.log(response);
       });
     }
-  })(req, res, next);
+  }) (req, res, next);
 });
 
 app.post("/register", (req, res) => {
   console.log("post register");
   User.findOne({ username: req.body.username }, async (err, doc) => {
     if (err) throw err;
-    if (doc) res.send("User Already Exists");
+    if (doc) res.send("Invalid");
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
       const newUser = {
         username: req.body.username,
         password: hashedPassword,
         pixelTime: new Date().toISOString(),
       };
-      await userServices.addUser(newUser);
-      res.send("User Created");
+      const savedUser = await userServices.addUser(newUser);
+      res.send({_id: savedUser._id, pixelTime: savedUser.pixelTime});
     }
-  });
-});
-
-// THIS
-app.get("/users", (req, res) => {
-  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
-});
-
-app.delete("/logout", function (req, res, next) {
-  req.logout(function (err) {
-    if (err) throw err;
-    res.send("Logged Out");
   });
 });
 

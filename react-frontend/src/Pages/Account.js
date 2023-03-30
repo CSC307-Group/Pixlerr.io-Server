@@ -7,9 +7,12 @@ import "./account.scss";
 const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
 const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
 
-function Account () {
-  const [pixelList, setPixels] = useState([]);
-  const [activeUser, login] = useState({username: ""});
+function Account (props) {
+  // const { activeUser, isLoggedIn } = props; // REPLACE
+  const { isLoggedIn } = props; 
+
+  const [pixelList, setPixels] = useState([]); // DELETE
+  const [activeUser, login] = useState({username: ""}); // DELETE
 
   useEffect(() => {
     getUser();
@@ -56,7 +59,7 @@ function Account () {
 
   return (
     <div>
-      <Sidebar />
+      <Sidebar isLoggedIn={isLoggedIn} />
       <div className="base-container">
         <div className="header">Account Information</div>
         <div className="content">
