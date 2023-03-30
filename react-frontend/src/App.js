@@ -1,23 +1,18 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import axios from "axios";
 import useLocalStorage from "./UseLocalStorageHook";
+import axios from "axios";
 import About from "./Pages/About";
 import Account from "./Pages/Account";
-import Home from "./Pages/Home/Home";
+import Home from "./Pages/Canvas/Home";
 import Login from "./Pages/Login";
 import Logout from "./Pages/Logout";
 
 const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
 
 export default function App() {
-  const [activeUser, setActiveUser] = useLocalStorage("activeUser", { _id: "", pixelTime: "" });
+  const [activeUser, setActiveUser] = useLocalStorage("activeUser", { _id: "", username: "", pixelTime: "" });
   const [isLoggedIn, setLoginStatus] = useLocalStorage("loginStatus", false);
-
-  // window.addEventListener("beforeunload", (event) => {
-  //   setActiveUser({ _id: "", pixelTime: "" });
-  //   setLoginStatus(false);
-  // });
 
   async function updateUserTime() {
     try {

@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../Sidebar";
-import DrawingPanel from "./Home/DrawingPanel";
+import DrawingPanel from "./Canvas/DrawingPanel";
 import "./account.scss";
 
 const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
