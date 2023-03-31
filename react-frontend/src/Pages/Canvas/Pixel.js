@@ -4,7 +4,7 @@ export default function Pixel(props) {
   const { selectedColor, pixel, updatePixel, pixelFilterFunction, blankColor } = props;
 
   function applyColor() {
-    updatePixel(pixel["_id"], selectedColor);
+    updatePixel(pixel, selectedColor);
   }
 
   return (

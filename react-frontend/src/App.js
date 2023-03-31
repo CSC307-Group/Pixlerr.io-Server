@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import useLocalStorage from "./UseLocalStorageHook";
 import axios from "axios";
 import About from "./Pages/About";
 import Account from "./Pages/Account";
@@ -10,15 +9,14 @@ import Logout from "./Pages/Logout";
 
 const userhost = process.env.REACT_APP_BACKEND_URL + "/users";
 
-export default function App() {
-  const [activeUser, setActiveUser] = useLocalStorage("activeUser", { _id: "", username: "", pixelTime: "" });
+function App() {
+  const [activeUser, setActiveUser] = useLocalStorage("activeUser", { _id: "", username: "", pixelTime: "", userType: "" });
   const [isLoggedIn, setLoginStatus] = useLocalStorage("loginStatus", false);
 
   async function updateUserTime() {
     try {
-      if (activeUser["_id"] === "6424a9d19f7da9dd6a5d0146") return false;
-      const response = await axios.patch(userhost, activeUser);
-      setActiveUser(response);
+      const response = await axios.patch(userhost, {user: activeUser});
+      setActiveUser(response.data);
     } 
     catch (error) {
       console.log(error);
@@ -57,3 +55,38 @@ export default function App() {
     </div>
   );
 }
+
+// https://usehooks.com/useLocalStorage/
+function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    if (typeof window === "undefined") {
+      return initialValue;
+    }
+
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } 
+    catch (error) {
+      console.log(error);
+      return initialValue;
+    }
+  });
+
+  const setValue = (value) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      }
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  return [storedValue, setValue];
+}
+
+export default App;

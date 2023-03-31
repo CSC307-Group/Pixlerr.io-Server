@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
+    _id: {
+      type: String,
+      required: true
+    },
     username: {
       type: String,
       required: true,
@@ -19,11 +23,12 @@ const UserSchema = new mongoose.Schema(
     pixelTime: {
       type: String,
       required: true,
+      default: new Date(0).toISOString()
     },
-    user_email: {
+    userType: {
       type: String,
-      required: false,
-      trim: true,
+      enum : ['user','admin'],
+      default: 'user'
     },
   },
   { collection: "userList" }

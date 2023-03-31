@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import Sidebar from "../Sidebar";
+import Sidebar from "./Sidebar";
 import "./login.scss";
 
 

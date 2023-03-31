@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "./Editor";
-import Sidebar from "../../Sidebar";
+import Sidebar from "../Sidebar";
 import "./home.scss";
 
 const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
@@ -14,11 +14,12 @@ export default function App(props) {
   useEffect(() => {
     setTimeout(function () {
       fetchPixels().then((result) => {
+        console.log(result)
         if (result) {
           setPixels(result);
         }
       });
-    }, 10000);
+    }, 2000);
   }, [pixels]);
 
   async function fetchPixels() {
@@ -31,9 +32,9 @@ export default function App(props) {
     }
   }
 
-  async function makePixelPatchCall(updatedData) {
+  async function makePixelPatchCall(data) {
     try {
-      const response = await axios.patch(pixelhost, updatedData);
+      const response = await axios.patch(pixelhost, data);
       console.log(response);
       return response.status === 204;
     } catch (error) {
@@ -42,16 +43,16 @@ export default function App(props) {
     }
   }
 
-  async function updatePixel(pixelId, newColor) {
+  async function updatePixel(pixel, newColor) {
     if (!isLoggedIn) return;
     else {
-      const data = [
-        pixelId,
-        newColor,
-        activeUser["_id"],
-        activeUser["pixelTime"],
-      ];
-      const pixelUpdated = await makePixelPatchCall(data);
+      console.log(activeUser);
+      const pixelUpdated = await makePixelPatchCall({
+        pixelData: pixel,
+        newColor: newColor,
+        userData: activeUser
+      });
+
       if (pixelUpdated) {
         updateUserTime()
       }

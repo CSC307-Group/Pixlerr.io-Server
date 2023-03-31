@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --collectCoverage --forceExit. && prettier --check",
     "prettier": "prettier --write **/*.js",
-    "dev": "nodemon backend.js",
-    "start": "node backend.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",

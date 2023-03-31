@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
-import Sidebar from "../Sidebar";
+import Sidebar from "./Sidebar";
 import DrawingPanel from "./Canvas/DrawingPanel";
 import "./account.scss";
 
