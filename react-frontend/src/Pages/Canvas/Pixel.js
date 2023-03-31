@@ -5,6 +5,7 @@ export default function Pixel(props) {
 
   function applyColor() {
     updatePixel(pixel, selectedColor);
+    console.log(pixel);
   }
 
   return (

@@ -12,24 +12,6 @@ mongoose.connect(
   }
 ).catch((error) => console.log(error));
 
-// async function getUsers(username, password, user_email) {
-//   let result;
-//   if (username === undefined && password === undefined) {
-//     result = await userModel.find();
-//   } else if (username && !password && !user_email) {
-//     result = await findUserByUsername(username);
-//   } else if (username && password && !user_email) {
-//     result = await findUserByUsernameandPassword(username, password);
-//   } else if (username && password && user_email) {
-//     result = await findUserByUsernameandPasswordandEmail(
-//       username,
-//       password,
-//       user_email
-//     );
-//   }
-//   return result;
-// }
-
 async function addUser(user) {
   try {
     const userToAdd = new userModel(user);
@@ -42,6 +24,18 @@ async function addUser(user) {
   }
 }
 
+function findUser(username) {
+  return new Promise((resolve, reject) => { 
+    userModel.findOne({ username: username }, async (error, user) => {
+      if (error) {
+        console.log(error);
+        reject();
+      }
+      resolve(username);
+    });
+  });
+}
+
 function updatePixelTime(username, id) {
   return new Promise((resolve, reject) => { 
     userModel.findOne({ username: username }, async (error, user) => {
@@ -49,8 +43,7 @@ function updatePixelTime(username, id) {
         console.log(error);
         reject();
       }
-      // if (user && user._id === id) {
-      if (user) {
+      if (user && user._id === id) {
         const newTime = new Date().toISOString()
         user["pixelTime"] = newTime;
         user.save();
@@ -61,40 +54,6 @@ function updatePixelTime(username, id) {
   });
 }
 
-// async function removeUser(id) {
-//   try {
-//     //need to typecast the id as an ObjectId
-//     //const objid = mongoose.Types.ObjectId(id);
-//     const removedUser = await userModel.findByIdAndDelete(id);
-//     return removedUser;
-//   }
-//   catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
-
-// async function findUserByUsername(username) {
-//   return await userModel.find({ username: username });
-// }
-
-// async function findUserByUsernameandPassword(username, password) {
-//   return await userModel.find({ username: username, password: password });
-// }
-
-// async function findUserByUsernameandPasswordandEmail(
-//   username,
-//   password,
-//   user_email
-// ) {
-//   return await userModel.find({
-//     username: username,
-//     password: password,
-//     user_email: user_email,
-//   });
-// }
-
-// exports.getUsers = getUsers;
 exports.addUser = addUser;
+exports.findUser = findUser;
 exports.updatePixelTime = updatePixelTime;
-// exports.removeUser = removeUser;

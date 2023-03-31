@@ -9,11 +9,11 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const pixelServices = require("./models/pixel-services");
-const User = require("./models/user");
 const userServices = require("./models/user-services");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const pixelBackupInterval = 7200000; // 7200000 milliseconds = 2 hours
 
 
 
@@ -26,20 +26,32 @@ const setupCanvas = async (width, height) => {
   const dbCanvas = await pixelServices.getPixels();
   const createNewCanvas = () => {
     const newCanvas = [];
+    const id = new mongoose.Types.ObjectId();
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
-        newCanvas.push({
+        const newPixel = {
           color: "#fff",
           x: x,
           y: y,
-          userId: "",
-        });
+          userId: id,
+        }
+        newCanvas.push(newPixel);
+        // pixelServices.addPixel(newPixel);
       }}
+    pixelServices.addCanvas(newCanvas);
     return newCanvas;
   };
   canvas = dbCanvas.length === 0 ? createNewCanvas() : dbCanvas;
 }
 setupCanvas(width, height);
+setInterval(async () => {
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      pixelServices.updatePixel(canvas[y + (x * height)]);
+    }
+  }
+  console.log("Backed up canvas to database");
+}, 1200000)
 
 
 
@@ -78,17 +90,6 @@ app.get("/pixels", async (req, res) => {
     res.status(500).send("An error ocurred in the server.");
   }
 });
-
-// app.get("/pixels/:id", async (req, res) => {
-//   try {
-//     const id = req.params["id"];
-//     const result = await pixelServices.getPixelsById(id);
-//     res.send({ pixelList: result });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("An error ocurred in the server.");
-//   }
-// });
 
 app.patch("/pixels", async (req, res) => {
   const user = req.body.userData;
@@ -156,14 +157,12 @@ app.post("/login", (req, res, next) => {
 });
 
 app.post("/register", (req, res) => {
-  console.log("post register");
-  User.findOne({ username: req.body.username }, async (err, doc) => {
-    if (err) {
-      console.log(err);
+  userServices.findUser(req.body.username).then(async (user, error) => {
+    if (error)
       res.status(500).end();
-    }
-    if (doc) res.send("Invalid");
-    if (!doc) {
+    if (user)
+      res.send("Invalid");
+    else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const newUser = {
         _id: new mongoose.Types.ObjectId(),
@@ -179,11 +178,11 @@ app.post("/register", (req, res) => {
         type: savedUser.userType
       });
     }
-  });
+  })
 });
 
 app.patch("/users", async (req, res) => {
-  userServices.updatePixelTime(req.body.user.username, req.body.user.id).then((updatedTime, error) => {
+  userServices.updatePixelTime(req.body.user.username, req.body.user._id).then((updatedTime, error) => {
     if (error)
       res.send(req.body.user).end();
     res.send({

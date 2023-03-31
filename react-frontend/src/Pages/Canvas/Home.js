@@ -14,7 +14,6 @@ export default function App(props) {
   useEffect(() => {
     setTimeout(function () {
       fetchPixels().then((result) => {
-        console.log(result)
         if (result) {
           setPixels(result);
         }
