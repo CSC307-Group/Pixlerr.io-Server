@@ -11,6 +11,7 @@ const passport = require("passport");
 const pixelServices = require("./models/pixel-services");
 const userServices = require("./models/user-services");
 const { createServer } = require("http");
+// const { db } = require("./models/pixel");
 
 const app = express();
 const httpServer = createServer(app);
@@ -25,27 +26,28 @@ const pixelBackupInterval = 7200000; // 7200000 milliseconds = 2 hours
 let canvas;
 let width = 40;
 let height = 20
-const setupCanvas = async (width, height) => {
+const createNewCanvas = () => {
+  const newCanvas = [];
+  const id = new mongoose.Types.ObjectId();
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      const newPixel = {
+        color: "#fff",
+        x: x,
+        y: y,
+        userId: id,
+      }
+      newCanvas.push(newPixel);
+    }}
+  pixelServices.addCanvas(newCanvas);
+  return newCanvas;
+};
+
+const setupCanvas = async () => {
   const dbCanvas = await pixelServices.getPixels();
-  const createNewCanvas = () => {
-    const newCanvas = [];
-    const id = new mongoose.Types.ObjectId();
-    for (let x = 0; x < width; x++) {
-      for (let y = 0; y < height; y++) {
-        const newPixel = {
-          color: "#fff",
-          x: x,
-          y: y,
-          userId: id,
-        }
-        newCanvas.push(newPixel);
-        // pixelServices.addPixel(newPixel);
-      }}
-    pixelServices.addCanvas(newCanvas);
-    return newCanvas;
-  };
   canvas = dbCanvas.length === 0 ? createNewCanvas() : dbCanvas;
 }
+
 setupCanvas(width, height);
 setInterval(async () => {
   for (let x = 0; x < width; x++) {
@@ -94,9 +96,31 @@ const io = require("socket.io")(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  socket.emit("connected", { pixelList: canvas }); // Send pixel data to client
+  socket.on("connected", (setCanvas) => { // Send pixel data to client
+    setCanvas(canvas);
+  }); 
 
-  // io.emit("pixelUpdate", newPixel); // Send updated pixel to all clients
+  socket.on("pixelUpdate", (pixel, color, user, updateUserTime) => { // Receive updated pixel data
+    if (mongoose.Types.ObjectId.isValid(user._id)) {
+      if (user.userType == "admin" || hasTimerCompleted(user.pixelTime)) {
+        const i = pixel.y + (pixel.x * height);
+        canvas[i].color = color;
+        canvas[i].userId = user._id;
+        updateUserTime();
+        io.emit("updateCanvas", {updatedPixel: canvas[i], index: i}); // Send updated pixel to all clients
+      }
+    }
+
+    socket.on("resetCanvas", async (user, newCanvas) => {
+      const dbUser = await userServices.findUser(user.username);
+      if (dbUser.userType === "admin") {
+        await pixelServices.clearCanvas().then(() => {
+          canvas = createNewCanvas();
+          newCanvas(canvas);
+        })
+      }
+    })
+  })
 });
 
 
@@ -113,21 +137,21 @@ io.on("connection", (socket) => {
 //   }
 // });
 
-app.patch("/pixels", async (req, res) => {
-  const user = req.body.userData;
-  const pixel = req.body.pixelData;
-  const color = req.body.newColor;
-  if (mongoose.Types.ObjectId.isValid(user._id)) {
-    if (user.userType == "admin" || hasTimerCompleted(user.pixelTime)) {
-      canvas[pixel.y + (pixel.x * height)].color = color;
-      canvas[pixel.y + (pixel.x * height)].userId = user._id;
-      res.status(204).end();
-    }
-  }
-  else
-    console.log("Invalid user ID: " + user._id);
-  res.status(500).end();
-});
+// app.patch("/pixels", async (req, res) => {
+//   const user = req.body.userData;
+//   const pixel = req.body.pixelData;
+//   const color = req.body.newColor;
+//   if (mongoose.Types.ObjectId.isValid(user._id)) {
+//     if (user.userType == "admin" || hasTimerCompleted(user.pixelTime)) {
+//       canvas[pixel.y + (pixel.x * height)].color = color;
+//       canvas[pixel.y + (pixel.x * height)].userId = user._id;
+//       res.status(204).end();
+//     }
+//   }
+//   else
+//     console.log("Invalid user ID: " + user._id);
+//   res.status(500).end();
+// });
 
 function hasTimerCompleted(pixelTime) {
   return true;
@@ -137,19 +161,19 @@ function hasTimerCompleted(pixelTime) {
   return currentTime.getTime() - compareTime.getTime() >= 60000; // 1 minute
 }
 
-app.delete("/pixels", async (req, res) => {
-  const hasCanvasBeenCleared = await pixelServices.clearCanvas();
-  if (hasCanvasBeenCleared) res.status(204).end();
-  else res.status(500).end();
-});
+// app.delete("/pixels", async (req, res) => {
+//   const hasCanvasBeenCleared = await pixelServices.clearCanvas();
+//   if (hasCanvasBeenCleared) res.status(204).end();
+//   else res.status(500).end();
+// });
 
-app.post("/pixels", async (req, res) => {
-  const dimensions = req.body;
-  width = dimensions.width;
-  height = dimensions.height;
-  await setupCanvas(width, height);
-  res.status(200).end();
-});
+// app.post("/pixels", async (req, res) => {
+//   const dimensions = req.body;
+//   width = dimensions.width;
+//   height = dimensions.height;
+//   await setupCanvas(width, height);
+//   res.status(200).end();
+// });
 
 
 

@@ -13,7 +13,7 @@ export default function Editor(props) {
   }
 
   function showReset() {
-    if (props.id === "6424a9d19f7da9dd6a5d0146")
+    if (props.userType === "admin")
       return <button onClick={props.resetCanvas}>Reset</button>;
     return null;
   }
