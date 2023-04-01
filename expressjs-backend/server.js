@@ -11,13 +11,13 @@ const passport = require("passport");
 const pixelServices = require("./models/pixel-services");
 const userServices = require("./models/user-services");
 const { createServer } = require("http");
-// const { db } = require("./models/pixel");
 
 const app = express();
 const httpServer = createServer(app);
 
 const PORT = process.env.PORT || 5000;
-const pixelBackupInterval = 7200000; // 7200000 milliseconds = 2 hours
+const pixelBackupInterval = 7200000; // milliseconds => 2 hours
+const pixelDelay = 0; // milliseconds => 0 seconds // currently turned off to make the app easier to present
 
 
 
@@ -56,9 +56,7 @@ setInterval(async () => {
     }
   }
   console.log("Backed up canvas to database");
-}, pixelBackupInterval)
-
-
+}, pixelBackupInterval);
 
 // Middleware
 
@@ -85,7 +83,7 @@ require("./config")(passport);
 
 
 
-// Websocket
+// Websocket pixel functions
 
 const io = require("socket.io")(httpServer, {
   cors: {
@@ -100,84 +98,41 @@ io.on("connection", (socket) => {
     setCanvas(canvas);
   }); 
 
-  socket.on("pixelUpdate", (pixel, color, user, updateUserTime) => { // Receive updated pixel data
-    if (mongoose.Types.ObjectId.isValid(user._id)) {
-      if (user.userType == "admin" || hasTimerCompleted(user.pixelTime)) {
-        const i = pixel.y + (pixel.x * height);
-        canvas[i].color = color;
-        canvas[i].userId = user._id;
-        updateUserTime();
-        io.emit("updateCanvas", {updatedPixel: canvas[i], index: i}); // Send updated pixel to all clients
-      }
+  socket.on("pixelUpdate", async (pixel, color, user, updateUserTime) => { // Receive updated pixel data
+    if (await userValidation(user)) {
+      const i = pixel.y + (pixel.x * height);
+      canvas[i].color = color;
+      canvas[i].userId = user._id;
+      updateUserTime();
+      io.emit("updateCanvas", {updatedPixel: canvas[i], index: i}); // Send updated pixel to all clients
     }
-
-    socket.on("resetCanvas", async (user, newCanvas) => {
-      const dbUser = await userServices.findUser(user.username);
-      if (dbUser.userType === "admin") {
-        await pixelServices.clearCanvas().then(() => {
-          canvas = createNewCanvas();
-          newCanvas(canvas);
-        })
-      }
-    })
   })
+
+  socket.on("resetCanvas", async (user, newCanvas) => { // Completely reset canvas
+    const dbUser = await userServices.findUser(user.username);
+    if (dbUser.userType === "admin") {
+      await pixelServices.clearCanvas().then(() => {
+        canvas = createNewCanvas();
+        newCanvas(canvas);
+      })
+    }
+  });
 });
 
-
-
-// Pixel functions
-
-// app.get("/pixels", async (req, res) => {
-//   try {
-//     // const result = await pixelServices.getPixels();
-//     res.send({ pixelList: canvas });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("An error ocurred in the server.");
-//   }
-// });
-
-// app.patch("/pixels", async (req, res) => {
-//   const user = req.body.userData;
-//   const pixel = req.body.pixelData;
-//   const color = req.body.newColor;
-//   if (mongoose.Types.ObjectId.isValid(user._id)) {
-//     if (user.userType == "admin" || hasTimerCompleted(user.pixelTime)) {
-//       canvas[pixel.y + (pixel.x * height)].color = color;
-//       canvas[pixel.y + (pixel.x * height)].userId = user._id;
-//       res.status(204).end();
-//     }
-//   }
-//   else
-//     console.log("Invalid user ID: " + user._id);
-//   res.status(500).end();
-// });
-
-function hasTimerCompleted(pixelTime) {
-  return true;
-  let compareTime = new Date(pixelTime);
-  let currentTime = new Date();
-  console.log(currentTime.getTime() - compareTime.getTime());
-  return currentTime.getTime() - compareTime.getTime() >= 60000; // 1 minute
+async function userValidation(user) {
+  const dbUser = await userServices.findUser(user.username);
+  if (dbUser._id === user._id) {
+    if (dbUser.userType == "admin") return true;
+    const compareTime = new Date(dbUser.pixelTime);
+    const currentTime = new Date();
+    return currentTime.getTime() - compareTime.getTime() >= pixelDelay;
+  }
+  return false;
 }
 
-// app.delete("/pixels", async (req, res) => {
-//   const hasCanvasBeenCleared = await pixelServices.clearCanvas();
-//   if (hasCanvasBeenCleared) res.status(204).end();
-//   else res.status(500).end();
-// });
-
-// app.post("/pixels", async (req, res) => {
-//   const dimensions = req.body;
-//   width = dimensions.width;
-//   height = dimensions.height;
-//   await setupCanvas(width, height);
-//   res.status(200).end();
-// });
 
 
-
-// User Functions
+// HTTP user Functions
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -196,7 +151,6 @@ app.post("/login", (req, res, next) => {
           type: user.userType
         }
         res.send(response);
-        console.log(response);
       });
     }
   }) (req, res, next);

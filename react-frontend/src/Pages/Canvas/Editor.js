@@ -5,7 +5,7 @@ import DrawingPanel from "./DrawingPanel";
 import "./editor.scss";
 
 export default function Editor(props) {
-  const [selectedColor, setColor] = useState("#420f69"); // default black
+  const [selectedColor, setColor] = useState("#420f69");
   const [mouseColor, setMouseColor] = useState("transparent");
 
   function changeColor(color) {
