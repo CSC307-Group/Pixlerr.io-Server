@@ -31,7 +31,7 @@ function findUser(username) {
         console.log(error);
         reject();
       }
-      resolve(username);
+      resolve(user);
     });
   });
 }

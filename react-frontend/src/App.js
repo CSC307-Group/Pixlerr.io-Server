@@ -56,7 +56,8 @@ function App() {
   );
 }
 
-// https://usehooks.com/useLocalStorage/
+// Taken from https://usehooks.com/useLocalStorage/
+// Used to store state data into local storage for refresh persistence 
 function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === "undefined") {

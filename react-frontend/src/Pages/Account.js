@@ -10,24 +10,24 @@ function Account (props) {
   const { activeUser, isLoggedIn } = props;
   const [pixelList, setPixels] = useState([]);
 
-  useEffect(() => {
-    fetchPixels().then( result => {
-      if (result) {
-        setPixels(result);
-      }
-    });
-  }, [] );
+  // useEffect(() => {
+  //   fetchPixels().then( result => {
+  //     if (result) {
+  //       setPixels(result);
+  //     }
+  //   });
+  // }, [] );
 
-	async function fetchPixels() {
-		try {
-			const response = await axios.get(pixelhost);
-			return response.data.pixelList;
-		}
-		catch (error) {
-			console.log(error);
-			return false;
-		}
-	}
+	// async function fetchPixels() {
+	// 	try {
+	// 		const response = await axios.get(pixelhost);
+	// 		return response.data.pixelList;
+	// 	}
+	// 	catch (error) {
+	// 		console.log(error);
+	// 		return false;
+	// 	}
+	// }
 
   function postedByUser(pixel) {
     return (pixel['userId'] === activeUser['_id']);

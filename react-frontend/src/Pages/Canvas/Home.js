@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Editor from "./Editor";
 import Sidebar from "../Sidebar";
+import { io } from "socket.io-client";
 import "./home.scss";
 
 const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
+const socket = io(process.env.REACT_APP_BACKEND_URL, { forceNew: true, secure: true });
 
 export default function App(props) {
 
@@ -12,24 +14,30 @@ export default function App(props) {
   const [pixels, setPixels] = useState([]);
 
   useEffect(() => {
-    setTimeout(function () {
-      fetchPixels().then((result) => {
-        if (result) {
-          setPixels(result);
-        }
-      });
-    }, 2000);
-  }, [pixels]);
+    socket.on("connected", (res) => {
+      setPixels(res.pixelList);
+    })
+  }, []);
 
-  async function fetchPixels() {
-    try {
-      const response = await axios.get(pixelhost);
-      return response.data.pixelList;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
+  // useEffect(() => {
+  //   setTimeout(function () {
+  //     fetchPixels().then((result) => {
+  //       if (result) {
+  //         setPixels(result);
+  //       }
+  //     });
+  //   }, 2000);
+  // }, [pixels]);
+
+  // async function fetchPixels() {
+  //   try {
+  //     const response = await axios.get(pixelhost);
+  //     return response.data.pixelList;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // }
 
   async function makePixelPatchCall(data) {
     try {

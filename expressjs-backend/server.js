@@ -10,8 +10,11 @@ const session = require("express-session");
 const passport = require("passport");
 const pixelServices = require("./models/pixel-services");
 const userServices = require("./models/user-services");
+const { createServer } = require("http");
 
 const app = express();
+const httpServer = createServer(app);
+
 const PORT = process.env.PORT || 5000;
 const pixelBackupInterval = 7200000; // 7200000 milliseconds = 2 hours
 
@@ -51,7 +54,7 @@ setInterval(async () => {
     }
   }
   console.log("Backed up canvas to database");
-}, 1200000)
+}, pixelBackupInterval)
 
 
 
@@ -63,6 +66,7 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL, 
     credentials: true,
+    transports: ['websocket', 'polling'],
   })
 );
 app.use(
@@ -79,17 +83,35 @@ require("./config")(passport);
 
 
 
-// Pixel functions
+// Websocket
 
-app.get("/pixels", async (req, res) => {
-  try {
-    // const result = await pixelServices.getPixels();
-    res.send({ pixelList: canvas });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("An error ocurred in the server.");
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST"]
   }
 });
+
+io.on("connection", (socket) => {
+  socket.emit("connected", { pixelList: canvas }); // Send pixel data to client
+
+  // io.emit("pixelUpdate", newPixel); // Send updated pixel to all clients
+});
+
+
+
+// Pixel functions
+
+// app.get("/pixels", async (req, res) => {
+//   try {
+//     // const result = await pixelServices.getPixels();
+//     res.send({ pixelList: canvas });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("An error ocurred in the server.");
+//   }
+// });
 
 app.patch("/pixels", async (req, res) => {
   const user = req.body.userData;
@@ -196,8 +218,8 @@ app.patch("/users", async (req, res) => {
 
 
 
-// Listen
+// Listens using [httpServer] instead of [app] for websocket support
 
-app.listen(PORT, () => {
-  console.log(`Listening on http://localhost:${PORT}`);
+httpServer.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
