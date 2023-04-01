@@ -67,9 +67,6 @@ app.use(
     origin: process.env.FRONTEND_URL, 
     credentials: true,
     transports: ['websocket', 'polling'],
-    allowedHeaders: [
-      'Content-Type',
-    ],
   })
 );
 app.use(
