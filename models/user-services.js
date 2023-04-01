@@ -4,13 +4,10 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 mongoose.set("debug", true);
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-).catch((error) => console.log(error));
+mongoose.connect(`${process.env.MONGODB_URI}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).catch((error) => console.log(error));
 
 async function addUser(user) {
   try {
