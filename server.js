@@ -64,9 +64,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "*",
-    methods: ['GET', 'POST'],
+    origin: process.env.FRONTEND_URL, 
+    credentials: true,
     transports: ['websocket', 'polling'],
+    allowedHeaders: [
+      'Content-Type',
+    ],
   })
 );
 app.use(
@@ -94,9 +97,9 @@ require("./config")(passport);
 
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST"]
   }
 });
 
