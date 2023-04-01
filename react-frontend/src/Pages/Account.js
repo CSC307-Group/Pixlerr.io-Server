@@ -1,33 +1,20 @@
 import { React, useEffect, useState } from "react";
-import axios from "axios";
 import Sidebar from "./Sidebar";
 import DrawingPanel from "./Canvas/DrawingPanel";
 import "./account.scss";
+import { io } from "socket.io-client";
 
-const pixelhost = process.env.REACT_APP_BACKEND_URL + "/pixels";
+const socket = io(process.env.REACT_APP_BACKEND_URL, { forceNew: true, secure: true });
 
 function Account (props) {
   const { activeUser, isLoggedIn } = props;
   const [pixelList, setPixels] = useState([]);
 
-  // useEffect(() => {
-  //   fetchPixels().then( result => {
-  //     if (result) {
-  //       setPixels(result);
-  //     }
-  //   });
-  // }, [] );
-
-	// async function fetchPixels() {
-	// 	try {
-	// 		const response = await axios.get(pixelhost);
-	// 		return response.data.pixelList;
-	// 	}
-	// 	catch (error) {
-	// 		console.log(error);
-	// 		return false;
-	// 	}
-	// }
+  useEffect(() => {
+    socket.on("connected", (res) => {
+      setPixels(res.pixelList);
+    })
+  }, []);
 
   function postedByUser(pixel) {
     return (pixel['userId'] === activeUser['_id']);

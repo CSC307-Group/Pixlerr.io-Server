@@ -19,26 +19,6 @@ export default function App(props) {
     })
   }, []);
 
-  // useEffect(() => {
-  //   setTimeout(function () {
-  //     fetchPixels().then((result) => {
-  //       if (result) {
-  //         setPixels(result);
-  //       }
-  //     });
-  //   }, 2000);
-  // }, [pixels]);
-
-  // async function fetchPixels() {
-  //   try {
-  //     const response = await axios.get(pixelhost);
-  //     return response.data.pixelList;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return false;
-  //   }
-  // }
-
   async function makePixelPatchCall(data) {
     try {
       const response = await axios.patch(pixelhost, data);
