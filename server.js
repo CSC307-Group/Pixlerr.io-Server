@@ -1,5 +1,3 @@
-// npx nodemon server.js
-
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -58,6 +56,8 @@ setInterval(async () => {
   console.log("Backed up canvas to database");
 }, pixelBackupInterval);
 
+
+
 // Middleware
 
 app.use(bodyParser.json());
@@ -98,12 +98,16 @@ io.on("connection", (socket) => {
     setCanvas(canvas);
   }); 
 
-  socket.on("pixelUpdate", async (pixel, color, user, updateUserTime) => { // Receive updated pixel data
+  socket.on("pixelUpdate", async (pixel, color, user, updateUser) => { // Receive updated pixel data
     if (await userValidation(user)) {
       const i = pixel.y + (pixel.x * height);
       canvas[i].color = color;
       canvas[i].userId = user._id;
-      updateUserTime();
+      await userServices.updatePixelTime(user.username, user._id).then((updatedTime, error) => {
+        if (!error)
+          user.pixelTime = updatedTime;
+      })
+      updateUser(user);
       io.emit("updateCanvas", {updatedPixel: canvas[i], index: i}); // Send updated pixel to all clients
     }
   })
@@ -180,20 +184,6 @@ app.post("/register", (req, res) => {
         type: savedUser.userType
       });
     }
-  })
-});
-
-app.patch("/users", async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  userServices.updatePixelTime(req.body.user.username, req.body.user._id).then((updatedTime, error) => {
-    if (error)
-      res.send(req.body.user).end();
-    res.send({
-      _id: req.body.user._id, 
-      username: req.body.user.username, 
-      pixelTime: updatedTime,
-      type: req.body.user.type
-    }).end();
   })
 });
 

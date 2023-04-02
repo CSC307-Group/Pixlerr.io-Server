@@ -1,17 +1,18 @@
-### About
-For internet communities who want to collaborate on a large art project.  
-Pixlerr.io is a globally interactive art canvas that allows users to coordinate individual pixels to create images.  
-Unlike r/place, which is only available a few days out of the year, our product is available year round.
+# Pixlerr.io Server
+A server system that communicates with the Pixlerr.io app's frontend using websockets and HTTP requests.  
+Also backs up data to a remote MongoDB Atlas database.  
+Built by Cameron McGiffert, Seena Abed, Jun Liang, and Reed Marohn. 
 
 ### How to use
-Clone this repository to a local machine.
-Then run the following command three times, once in the main **/Pixlerr.io** directory, once in the **../react-frontend** directory, and once in the **../expressjs-backend** directory:
+Clone this repository to a local machine.  
 
-    npm install
+Create a `.env` file in the root directory, and set the following environment variables:
+* `COOKIE_SECRET`: Any long random character string
+* `FRONTEND_URL`: The URL of the frontend Pixlerr.io application.  If running locally, should be http://localhost:3000.
+* `MONGODB_URI`: The URI of the remote MongoDB Atlas database to store pixler and user info in.  URI should include your database's username, password, cluster name, and database name.  
 
-Once packages are installed in all directories, run the following command twice, first in the **../expressjs-backend** directory, and then in the **../react-frontend** directory:
+Then run the following command in the project's root directiory:
+```npm install```    
 
-    npm start
-    
-To place pixels, you must register an account and login. Once logged in, you can place one pixel every minute.  
-Changes to the canvas can be seen in real-time to everybody currently accessing it. 
+Once packages are installed, run the following command:
+```npm start```    
