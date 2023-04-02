@@ -135,7 +135,7 @@ async function userValidation(user) {
 // HTTP user Functions
 
 app.post("/login", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Origin", "*");
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       console.log(err);
@@ -158,7 +158,7 @@ app.post("/login", (req, res, next) => {
 });
 
 app.post("/register", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Origin", "*");
   userServices.findUser(req.body.username).then(async (user, error) => {
     if (error)
       res.status(500).end();
