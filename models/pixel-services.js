@@ -37,7 +37,6 @@ async function getPixels() {
     if (y === 0) return a.x - b.x;
     return y;
   })
-  console.log(pixelList);
   return pixelList;
 }
 
