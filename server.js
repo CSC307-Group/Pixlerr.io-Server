@@ -100,7 +100,7 @@ io.on("connection", (socket) => {
 
   socket.on("pixelUpdate", async (pixel, color, user, updateUser) => { // Receive updated pixel data
     if (await userValidation(user)) {
-      const i = pixel.y + (pixel.x * height);
+      const i = pixel.x + (pixel.y * width);
       canvas[i].color = color;
       canvas[i].userId = user._id;
       await userServices.updatePixelTime(user.username, user._id).then((updatedTime, error) => {
