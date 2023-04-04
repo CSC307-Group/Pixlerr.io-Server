@@ -31,7 +31,14 @@ async function addCanvas(canvas) {
 }
 
 async function getPixels() {
-  return await pixelModel.find();
+  const pixelList = await pixelModel.find();
+  pixelList.sort((a, b) => {
+    const y = a.y - b.y;
+    if (y === 0) return a.x - b.x;
+    return y;
+  })
+  console.log(pixelList);
+  return pixelList;
 }
 
 async function clearCanvas() {
